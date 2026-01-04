@@ -41,7 +41,9 @@ More features will be added soon, including:
 
 ##  Preview
 
-![Portfolio Preview](./preview.png)
+![Portfolio Preview](readme/preview1.jpeg)
+![Portfolio Preview](readme/preview2.jpeg)
+![Portfolio Preview](readme/preview3.jpeg)
 
 > UI inspired by a clean, developer-centric aesthetic.
 
