@@ -159,6 +159,19 @@ body {
   margin-top: 90px;
 }
 
+.hero-greeting {
+  font-size: 30px;
+}
+.hero-title {
+  color: #2196f3;
+  font-size: 50px;
+  margin: 0;
+}
+.hero-desc {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
 .buttons {
   display: flex;
   gap: 10px;
@@ -617,7 +630,10 @@ body {
   .hero { flex-direction: column; margin-top: 40px; gap: 30px; align-items: center; text-align: center; min-height: auto; padding-bottom: 50px; }
   .hero-left { width: 100%; padding: 40px 0 0 0; justify-content: center; }
   .hero-left img { width: 250px; height: 250px; }
-  .hero-right { width: 100%; padding: 0 20px; margin-top: 0; align-items: center; gap: 20px; }
+  .hero-right { width: 100%; padding: 0 20px; margin-top: 0; align-items: center; gap: 15px; }
+  .hero-greeting { font-size: 20px; margin-bottom: 0; }
+  .hero-title { display: none; }
+  .hero-desc { font-size: 13px; letter-spacing: 1px; }
   .social-links { justify-content: center; }
 
   /* About & General Sections */

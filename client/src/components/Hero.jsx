@@ -9,10 +9,10 @@ const Hero = () => {
         </div>
 
         <div className="hero-right">
-            <p style={{fontSize: "30px"}}>Hi I am Chintan</p>
-            <h1 style={{color: "#2196f3", fontSize: "50px"}}>ChinTn</h1>
-            <p>
-                dev_lox /ˈtʃɪn.t̪ən/.<br />19M • IIT Jodhpur.<br />CP guy.<br />
+            <p className="hero-greeting">Hi I am Chintan</p>
+            <h1 className="hero-title">ChinTn</h1>
+            <p className="hero-desc">
+                dev_lox /ˈtʃɪn.t̪ən/.<br />19M • IIT Jodhpur.
                 Obsessed with logic, edge cases, and how things work.<br />
                 Currently in Development Have explored Data Science & Open Source.<br />Not
                 tied to a single domain.<br />Learning by building, breaking, and
