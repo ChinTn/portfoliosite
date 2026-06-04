@@ -395,7 +395,6 @@ body {
 @media (max-width: 1024px) {
   .hero { gap: 40px; }
   .hero-left { padding-top: 100px; }
-  transform: scale(1.1);
 }
 
 /* ABOUT SECTION */
