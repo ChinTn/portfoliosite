@@ -11,7 +11,13 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors({
-    origin: ['http://localhost:5173', 'http://localhost:5174', 'https://whosworld.vercel.app'],
+    origin: function (origin, callback) {
+      if (!origin || origin.startsWith('http://localhost:') || origin.endsWith('.vercel.app') || origin.endsWith('.dev')) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     credentials: true, 
 }));
 app.use(express.json());
