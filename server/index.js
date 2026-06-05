@@ -1,7 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const dns = require('dns');
 require('dotenv').config();
+
+// Force IPv4 because Render's free tier has broken outbound IPv6 routing
+dns.setDefaultResultOrder('ipv4first');
 
 const Project = require('./models/Project');
 const Blog = require('./models/Blog');
