@@ -29,7 +29,6 @@ const Home = () => {
 
   return (
     <>
-      <Navbar />
       <Hero />
       <About />
       <Projects />
@@ -56,14 +55,17 @@ const AnimatedRoutes = () => {
   const location = useLocation();
 
   return (
-    <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<PageTransition><Home /></PageTransition>} />
-        <Route path="/admin" element={<PageTransition><Admin /></PageTransition>} />
-        <Route path="/project/:id" element={<PageTransition><ProjectDetail /></PageTransition>} />
-        <Route path="/blog/:id" element={<PageTransition><BlogDetail /></PageTransition>} />
-      </Routes>
-    </AnimatePresence>
+    <>
+      {location.pathname === '/' && <Navbar />}
+      <AnimatePresence mode="wait">
+        <Routes location={location} key={location.pathname}>
+          <Route path="/" element={<PageTransition><Home /></PageTransition>} />
+          <Route path="/admin" element={<PageTransition><Admin /></PageTransition>} />
+          <Route path="/project/:id" element={<PageTransition><ProjectDetail /></PageTransition>} />
+          <Route path="/blog/:id" element={<PageTransition><BlogDetail /></PageTransition>} />
+        </Routes>
+      </AnimatePresence>
+    </>
   );
 };
 
