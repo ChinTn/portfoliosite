@@ -27,7 +27,6 @@ body {
   right: 0;
   background: rgba(26, 26, 26, 0.6);
   backdrop-filter: blur(25px);
-  -webkit-backdrop-filter: blur(25px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   display: flex;
   justify-content: space-between;
@@ -617,7 +616,7 @@ body {
   .menu-icon { display: block; font-size: 28px; cursor: pointer; color: white; z-index: 1001; }
   .nav-items {
     position: absolute; top: 70px; right: 30px; width: auto; height: auto;
-    background: rgba(26, 26, 26, 0.6); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+    background: rgba(26, 26, 26, 0.6); backdrop-filter: blur(25px);
     flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 15px;
     padding: 20px 30px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);
     transition: opacity 0.2s ease, transform 0.2s ease;
