@@ -12,11 +12,28 @@ const validateEmail = (email) => {
     );
 };
 
-router.post('/', async (req, res) => {
+const rateLimit = require('express-rate-limit');
+
+// Rate limiter: Max 3 emails per IP every 1 hour
+const contactLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 3, 
+  message: { message: 'Too many requests from this IP. Please try again later.' }
+});
+
+router.post('/', contactLimiter, async (req, res) => {
   const { name, email, subject, message } = req.body;
 
   if (!name || !email || !message) {
     return res.status(400).json({ message: 'Name, email, and message are required.' });
+  }
+
+  // Prevent massive walls of text / Zalgo spam
+  if (message.length > 2000) {
+    return res.status(400).json({ message: 'Message is too long. Please keep it under 2000 characters.' });
+  }
+  if (name.length > 100 || subject && subject.length > 150) {
+    return res.status(400).json({ message: 'Name or subject is too long.' });
   }
 
   if (!validateEmail(email)) {
