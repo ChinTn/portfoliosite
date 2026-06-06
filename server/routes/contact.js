@@ -36,6 +36,13 @@ router.post('/', contactLimiter, async (req, res) => {
     return res.status(400).json({ message: 'Name or subject is too long.' });
   }
 
+  // Shadowban script kiddies (returns success to them, but drops the email)
+  const edgyKeywords = ['pwned', 'hacked', 'injected', 'dark web', 'deadsec'];
+  const contentToCheck = `${name} ${subject} ${message} ${email}`.toLowerCase();
+  if (edgyKeywords.some(keyword => contentToCheck.includes(keyword))) {
+    return res.status(200).json({ message: 'Email sent successfully!' }); // Lie to them
+  }
+
   if (!validateEmail(email)) {
     return res.status(400).json({ message: 'Please insert a valid email address.' });
   }
