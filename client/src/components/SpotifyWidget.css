@@ -1,0 +1,135 @@
+.spotify-widget {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(28, 182, 180, 0.1);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.35); /* Distinct white glass border from image */
+  border-radius: 50px; /* Perfect pill shape */
+  padding: 10px 20px 10px 30px; /* Hugs the image on the left, breathes on the right */
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  min-width: 260px;
+}
+
+.spotify-widget:hover {
+  background: rgba(83, 190, 244, 0.15);
+  transform: translateY(-3px);
+  border: 1px solid rgba(26, 85, 222, 0.6);
+  box-shadow: 0 10px 40px rgba(21, 172, 116, 0.1);
+}
+
+.spotify-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.album-art {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px; /* Rounded square instead of circle */
+  object-fit: cover;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.placeholder-art {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(23, 139, 64, 0.184);
+  border: 1px solid rgba(29, 185, 84, 0.3);
+}
+
+.album-art.spinning {
+  animation: spin 6s linear infinite;
+}
+
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}
+
+.song-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+}
+
+.song-status {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.playing-text {
+  color: #1db954; /* Classic bright Spotify green */
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.paused-text {
+  color: #b3b3b3; /* Light gray */
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.song-title {
+  margin: 0 0 2px 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffffff;
+  /* text-shadow: 0 0 10px rgba(255, 255, 255, 0.6); Glow effect from image */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 180px;
+}
+
+.song-artist {
+  margin: 0;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7); /* Slightly transparent white */
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 180px;
+}
+
+.spotify-icon {
+  font-size: 14px;
+}
+
+/* Equalizer Animation */
+.equalizer {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 10px;
+  margin-left: 4px;
+}
+
+.bar {
+  width: 3px;
+  background-color: #1db954; /* Bright Spotify green */
+  animation: bounce 1s ease-in-out infinite;
+}
+
+.bar:nth-child(1) { animation-delay: 0s; }
+.bar:nth-child(2) { animation-delay: 0.2s; height: 10px; }
+.bar:nth-child(3) { animation-delay: 0.4s; height: 6px; }
+
+@keyframes bounce {
+  0%, 100% { height: 4px; }
+  50% { height: 10px; }
+}

@@ -128,7 +128,8 @@ body {
 .hero-left {
   width: 50%;
   display: flex;
-  justify-content: right;
+  flex-direction: column;
+  align-items: flex-end;
   padding-right: 50px;
   padding-top: 130px;
 }
@@ -144,6 +145,14 @@ body {
 
 .hero-left img:hover {
   transform: scale(1.07);
+}
+
+.spotify-wrapper {
+  margin-top: 45px;
+  display: flex;
+  justify-content: center;
+  width: 405px;
+  max-width: 100%;
 }
 
 .hero-right {
@@ -628,8 +637,9 @@ body {
 
   /* Hero Section */
   .hero { flex-direction: column; margin-top: 40px; gap: 30px; align-items: center; text-align: center; min-height: auto; padding-bottom: 50px; }
-  .hero-left { width: 100%; padding: 40px 0 0 0; justify-content: center; }
+  .hero-left { width: 100%; padding: 40px 0 0 0; justify-content: center; align-items: center; }
   .hero-left img { width: 250px; height: 250px; }
+  .spotify-wrapper { width: 100%; margin-top: 25px; }
   .hero-right { width: 100%; padding: 0 20px; margin-top: 0; align-items: center; gap: 15px; }
   .hero-greeting { font-size: 20px; margin-bottom: 0; }
   .hero-title { display: none; }

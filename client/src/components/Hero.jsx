@@ -1,17 +1,29 @@
 import React from 'react';
 import img from '../assets/img.jpg';
+import SpotifyWidget from './SpotifyWidget';
 
 const Hero = () => {
   return (
     <section className="hero" id="home">
         <div className="hero-left">
             <img src={img} alt="Chintan" />
+            <div className="spotify-wrapper">
+              <SpotifyWidget />
+            </div>
         </div>
 
         <div className="hero-right">
             <p className="hero-greeting">Hi I am Chintan</p>
             <h1 className="hero-title">ChinTn</h1>
-            <p className="hero-desc">
+            <div className="social-links" style={{ display: 'flex', alignItems: 'center', gap: '15px', marginTop: '-13px' }}>
+                <a href="https://open.spotify.com/user/133hz4l1ceg7pzx8vv6ztb4du?si=1b0d0629a93942aa" target="_blank" rel="noreferrer" title="Spotify Profile">
+                    <i className="fab fa-spotify" style={{ color: '#1DB954' }}></i>
+                </a>
+                <span style={{ fontSize: '16px', color: 'rgba(244, 232, 218, 0.768)', fontStyle: 'italic', letterSpacing: '1px' }}>
+                  ~we might share the same Vibe
+                </span>
+            </div>
+            <p className="hero-desc" style={{ marginTop: '15px' }}>
                 dev_lox /ˈtʃɪn.t̪ən/.<br />19M • IIT Jodhpur.
                 Obsessed with logic, edge cases, and how things work.<br />
                 Currently in Development Have explored Data Science & Open Source.<br />Not
@@ -35,15 +47,6 @@ const Hero = () => {
                 <a href="https://discord.com/users/769396189572628500" target="_blank" rel="noreferrer">
                     <i className="fab fa-discord"></i>
                 </a>
-            </div>
-            
-            <div className="social-links" style={{ display: 'flex', alignItems: 'center', gap: '15px', marginTop: '-13px' }}>
-                <a href="https://music.apple.com/profile/ChinTn" target="_blank" rel="noreferrer" title="Apple Music">
-                    <i className="fab fa-apple"></i>
-                </a>
-                <span style={{ fontSize: '16px', color: 'rgba(244, 232, 218, 0.768)', fontStyle: 'italic', letterSpacing: '1px' }}>
-                  ~we might share the same Vibe
-                </span>
             </div>
         </div>
     </section>
