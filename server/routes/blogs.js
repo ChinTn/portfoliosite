@@ -1,7 +1,7 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const Blog = require('../models/Blog');
-const auth = require('../middleware/auth');
+import Blog from '../models/Blog.js';
+import auth from '../middleware/auth.js';
 
 // Get all blogs
 router.get('/', async (req, res) => {
@@ -64,4 +64,4 @@ router.delete('/:id', auth, async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

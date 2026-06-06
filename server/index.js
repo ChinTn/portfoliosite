@@ -1,14 +1,14 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const dns = require('dns');
-require('dotenv').config();
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import dns from 'dns';
+import 'dotenv/config';
 
 // Force IPv4 because Render's free tier has broken outbound IPv6 routing
 dns.setDefaultResultOrder('ipv4first');
 
-const Project = require('./models/Project');
-const Blog = require('./models/Blog');
+import Project from './models/Project.js';
+import Blog from './models/Blog.js';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -49,10 +49,15 @@ app.get('/health', (req, res) => {
 
 
 // Routes
-app.use('/api/auth', require('./routes/auth'));
-app.use('/api/projects', require('./routes/projects'));
-app.use('/api/blogs', require('./routes/blogs'));
-app.use('/api/contact', require('./routes/contact'));
+import authRoutes from './routes/auth.js';
+import projectsRoutes from './routes/projects.js';
+import blogsRoutes from './routes/blogs.js';
+import contactRoutes from './routes/contact.js';
+
+app.use('/api/auth', authRoutes);
+app.use('/api/projects', projectsRoutes);
+app.use('/api/blogs', blogsRoutes);
+app.use('/api/contact', contactRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

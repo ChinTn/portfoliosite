@@ -1,7 +1,7 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const Project = require('../models/Project');
-const auth = require('../middleware/auth');
+import Project from '../models/Project.js';
+import auth from '../middleware/auth.js';
 
 // Get all projects
 router.get('/', async (req, res) => {
@@ -64,4 +64,4 @@ router.delete('/:id', auth, async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

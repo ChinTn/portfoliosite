@@ -1,6 +1,7 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const { Resend } = require('resend');
+import { Resend } from 'resend';
+import rateLimit from 'express-rate-limit';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -11,8 +12,6 @@ const validateEmail = (email) => {
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     );
 };
-
-const rateLimit = require('express-rate-limit');
 
 // Rate limiter: Max 3 emails per IP every 1 hour
 const contactLimiter = rateLimit({
@@ -72,4 +71,4 @@ router.post('/', contactLimiter, async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
