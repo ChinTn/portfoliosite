@@ -47,33 +47,6 @@ app.get('/health', (req, res) => {
   res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// TEMPORARY DEBUG ROUTE - remove after fixing
-app.get('/test-email', async (req, res) => {
-  const nodemailer = require('nodemailer');
-  
-  console.log('EMAIL_USER:', process.env.EMAIL_USER);
-  console.log('EMAIL_PASS length:', process.env.EMAIL_PASS?.length);
-  console.log('EMAIL_PASS has spaces:', process.env.EMAIL_PASS?.includes(' '));
-
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
-  });
-
-  try {
-    await transporter.verify();
-    res.json({ status: 'transporter OK', user: process.env.EMAIL_USER });
-  } catch (err) {
-    res.status(500).json({ 
-      status: 'transporter FAILED', 
-      error: err.message,
-      code: err.code 
-    });
-  }
-});
 
 // Routes
 app.use('/api/auth', require('./routes/auth'));
