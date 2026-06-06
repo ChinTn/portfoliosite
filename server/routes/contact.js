@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const nodemailer = require('nodemailer');
 
-// Email validation regex
 const validateEmail = (email) => {
   return String(email)
     .toLowerCase()
@@ -11,7 +10,14 @@ const validateEmail = (email) => {
     );
 };
 
-// POST /api/contact
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
+
 router.post('/', async (req, res) => {
   const { name, email, subject, message } = req.body;
 
@@ -23,41 +29,25 @@ router.post('/', async (req, res) => {
     return res.status(400).json({ message: 'Please insert a valid email address.' });
   }
 
-  try {
-    const transporter = nodemailer.createTransport({
-      host: 'smtp.gmail.com',
-      port: 587,
-      secure: false,
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-      tls: {
-        rejectUnauthorized: false
-      }
-    });
-
-    // Email 1: Notification to Admin
+  try {                                          // <-- this was missing
     const adminMailOptions = {
       from: process.env.EMAIL_USER,
       to: process.env.EMAIL_USER,
       replyTo: email,
       subject: `Portfolio Contact: ${subject || 'No Subject'}`,
-      text: `You have received a new message from your portfolio website!\n\nName: ${name}\nEmail: ${email}\nSubject: ${subject}\n\nMessage:\n${message}`,
+      text: `New message from your portfolio!\n\nName: ${name}\nEmail: ${email}\nSubject: ${subject}\n\nMessage:\n${message}`,
     };
 
-    // Email 2: Auto-reply to Visitor
     const visitorMailOptions = {
       from: `"Chintan Vaghamshi" <${process.env.EMAIL_USER}>`,
       to: email,
       subject: `Thank you for reaching out! (Auto-Reply)`,
-      text: `Hi ${name},\n\nThank you for getting in touch through my portfolio! I have received your message regarding "${subject || 'your inquiry'}" and will get back to you as soon as possible.\n\nBest regards,\nChintan Vaghamshi\ndev_lox_011`,
+      text: `Hi ${name},\n\nThank you for getting in touch! I received your message regarding "${subject || 'your inquiry'}" and will get back to you soon.\n\nBest regards,\nChintan Vaghamshi\ndev_lox_011`,
     };
 
-    // Send both emails concurrently
     await Promise.all([
       transporter.sendMail(adminMailOptions),
-      transporter.sendMail(visitorMailOptions)
+      transporter.sendMail(visitorMailOptions),
     ]);
 
     res.status(200).json({ message: 'Email sent successfully!' });
