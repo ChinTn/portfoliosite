@@ -116,12 +116,11 @@ body {
 
 .hero {
   display: flex;
-  /* align-items: center; */
-  /* KEY CHANGE */
+  align-items: center; /* Vertically center everything natively */
   justify-content: space-around;
-  margin-top: 80px;
   max-width: 100%;
   min-height: 100vh;
+  padding-top: 40px; /* Pads the top to push the flex center downwards */
   gap: 100px;
 }
 
@@ -131,7 +130,6 @@ body {
   flex-direction: column;
   align-items: flex-end;
   padding-right: 50px;
-  padding-top: 130px;
 }
 
 .hero-left .profile-img {
@@ -160,12 +158,10 @@ body {
   width: 50%;
   display: flex;
   flex-direction: column;
-
   padding-right: 150px;
   letter-spacing: 2px;
   gap: 30px;
   color: bisque;
-  margin-top: 90px;
 }
 
 .hero-greeting {
@@ -422,10 +418,7 @@ body {
 /* ABOUT SECTION */
 
 .section {
-  /* margin-top: 200px; */
-  /* padding-top: 120px; */
-  padding: 50px 8% 0 8%;
-  min-height: 100vh;
+  padding: 100px 8%; /* Balanced vertical padding, no forced 100vh */
   background: linear-gradient(135deg, #1a1a1a 0%, #272727 100%);
 }
 
@@ -625,7 +618,7 @@ body {
   .menu-icon { display: block; font-size: 28px; cursor: pointer; color: white; z-index: 1001; }
   .nav-items {
     position: absolute; top: 70px; right: 30px; width: auto; height: auto;
-    background: rgba(26, 26, 26, 0.6); backdrop-filter: blur(25px);
+    background: rgba(20, 20, 20, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
     flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 15px;
     padding: 20px 30px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);
     transition: opacity 0.2s ease, transform 0.2s ease;
@@ -647,7 +640,7 @@ body {
   .social-links { justify-content: center; }
 
   /* About & General Sections */
-  .section { padding: 40px 5% 40px 5%; min-height: auto; }
+  .section { padding: 90px 5% 40px 5%; min-height: auto; }
   .container { flex-direction: column; align-items: center; }
   .left-container { width: 100%; padding-left: 0; text-align: center; }
   .right-container { display: none; } /* Hide photo on mobile */

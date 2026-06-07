@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import img from '../assets/img.jpg';
 import SpotifyWidget from './SpotifyWidget';
 
@@ -33,7 +34,7 @@ const Hero = () => {
             </p>
             <div className="buttons">
                 <a href="#">Download CV</a>
-                <a href="#contact">Contact</a>
+                <Link to="/contact" style={{textDecoration: 'none'}}>Contact</Link>
             </div>
             <div className="social-links">
                 <a href="https://www.linkedin.com/in/chintan-vaghamshi-6578262aa/" target="_blank" rel="noreferrer"><i

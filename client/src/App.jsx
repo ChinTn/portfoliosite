@@ -12,28 +12,12 @@ import ProjectDetail from './components/ProjectDetail';
 import BlogDetail from './components/BlogDetail';
 
 const Home = () => {
-  const location = useLocation();
-
-  useEffect(() => {
-    if (location.hash) {
-      setTimeout(() => {
-        const element = document.querySelector(location.hash);
-        if (element) {
-          element.scrollIntoView({ behavior: 'auto' });
-        }
-      }, 100);
-    } else {
-      window.scrollTo(0, 0);
-    }
-  }, [location]);
-
   return (
     <>
       <Hero />
       <About />
       <Projects />
       <Blogs />
-      <Contact />
     </>
   );
 };
@@ -51,20 +35,39 @@ const PageTransition = ({ children }) => {
   );
 };
 
+const ScrollToTop = () => {
+  const location = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
+  return null;
+};
+
 const AnimatedRoutes = () => {
   const location = useLocation();
+  const isAdminRoute = location.pathname.startsWith('/admin');
 
   return (
     <>
-      {location.pathname === '/' && <Navbar />}
+      <ScrollToTop />
+      {!isAdminRoute && <Navbar />}
+      
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={<PageTransition><Home /></PageTransition>} />
-          <Route path="/admin" element={<PageTransition><Admin /></PageTransition>} />
+          <Route path="/about" element={<PageTransition><About /></PageTransition>} />
+          <Route path="/projects" element={<PageTransition><Projects /></PageTransition>} />
+          <Route path="/blog" element={<PageTransition><Blogs /></PageTransition>} />
+          <Route path="/contact" element={<PageTransition><Contact /></PageTransition>} />
           <Route path="/project/:id" element={<PageTransition><ProjectDetail /></PageTransition>} />
           <Route path="/blog/:id" element={<PageTransition><BlogDetail /></PageTransition>} />
+          
+          <Route path="/admin" element={<PageTransition><Admin /></PageTransition>} />
         </Routes>
       </AnimatePresence>
+
+      {/* Hide the global contact footer if we are already explicitly on the /contact page or admin page */}
+      {!isAdminRoute && location.pathname !== '/contact' && <Contact />}
     </>
   );
 };
