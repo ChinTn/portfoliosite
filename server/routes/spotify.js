@@ -45,8 +45,8 @@ router.get('/now-playing', async (req, res) => {
          console.error('Spotify Now Playing Error:', errorText);
       }
       
-      // Fetch Recently Played
-      const recentlyPlayedRes = await fetch('https://api.spotify.com/v1/me/player/recently-played?limit=1', {
+      // Fetch Recently Played (limit 50 to ensure we can sort and find the absolute latest)
+      const recentlyPlayedRes = await fetch('https://api.spotify.com/v1/me/player/recently-played?limit=50', {
         headers: { Authorization: `Bearer ${access_token}` },
       });
       
@@ -64,8 +64,12 @@ router.get('/now-playing', async (req, res) => {
         return res.status(200).json({ isPlaying: false, title: 'Not Playing' });
       }
 
-      const track = recentlyPlayedData.items[0].track;
-      const playedAt = recentlyPlayedData.items[0].played_at;
+      // Sort by played_at descending (newest first) to guarantee accuracy
+      const sortedItems = recentlyPlayedData.items.sort((a, b) => new Date(b.played_at) - new Date(a.played_at));
+      const latestItem = sortedItems[0];
+
+      const track = latestItem.track;
+      const playedAt = latestItem.played_at;
 
       return res.status(200).json({
         isPlaying: false,

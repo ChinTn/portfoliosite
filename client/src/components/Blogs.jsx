@@ -85,7 +85,7 @@ const Blogs = () => {
 
             {/* Pagination Controls */}
             {totalPages > 1 && (
-              <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginTop: '40px' }}>
+              <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginTop: '40px', paddingBottom: '60px' }}>
                 <button onClick={handlePrev} disabled={page === 0} style={{...navBtnStyle, opacity: page === 0 ? 0.5 : 1}}>
                   <i className="fas fa-chevron-left"></i> Prev
                 </button>

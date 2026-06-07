@@ -8,8 +8,9 @@ const SpotifyWidget = () => {
 
   const fetchSpotifyData = async () => {
     try {
-      const response = await axios.get(`${API_URL}/api/spotify/now-playing`);
-      setData({ ...response.data, loading: false });
+      // Add a timestamp cache-buster so the browser never caches the old song!
+      const response = await axios.get(`${API_URL}/api/spotify/now-playing?t=${Date.now()}`);
+      setData(prevData => ({ ...prevData, ...response.data, loading: false }));
     } catch (err) {
       console.error('Failed to fetch Spotify data');
       setData({ isPlaying: false, track: null, loading: false });
@@ -57,11 +58,31 @@ const SpotifyWidget = () => {
   return (
     <a href={data.songUrl} target="_blank" rel="noreferrer" className="spotify-widget">
       <div className="spotify-content">
-        <img src={data.albumImageUrl} alt="Album Art" className={`album-art ${data.isPlaying ? 'spinning' : ''}`} />
+        <div className="album-art-container">
+          <img src={data.albumImageUrl} alt="Album Art" className="album-art" />
+          <span className={`status-dot ${data.isPlaying ? 'green-dot' : 'red-dot'}`}></span>
+        </div>
         <div className="song-info">
+          <p className="song-status">
+            {data.isPlaying ? (
+              <span className="playing-text">NOW PLAYING</span>
+            ) : (
+              <span className="paused-text">RECENTLY PLAYED</span>
+            )}
+          </p>
           <p className="song-title">{data.title}</p>
           <p className="song-artist">{data.artist}</p>
         </div>
+        {data.isPlaying && (
+          <div className="equalizer-right">
+            <span className="equalizer">
+              <span className="bar"></span>
+              <span className="bar"></span>
+              <span className="bar"></span>
+              <span className="bar"></span>
+            </span>
+          </div>
+        )}
       </div>
     </a>
   );

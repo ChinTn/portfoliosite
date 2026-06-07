@@ -1,53 +1,98 @@
 .spotify-widget {
   display: inline-flex;
   align-items: center;
-  background: rgba(28, 182, 180, 0.1);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.35); /* Distinct white glass border from image */
-  border-radius: 50px; /* Perfect pill shape */
-  padding: 10px 20px 10px 30px; /* Hugs the image on the left, breathes on the right */
+  /* Premium Glass Background with directional light */
+  background: linear-gradient(145deg, rgba(68, 130, 212, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  
+  /* Edge lighting effect */
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid rgba(255, 255, 255, 0.25);
+  border-left: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 18px; /* Slightly softer curve */
+  padding: 10px 18px 10px 10px;
+  
   text-decoration: none;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-  min-width: 260px;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  
+  /* Deep premium shadow stack */
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.25),
+    0 4px 12px rgba(0, 0, 0, 0.15);
+  
+  min-width: 270px;
 }
 
 .spotify-widget:hover {
-  background: rgba(83, 190, 244, 0.15);
-  transform: translateY(-3px);
-  border: 1px solid rgba(26, 85, 222, 0.6);
-  box-shadow: 0 10px 40px rgba(21, 172, 116, 0.1);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.04) 100%);
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 
+    0 16px 50px rgba(0, 0, 0, 0.3),
+    0 6px 16px rgba(0, 0, 0, 0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.35);
+  border-left: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 .spotify-content {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 14px;
+  width: 100%;
+}
+
+.album-art-container {
+  position: relative;
+  display: flex;
 }
 
 .album-art {
-  width: 50px;
-  height: 50px;
-  border-radius: 12px; /* Rounded square instead of circle */
+  width: 54px;
+  height: 54px;
+  border-radius: 10px;
   object-fit: cover;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4); /* Deep shadow for the image */
 }
 
 .placeholder-art {
+  width: 54px;
+  height: 54px;
+  border-radius: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(23, 139, 64, 0.184);
-  border: 1px solid rgba(29, 185, 84, 0.3);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 2px 10px rgba(255, 255, 255, 0.05);
 }
 
-.album-art.spinning {
-  animation: spin 6s linear infinite;
+/* Status Dot overlaid on Album Art */
+.status-dot {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 3px solid rgba(20, 20, 20, 0.8); /* Thick dark glass border */
+  z-index: 2;
 }
 
-@keyframes spin {
-  100% { transform: rotate(360deg); }
+.green-dot {
+  background-color: #1db954;
+  box-shadow: 0 0 10px #1db954;
+  animation: pulse-green 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.red-dot {
+  background-color: #ff4b4b;
+  box-shadow: 0 0 10px rgba(255, 75, 75, 0.6);
+}
+
+@keyframes pulse-green {
+  0% { box-shadow: 0 0 0 0 rgba(29, 185, 84, 0.8); }
+  70% { box-shadow: 0 0 0 8px rgba(29, 185, 84, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(29, 185, 84, 0); }
 }
 
 .song-info {
@@ -55,81 +100,84 @@
   flex-direction: column;
   justify-content: center;
   text-align: left;
+  flex: 1; /* Pushes the equalizer to the right */
 }
 
 .song-status {
-  font-size: 11px;
+  font-size: 10px;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  margin: 0;
+  letter-spacing: 1.5px;
+  margin: 0 0 3px 0;
   display: flex;
   align-items: center;
-  gap: 6px;
 }
 
 .playing-text {
-  color: #1db954; /* Classic bright Spotify green */
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 5px;
+  color: #1d88b9; /* The custom blue you requested */
+  font-weight: 800;
+  text-shadow: 0 2px 8px rgba(29, 136, 185, 0.3); /* Subtle glow on the blue text */
 }
 
 .paused-text {
-  color: #b3b3b3; /* Light gray */
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 5px;
+  color: rgba(255, 255, 255, 0.4);
+  font-weight: 700;
+  letter-spacing: 1.2px;
 }
 
 .song-title {
   margin: 0 0 2px 0;
-  font-size: 16px;
-  font-weight: 700;
-  color: #ffffff;
-  /* text-shadow: 0 0 10px rgba(255, 255, 255, 0.6); Glow effect from image */
+  font-size: 15px;
+  font-weight: 800;
+  color: #ffffff !important;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 180px;
+  max-width: 160px;
+  display: block;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Text shadow to pop off glass */
+  letter-spacing: 0.2px;
 }
 
 .song-artist {
   margin: 0;
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.7); /* Slightly transparent white */
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6) !important;
   font-weight: 500;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 180px;
+  max-width: 160px;
+  display: block;
 }
 
-.spotify-icon {
-  font-size: 14px;
+/* Equalizer on the far right */
+.equalizer-right {
+  display: flex;
+  align-items: center;
+  margin-left: 12px;
 }
 
-/* Equalizer Animation */
 .equalizer {
   display: flex;
   align-items: flex-end;
-  gap: 2px;
-  height: 10px;
-  margin-left: 4px;
+  gap: 3px;
+  height: 16px;
 }
 
 .bar {
-  width: 3px;
-  background-color: #1db954; /* Bright Spotify green */
+  width: 4px;
+  background-color: #1d88b9; /* Changed to match your custom blue! */
+  border-radius: 2px;
   animation: bounce 1s ease-in-out infinite;
+  box-shadow: 0 0 8px rgba(29, 136, 185, 0.4); /* Glow effect on bars */
 }
 
 .bar:nth-child(1) { animation-delay: 0s; }
-.bar:nth-child(2) { animation-delay: 0.2s; height: 10px; }
-.bar:nth-child(3) { animation-delay: 0.4s; height: 6px; }
+.bar:nth-child(2) { animation-delay: 0.2s; height: 16px; }
+.bar:nth-child(3) { animation-delay: 0.4s; height: 8px; }
+.bar:nth-child(4) { animation-delay: 0.6s; height: 12px; }
 
 @keyframes bounce {
-  0%, 100% { height: 4px; }
-  50% { height: 10px; }
+  0%, 100% { height: 6px; }
+  50% { height: 16px; }
 }
