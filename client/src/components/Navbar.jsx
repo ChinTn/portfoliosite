@@ -97,7 +97,7 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Menu Overlay */}
-      <div className={`md:hidden absolute top-24 left-0 w-full bg-bg-nav border-b border-border-dim shadow-2xl transition-all duration-300 ${isOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-4'}`}>
+      <div className={`md:hidden absolute top-24 left-0 w-full bg-bg-nav border-b border-border-dim shadow-2xl pointer-events-auto transition-all duration-300 ${isOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-4'}`}>
         <div className="flex flex-col py-6 px-8 gap-6">
           {navLinks.map((link) => (
             <Link 
