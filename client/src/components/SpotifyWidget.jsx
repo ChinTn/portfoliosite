@@ -26,9 +26,9 @@ const SpotifyWidget = () => {
   if (data.loading) {
     return (
       <div className="spotify-widget loading">
-        <div className="spotify-content">
+        <div className="spotify-content group">
           <div className="album-art placeholder-art">
-            <i className="fab fa-spotify" style={{ fontSize: '24px', color: '#1db954' }}></i>
+            <i className="fab fa-spotify text-highlight group-hover:scale-125 group-hover:rotate-12 transition-transform duration-300" style={{ fontSize: '24px' }}></i>
           </div>
           <div className="song-info">
             <p className="song-title">Spotify</p>
@@ -42,9 +42,9 @@ const SpotifyWidget = () => {
   if (!data.title || data.title === 'Not Playing') {
     return (
       <div className="spotify-widget not-playing">
-        <div className="spotify-content">
+        <div className="spotify-content group">
           <div className="album-art placeholder-art">
-            <i className="fab fa-spotify" style={{ fontSize: '24px', color: '#1db954' }}></i>
+            <i className="fab fa-spotify text-highlight group-hover:scale-125 group-hover:rotate-12 transition-transform duration-300" style={{ fontSize: '24px' }}></i>
           </div>
           <div className="song-info">
             <p className="song-title">Spotify</p>

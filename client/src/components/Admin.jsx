@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 const Admin = () => {
+  const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
@@ -18,8 +20,18 @@ const Admin = () => {
   // Form states
   const [title, setTitle] = useState('');
   const [descOrContent, setDescOrContent] = useState('');
-  const [link, setLink] = useState('');
+  const [link, setLink] = useState(''); // Old link (optional)
   const [imageUrl, setImageUrl] = useState('');
+  // New Project specific states
+  const [category, setCategory] = useState('');
+  const [status, setStatus] = useState('completed');
+  const [githubLink, setGithubLink] = useState('');
+  const [deployedLink, setDeployedLink] = useState('');
+
+  // Settings states
+  const [settingsLocation, setSettingsLocation] = useState('');
+  const [settingsTemp, setSettingsTemp] = useState('');
+  const [settingsSaved, setSettingsSaved] = useState(false);
 
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
@@ -60,8 +72,25 @@ const Admin = () => {
 
   const fetchItems = async () => {
     try {
-      const res = await axios.get(`${API_URL}/api/${activeTab}`);
-      setItems(res.data);
+      if (activeTab === 'settings') {
+        const res = await axios.get(`${API_URL}/api/settings`);
+        setSettingsLocation(res.data.location || '');
+        setSettingsTemp(res.data.temperature || '');
+      } else {
+        const res = await axios.get(`${API_URL}/api/${activeTab}`);
+        setItems(res.data);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleSettingsSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.put(`${API_URL}/api/settings`, { location: settingsLocation, temperature: settingsTemp }, getAuthConfig());
+      setSettingsSaved(true);
+      setTimeout(() => setSettingsSaved(false), 3000);
     } catch (err) {
       console.error(err);
     }
@@ -69,10 +98,17 @@ const Admin = () => {
 
   const handleEdit = (item) => {
     setEditingItem(item);
-    setTitle(item.title);
-    setDescOrContent(activeTab === 'projects' ? item.description : item.content);
-    if (activeTab === 'projects') setLink(item.link || '');
-    if (activeTab === 'blogs') setImageUrl(item.imageUrl || '');
+    setTitle(item.title || '');
+    setDescOrContent(activeTab === 'projects' ? item.description || '' : item.content || '');
+    setImageUrl(item.imageUrl || '');
+    
+    if (activeTab === 'projects') {
+      setLink(item.link || '');
+      setCategory(item.category || '');
+      setStatus(item.status || 'completed');
+      setGithubLink(item.githubLink || '');
+      setDeployedLink(item.deployedLink || '');
+    }
     setView('edit');
   };
 
@@ -95,7 +131,7 @@ const Admin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const payload = activeTab === 'projects' 
-      ? { title, description: descOrContent, link }
+      ? { title, description: descOrContent, link, imageUrl, category, status, githubLink, deployedLink }
       : { title, content: descOrContent, imageUrl };
 
     try {
@@ -114,61 +150,163 @@ const Admin = () => {
   const openCreate = () => {
     setEditingItem(null);
     setTitle(''); setDescOrContent(''); setLink(''); setImageUrl('');
+    setCategory(''); setStatus('completed'); setGithubLink(''); setDeployedLink('');
     setView('create');
   };
 
   if (!isAuthenticated) {
     return (
-      <div style={pageStyle}>
-        <div style={{ maxWidth: '400px', margin: '0 auto', ...cardStyle, marginTop: '100px', padding: '40px' }}>
-          <h2 style={{ color: '#2196f3', textAlign: 'center', marginBottom: '30px' }}>Admin Login</h2>
-          {loginError && <p style={{ color: '#c41e3a', textAlign: 'center', marginBottom: '15px' }}>{loginError}</p>}
-          <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-            <input type="email" placeholder="Email" value={loginEmail} onChange={e => setLoginEmail(e.target.value)} required style={inputStyle} />
-            <input type="password" placeholder="Password" value={loginPassword} onChange={e => setLoginPassword(e.target.value)} required style={inputStyle} />
-            <button type="submit" style={submitBtnStyle}>Login</button>
+      <section className="min-h-screen flex items-center justify-center px-6">
+        <div className="w-full max-w-md bg-card-bg-light border border-border-dim p-10 shadow-xl relative">
+          
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-card-bg-light border border-border-main text-2xl text-highlight mb-6">
+              <i className="fas fa-lock"></i>
+            </div>
+            <h2 className="text-3xl font-bold text-text-main tracking-widest uppercase">Admin Access</h2>
+            <p className="text-text-dim mt-2 text-sm">Restricted zone. Please log in.</p>
+          </div>
+
+          {loginError && (
+            <div className="mb-6 p-4 border border-red-500/20 bg-red-500/10 text-red-400 text-center font-medium text-sm">
+              <i className="fas fa-exclamation-triangle mr-2"></i> {loginError}
+            </div>
+          )}
+
+          <form onSubmit={handleLogin} className="flex flex-col gap-6">
+            <div>
+              <input 
+                type="email" 
+                placeholder="Email Address" 
+                value={loginEmail} 
+                onChange={e => setLoginEmail(e.target.value)} 
+                required 
+                className="w-full bg-bg-nav border border-border-dim px-4 py-4 text-text-main placeholder-text-dim/50 focus:outline-none focus:border-highlight focus:ring-1 focus:ring-highlight transition-all"
+              />
+            </div>
+            <div>
+              <input 
+                type="password" 
+                placeholder="Password" 
+                value={loginPassword} 
+                onChange={e => setLoginPassword(e.target.value)} 
+                required 
+                className="w-full bg-bg-nav border border-border-dim px-4 py-4 text-text-main placeholder-text-dim/50 focus:outline-none focus:border-highlight focus:ring-1 focus:ring-highlight transition-all"
+              />
+            </div>
+            <button 
+              type="submit" 
+              className="mt-4 w-full py-4 font-bold text-text-main tracking-widest uppercase bg-highlight hover:bg-highlight/90 hover:shadow-[0_0_20px_rgba(99,102,241,0.4)] transition-all"
+            >
+              <i className="fas fa-sign-in-alt mr-2"></i> Authenticate
+            </button>
           </form>
-          <div style={{ textAlign: 'center', marginTop: '20px' }}>
-            <a href="/" style={{ color: '#888', textDecoration: 'none', fontSize: '14px' }}>
-              <i className="fas fa-arrow-left"></i> Back to Site
+
+          <div className="text-center mt-8 border-t border-border-dim/50 pt-6">
+            <a href="/" className="text-text-dim hover:text-highlight transition-colors text-sm font-medium inline-flex items-center gap-2">
+              <i className="fas fa-arrow-left"></i> Return to Site
             </a>
           </div>
         </div>
-      </div>
+      </section>
     );
   }
 
   return (
-    <div style={pageStyle}>
-      <div style={containerStyle}>
+    <div className="min-h-screen pt-24 pb-12 px-6">
+      <div className="max-w-4xl mx-auto w-full">
         
         {/* Header & Tabs */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #333', paddingBottom: '20px', marginBottom: '30px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-            <h1 style={{ color: '#2196f3', margin: 0 }}>Dashboard</h1>
-            <a href="/" style={{ color: '#888', textDecoration: 'none', fontSize: '14px' }}>
+        <div className="flex justify-between items-center border-b border-border-main pb-6 mb-10">
+          <div className="flex items-center gap-6">
+            <h1 className="text-3xl font-bold text-highlight tracking-widest uppercase">Dashboard</h1>
+            <a href="/" target="_blank" rel="noreferrer" className="text-text-dim hover:text-text-main transition-colors text-sm font-medium flex items-center gap-2">
               <i className="fas fa-external-link-alt"></i> Preview Site
             </a>
           </div>
           
-          <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+          <div className="flex items-center gap-6">
             {view === 'list' && (
-              <>
-                <button onClick={() => setActiveTab('projects')} style={activeTab === 'projects' ? activeTabStyle : inactiveTabStyle}>Projects</button>
-                <button onClick={() => setActiveTab('blogs')} style={activeTab === 'blogs' ? activeTabStyle : inactiveTabStyle}>Blogs</button>
-              </>
+              <div className="flex gap-4">
+                <button 
+                  onClick={() => setActiveTab('projects')} 
+                  className={`text-lg font-bold pb-2 border-b-2 transition-all ${activeTab === 'projects' ? 'border-highlight text-highlight' : 'border-transparent text-text-dim hover:text-text-main'}`}
+                >
+                  Projects
+                </button>
+                <button 
+                  onClick={() => setActiveTab('blogs')} 
+                  className={`text-lg font-bold pb-2 border-b-2 transition-all ${activeTab === 'blogs' ? 'border-highlight text-highlight' : 'border-transparent text-text-dim hover:text-text-main'}`}
+                >
+                  Blogs
+                </button>
+                <button 
+                  onClick={() => { setActiveTab('settings'); setView('list'); }} 
+                  className={`text-lg font-bold pb-2 border-b-2 transition-all ${activeTab === 'settings' ? 'border-highlight text-highlight' : 'border-transparent text-text-dim hover:text-text-main'}`}
+                >
+                  Settings
+                </button>
+              </div>
             )}
-            <button onClick={handleLogout} style={{ ...inactiveTabStyle, color: '#c41e3a', border: 'none' }} title="Logout">
+            <button onClick={handleLogout} className="text-red-500 hover:text-red-400 transition-colors text-xl ml-4" title="Logout">
               <i className="fas fa-sign-out-alt"></i>
             </button>
           </div>
         </div>
 
         {/* Content Area */}
-        <div style={{ position: 'relative' }}>
+        <div className="relative">
           <AnimatePresence mode="wait">
             
-            {view === 'list' && (
+            {activeTab === 'settings' && (
+              <motion.div 
+                key="settings"
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: -20, opacity: 0 }}
+                transition={{ duration: 0.2, ease: "easeInOut" }}
+                className="bg-card-bg-light border border-border-dim p-8 md:p-10 max-w-2xl mx-auto mt-10"
+              >
+                <h2 className="text-2xl font-bold text-highlight mb-8 uppercase tracking-widest">Global Site Settings</h2>
+                
+                {settingsSaved && (
+                  <div className="mb-8 p-4 border border-green-500/20 bg-green-500/10 text-green-400 text-center font-medium">
+                    Settings successfully saved!
+                  </div>
+                )}
+
+                <form onSubmit={handleSettingsSubmit} className="flex flex-col gap-6">
+                  <div>
+                    <label className="block text-text-dim text-sm font-bold mb-2 uppercase tracking-wider">City / State</label>
+                    <input 
+                      type="text" 
+                      placeholder="e.g. Ahmedabad, GJ" 
+                      value={settingsLocation} 
+                      onChange={e => setSettingsLocation(e.target.value)} 
+                      className="w-full bg-bg-nav border border-border-dim px-4 py-4 text-text-main focus:outline-none focus:border-highlight focus:ring-1 focus:ring-highlight transition-all"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-text-dim text-sm font-bold mb-2 uppercase tracking-wider">Temperature</label>
+                    <input 
+                      type="text" 
+                      placeholder="e.g. 32°C" 
+                      value={settingsTemp} 
+                      onChange={e => setSettingsTemp(e.target.value)} 
+                      className="w-full bg-bg-nav border border-border-dim px-4 py-4 text-text-main focus:outline-none focus:border-highlight focus:ring-1 focus:ring-highlight transition-all"
+                    />
+                  </div>
+                  <button 
+                    type="submit" 
+                    className="mt-6 w-full py-4 font-bold text-text-main tracking-widest uppercase bg-highlight hover:bg-highlight/90 transition-all shadow-glow"
+                  >
+                    Save Settings
+                  </button>
+                </form>
+              </motion.div>
+            )}
+
+            {activeTab !== 'settings' && view === 'list' && (
               <motion.div 
                 key={"list" + activeTab}
                 initial={{ y: 20, opacity: 0 }}
@@ -176,30 +314,52 @@ const Admin = () => {
                 exit={{ y: -20, opacity: 0 }}
                 transition={{ duration: 0.2, ease: "easeInOut" }}
               >
-                <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '20px' }}>
-                  <button onClick={openCreate} style={createBtnStyle}>
+                <div className="flex justify-end mb-8">
+                  <button 
+                    onClick={openCreate} 
+                    className="bg-highlight hover:bg-highlight/90 text-text-main font-bold py-3 px-6 transition-all shadow-glow"
+                  >
                     + New {activeTab === 'projects' ? 'Project' : 'Blog'}
                   </button>
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                <div className="flex flex-col gap-6">
                   {items.length === 0 ? (
-                    <p style={{ textAlign: 'center', color: '#888' }}>No {activeTab} found.</p>
+                    <p className="text-center text-text-dim text-lg py-10 border border-dashed border-border-main">No {activeTab} found.</p>
                   ) : (
                     items.map(item => (
-                      <div key={item._id} style={cardStyle}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                          <h3 style={{ margin: '0 0 10px 0', color: '#2196f3' }}>{item.title}</h3>
-                          <div style={{ display: 'flex', gap: '10px' }}>
-                            <button onClick={() => handleEdit(item)} style={iconBtnStyle} title="Edit">
+                      <div 
+                        key={item._id} 
+                        onClick={() => navigate(activeTab === 'projects' ? `/project/${item._id}` : `/blog/${item._id}`, { state: { from: '/admin' } })}
+                        className="bg-card-bg-light border border-border-dim p-6 hover:border-highlight/30 transition-colors cursor-pointer"
+                      >
+                        <div className="flex justify-between items-start mb-4">
+                          <div>
+                            <h3 className="text-xl font-bold text-highlight mb-2">{item.title}</h3>
+                            {activeTab === 'projects' && item.status && (
+                              <span className="inline-block px-2 py-1 text-xs font-semibold uppercase tracking-wider bg-card-bg-light text-text-dim mb-2 border border-border-main">
+                                {item.status}
+                              </span>
+                            )}
+                          </div>
+                          <div className="flex gap-4 items-center">
+                            <button 
+                              onClick={(e) => { e.stopPropagation(); handleEdit(item); }} 
+                              className="text-text-dim hover:text-highlight transition-colors text-lg" 
+                              title="Edit"
+                            >
                               <i className="fas fa-edit"></i>
                             </button>
-                            <button onClick={() => requestDelete(item._id)} style={{...iconBtnStyle, color: '#c41e3a'}} title="Delete">
+                            <button 
+                              onClick={(e) => { e.stopPropagation(); requestDelete(item._id); }} 
+                              className="text-text-dim hover:text-red-500 transition-colors text-lg" 
+                              title="Delete"
+                            >
                               <i className="fas fa-trash"></i>
                             </button>
                           </div>
                         </div>
-                        <p style={truncateStyle}>
+                        <p className="text-text-dim line-clamp-2">
                           {activeTab === 'projects' ? item.description : item.content}
                         </p>
                       </div>
@@ -217,24 +377,93 @@ const Admin = () => {
                 exit={{ y: -20, opacity: 0 }}
                 transition={{ duration: 0.2, ease: "easeInOut" }}
               >
-                <button onClick={() => setView('list')} style={{...createBtnStyle, background: '#444', marginBottom: '20px'}}>
+                <button 
+                  onClick={() => setView('list')} 
+                  className="mb-8 text-text-dim hover:text-highlight transition-colors font-medium flex items-center gap-2"
+                >
                   <i className="fas fa-arrow-left"></i> Back to List
                 </button>
 
-                <div style={{ background: '#272727', padding: '30px', borderRadius: '12px' }}>
-                  <h2 style={{ color: '#2196f3', marginBottom: '20px' }}>
+                <div className="bg-card-bg-light border border-border-dim p-8 md:p-10">
+                  <h2 className="text-2xl font-bold text-highlight mb-8 uppercase tracking-widest">
                     {view === 'create' ? 'Create' : 'Edit'} {activeTab === 'projects' ? 'Project' : 'Blog'}
                   </h2>
-                  <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                    <input type="text" placeholder="Title" value={title} onChange={e => setTitle(e.target.value)} required style={inputStyle} />
-                    <textarea placeholder={activeTab === 'projects' ? 'Description' : 'Content'} value={descOrContent} onChange={e => setDescOrContent(e.target.value)} required style={{...inputStyle, minHeight: '150px'}} />
+                  <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+                    <input 
+                      type="text" 
+                      placeholder="Title" 
+                      value={title} 
+                      onChange={e => setTitle(e.target.value)} 
+                      required 
+                      className="w-full bg-bg-nav border border-border-dim px-4 py-4 text-text-main placeholder-text-dim/50 focus:outline-none focus:border-highlight focus:ring-1 focus:ring-highlight transition-all"
+                    />
+                    
                     {activeTab === 'projects' && (
-                      <input type="text" placeholder="Link (Optional)" value={link} onChange={e => setLink(e.target.value)} style={inputStyle} />
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="relative">
+                          <select 
+                            value={status} 
+                            onChange={e => setStatus(e.target.value)}
+                            className="w-full bg-bg-nav border border-border-dim px-4 py-4 text-text-main focus:outline-none focus:border-highlight focus:ring-1 focus:ring-highlight transition-all appearance-none cursor-pointer"
+                          >
+                            <option value="current">Currently Working</option>
+                            <option value="completed">Already Done</option>
+                            <option value="future">Future Plans</option>
+                          </select>
+                          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-text-dim">
+                            <i className="fas fa-chevron-down"></i>
+                          </div>
+                        </div>
+                        <input 
+                          type="text" 
+                          placeholder="Category / Tags (e.g. Fullstack, React)" 
+                          value={category} 
+                          onChange={e => setCategory(e.target.value)} 
+                          className="w-full bg-bg-nav border border-border-dim px-4 py-4 text-text-main placeholder-text-dim/50 focus:outline-none focus:border-highlight focus:ring-1 focus:ring-highlight transition-all"
+                        />
+                      </div>
                     )}
-                    {activeTab === 'blogs' && (
-                      <input type="text" placeholder="Cover Image URL (Optional)" value={imageUrl} onChange={e => setImageUrl(e.target.value)} style={inputStyle} />
+
+                      <textarea 
+                        placeholder={activeTab === 'projects' ? 'Description' : 'Content (Markdown Supported)'} 
+                        value={descOrContent} 
+                        onChange={e => setDescOrContent(e.target.value)} 
+                        required 
+                        rows="6"
+                        className="w-full bg-bg-nav border border-border-dim px-4 py-4 text-text-main placeholder-text-dim/50 focus:outline-none focus:border-highlight focus:ring-1 focus:ring-highlight transition-all resize-none"
+                      />
+                    
+                    <input 
+                      type="text" 
+                      placeholder="Cover Image URL (Optional)" 
+                      value={imageUrl} 
+                      onChange={e => setImageUrl(e.target.value)} 
+                      className="w-full bg-bg-nav border border-border-dim px-4 py-4 text-text-main placeholder-text-dim/50 focus:outline-none focus:border-highlight focus:ring-1 focus:ring-highlight transition-all"
+                    />
+
+                    {activeTab === 'projects' && (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <input 
+                          type="text" 
+                          placeholder="GitHub Link (Optional)" 
+                          value={githubLink} 
+                          onChange={e => setGithubLink(e.target.value)} 
+                          className="w-full bg-bg-nav border border-border-dim px-4 py-4 text-text-main placeholder-text-dim/50 focus:outline-none focus:border-highlight focus:ring-1 focus:ring-highlight transition-all"
+                        />
+                        <input 
+                          type="text" 
+                          placeholder="Deployed Live Link (Optional)" 
+                          value={deployedLink} 
+                          onChange={e => setDeployedLink(e.target.value)} 
+                          className="w-full bg-bg-nav border border-border-dim px-4 py-4 text-text-main placeholder-text-dim/50 focus:outline-none focus:border-highlight focus:ring-1 focus:ring-highlight transition-all"
+                        />
+                      </div>
                     )}
-                    <button type="submit" style={submitBtnStyle}>
+
+                    <button 
+                      type="submit" 
+                      className="mt-6 w-full py-4 font-bold text-text-main tracking-widest uppercase bg-highlight hover:bg-highlight/90 transition-all shadow-glow"
+                    >
                       {view === 'create' ? 'Publish' : 'Save Changes'}
                     </button>
                   </form>
@@ -253,28 +482,30 @@ const Admin = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            style={{
-              position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, 
-              background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(5px)',
-              display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 9999
-            }}
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm flex justify-center items-center z-[9999] px-6"
           >
             <motion.div 
               initial={{ scale: 0.8 }}
               animate={{ scale: 1 }}
               exit={{ scale: 0.8 }}
-              style={{ ...cardStyle, background: '#1a1a1a', padding: '40px', textAlign: 'center', maxWidth: '400px', border: '1px solid #c41e3a' }}
+              className="bg-bg-dark border-2 border-red-500 p-10 text-center max-w-md w-full shadow-[0_0_40px_rgba(239,68,68,0.3)]"
             >
-              <i className="fas fa-exclamation-triangle" style={{ fontSize: '40px', color: '#c41e3a', marginBottom: '20px' }}></i>
-              <h3 style={{ marginBottom: '15px', color: 'white' }}>Are you absolutely sure?</h3>
-              <p style={{ color: '#888', marginBottom: '30px', lineHeight: '1.5' }}>
+              <i className="fas fa-exclamation-triangle text-5xl text-red-500 mb-6"></i>
+              <h3 className="text-2xl font-bold text-text-main mb-4 uppercase tracking-wider">Are you absolutely sure?</h3>
+              <p className="text-text-dim mb-10 leading-relaxed">
                 This action cannot be undone. This {activeTab.slice(0, -1)} will be permanently deleted from the database.
               </p>
-              <div style={{ display: 'flex', gap: '15px', justifyContent: 'center' }}>
-                <button onClick={() => setDeleteTarget(null)} style={{ ...createBtnStyle, background: '#444' }}>
+              <div className="flex gap-4 justify-center">
+                <button 
+                  onClick={() => setDeleteTarget(null)} 
+                  className="bg-card-bg-light border border-border-dim hover:bg-bg-nav text-text-main font-bold py-3 px-8 transition-colors"
+                >
                   Cancel
                 </button>
-                <button onClick={confirmDelete} style={{ ...createBtnStyle, background: '#c41e3a' }}>
+                <button 
+                  onClick={confirmDelete} 
+                  className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 transition-colors"
+                >
                   Yes, Delete it
                 </button>
               </div>
@@ -284,43 +515,6 @@ const Admin = () => {
       </AnimatePresence>
     </div>
   );
-};
-
-// Styles
-const pageStyle = { minHeight: '100vh', background: '#1a1a1a', paddingTop: '100px', paddingBottom: '50px' };
-const containerStyle = { maxWidth: '800px', margin: '0 auto', padding: '0 20px' };
-const activeTabStyle = {
-  background: 'transparent', border: 'none', color: '#2196f3', fontSize: '18px', fontWeight: 'bold', cursor: 'pointer', borderBottom: '2px solid #2196f3', paddingBottom: '5px'
-};
-const inactiveTabStyle = {
-  background: 'transparent', border: 'none', color: '#888', fontSize: '18px', fontWeight: 'bold', cursor: 'pointer', paddingBottom: '5px'
-};
-const createBtnStyle = {
-  background: '#2196f3', color: 'white', border: 'none', padding: '10px 20px', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold', fontSize: '14px'
-};
-const cardStyle = {
-  background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0))', 
-  backdropFilter: 'blur(20px)', 
-  WebkitBackdropFilter: 'blur(20px)',
-  borderTop: '1px solid rgba(255, 255, 255, 0.2)',
-  borderLeft: '1px solid rgba(255, 255, 255, 0.2)',
-  borderRight: '1px solid rgba(255, 255, 255, 0.02)',
-  borderBottom: '1px solid rgba(255, 255, 255, 0.02)',
-  padding: '20px', 
-  borderRadius: '16px', 
-  boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.4), inset 0 0 15px rgba(255, 255, 255, 0.05)'
-};
-const truncateStyle = {
-  display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden', color: 'rgba(253, 237, 217, 0.768)', margin: 0, lineHeight: '1.5'
-};
-const iconBtnStyle = {
-  background: 'transparent', border: 'none', color: '#888', cursor: 'pointer', fontSize: '16px', transition: 'color 0.2s'
-};
-const inputStyle = {
-  padding: '15px', borderRadius: '8px', border: '1px solid #444', background: '#1a1a1a', color: 'white', fontSize: '16px', outline: 'none', width: '100%', boxSizing: 'border-box'
-};
-const submitBtnStyle = {
-  padding: '15px', borderRadius: '8px', border: 'none', background: '#2196f3', color: 'white', cursor: 'pointer', fontWeight: 'bold', fontSize: '16px', marginTop: '10px'
 };
 
 export default Admin;

@@ -19,6 +19,11 @@ router.post('/', auth, async (req, res) => {
     title: req.body.title,
     description: req.body.description,
     link: req.body.link,
+    githubLink: req.body.githubLink,
+    deployedLink: req.body.deployedLink,
+    imageUrl: req.body.imageUrl,
+    category: req.body.category,
+    status: req.body.status || 'completed'
   });
 
   try {
@@ -45,7 +50,16 @@ router.put('/:id', auth, async (req, res) => {
   try {
     const project = await Project.findByIdAndUpdate(
       req.params.id,
-      { title: req.body.title, description: req.body.description, link: req.body.link },
+      { 
+        title: req.body.title, 
+        description: req.body.description, 
+        link: req.body.link,
+        githubLink: req.body.githubLink,
+        deployedLink: req.body.deployedLink,
+        imageUrl: req.body.imageUrl,
+        category: req.body.category,
+        status: req.body.status
+      },
       { new: true }
     );
     res.json(project);

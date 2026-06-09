@@ -54,12 +54,14 @@ import projectsRoutes from './routes/projects.js';
 import blogsRoutes from './routes/blogs.js';
 import contactRoutes from './routes/contact.js';
 import spotifyRoutes from './routes/spotify.js';
+import settingsRoutes from './routes/settings.js';
 
 app.use('/api/auth', authRoutes);
 app.use('/api/projects', projectsRoutes);
 app.use('/api/blogs', blogsRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/spotify', spotifyRoutes);
+app.use('/api/settings', settingsRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
