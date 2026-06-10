@@ -40,7 +40,7 @@ const About = () => {
           </div>
 
           {/* Right Image */}
-          <div className="w-full md:w-5/12 flex justify-center md:justify-end">
+          <div className="w-full md:w-5/12 flex flex-col items-center md:items-end">
             <div className="relative group">
               {/* Red Accent Background with Text */}
               <div className="absolute inset-0 bg-video-bg transform translate-x-4 translate-y-4 rounded-lg transition-all duration-500 group-hover:translate-x-6 group-hover:translate-y-10 flex flex-col justify-end items-end p-2 pr-4 overflow-hidden">
@@ -59,6 +59,10 @@ const About = () => {
                 className="relative z-10 w-full max-w-[350px] aspect-[4/5] object-cover border border-border-main grayscale hover:grayscale-0 transition-all duration-500 cursor-pointer" 
               />
             </div>
+            
+            <p className="text-text-dim/60 text-xs italic font-medium hover:text-text-main transition-colors mt-6 md:mr-4">
+              ~the colors inspired from xevrion.dev
+            </p>
           </div>
         </div>
       </div>
