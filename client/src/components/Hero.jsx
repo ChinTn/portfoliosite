@@ -79,7 +79,7 @@ const Hero = () => {
           
           {/* Buttons */}
           <div className="flex gap-4 mb-8">
-            <a href="#" className="px-6 py-2.5 bg-highlight text-white font-medium rounded-md hover:bg-opacity-90 transition-colors">
+            <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="px-6 py-2.5 bg-highlight text-white font-medium rounded-md hover:bg-opacity-90 transition-colors">
               Download CV
             </a>
             <Link to="/contact" className="px-6 py-2.5 bg-card-bg text-text-main font-medium rounded-md hover:bg-card-bg-light border border-border-dim transition-colors">
