@@ -16,11 +16,17 @@ const ProjectCategoryView = () => {
     // Reset page when category changes
     setPage(0);
     
+    const cached = sessionStorage.getItem('projectsCache');
+    if (cached) {
+      const data = JSON.parse(cached);
+      setProjects(data.filter(p => p.status === status));
+    }
+    
+    // Always fetch in background to keep cache fresh
     axios.get(`${API_URL}/api/projects`)
       .then(res => {
-        // Filter projects by status from the URL
-        const filtered = res.data.filter(p => p.status === status);
-        setProjects(filtered);
+        sessionStorage.setItem('projectsCache', JSON.stringify(res.data));
+        setProjects(res.data.filter(p => p.status === status));
       })
       .catch(err => console.error(err));
   }, [status]);

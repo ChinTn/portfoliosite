@@ -17,15 +17,17 @@ const GithubActivity = () => {
         </h2>
         
         <div className="w-full flex flex-col p-4 md:p-6 overflow-hidden">
-          <div className="w-full overflow-x-auto pb-4 [&::-webkit-scrollbar]:hidden flex justify-start lg:justify-center">
-            <GitHubCalendar 
-              username="ChinTn" 
-              blockSize={14}
-              blockMargin={5}
-              colorScheme="dark"
-              theme={explicitTheme}
-              fontSize={14}
-            />
+          <div className="w-full overflow-x-auto pb-4 [&::-webkit-scrollbar]:hidden" dir="rtl">
+            <div dir="ltr" className="inline-block min-w-max">
+              <GitHubCalendar 
+                username="ChinTn" 
+                blockSize={14}
+                blockMargin={5}
+                colorScheme="dark"
+                theme={explicitTheme}
+                fontSize={14}
+              />
+            </div>
           </div>
         </div>
       </div>

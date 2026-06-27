@@ -8,11 +8,17 @@ const Projects = () => {
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
   useEffect(() => {
+    const cached = sessionStorage.getItem('projectsCache');
+    if (cached) {
+      const data = JSON.parse(cached);
+      setCurrentProjects(data.filter(p => p.status === 'current'));
+    }
+    
+    // Always fetch in background to keep cache fresh
     axios.get(`${API_URL}/api/projects`)
       .then(res => {
-        // Filter ONLY current projects for the homepage view
-        const current = res.data.filter(p => p.status === 'current');
-        setCurrentProjects(current);
+        sessionStorage.setItem('projectsCache', JSON.stringify(res.data));
+        setCurrentProjects(res.data.filter(p => p.status === 'current'));
       })
       .catch(err => console.error(err));
   }, []);
