@@ -132,15 +132,27 @@ const Hero = () => {
             <span className="text-sm text-text-dim italic tracking-wide">~we might share the same Vibe</span>
           </div>
           
-          <p className="text-text-dim text-base leading-relaxed mb-8 max-w-lg">
-            <span className="text-text-main font-medium">dev_lox /ˈtʃɪn.t̪ən/.</span><br />
-            19M • IIT Jodhpur.<br /><br />
-            Obsessed with logic, edge cases, and how things work.<br />
-            Currently in Development. Have explored Data Science & Open Source.<br />
-            Not tied to a single domain.<br />
-            Learning by building, breaking, and fixing.<br /><br />
-            <span className="text-highlight">Coding my way out of chaos • one repo at a time.</span>
-          </p>
+          <div className="text-text-dim text-base leading-relaxed mb-8 max-w-lg">
+            <div className="flex flex-wrap items-center gap-4 mb-4">
+              <div>
+                <span className="text-text-main font-medium">dev_lox /ˈtʃɪn.t̪ən/.</span><br />
+                19M • IIT Jodhpur.
+              </div>
+              <button 
+                onClick={() => alert("Not built yet 🚧 (Coming Soon!)")} 
+                className="px-3 py-1.5 bg-card-bg/50 text-text-dim text-xs font-medium rounded hover:text-highlight border border-border-dim border-dashed transition-all hover:scale-105 flex items-center gap-2 ml-auto md:ml-4"
+              >
+                <i className="fas fa-lock text-[10px]"></i> Private Room
+              </button>
+            </div>
+            <p>
+              Obsessed with logic, edge cases, and how things work.<br />
+              Currently in Development. Have explored Data Science & Open Source.<br />
+              Not tied to a single domain.<br />
+              Learning by building, breaking, and fixing.<br /><br />
+              <span className="text-highlight">Coding my way out of chaos • one repo at a time.</span>
+            </p>
+          </div>
           
           {/* Buttons */}
           <div className="flex flex-wrap justify-center md:justify-start gap-4 mb-8">
@@ -150,12 +162,6 @@ const Hero = () => {
             <Link to="/contact" className="px-6 py-2.5 bg-card-bg text-text-main font-medium rounded-md hover:bg-card-bg-light border border-border-dim transition-colors text-sm md:text-base">
               Contact
             </Link>
-            <button 
-              onClick={() => alert("Not built yet 🚧 (Coming Soon!)")} 
-              className="px-6 py-2.5 bg-card-bg/50 text-text-dim font-medium rounded-md hover:text-highlight border border-border-dim border-dashed transition-all hover:scale-105 flex items-center gap-2 text-sm md:text-base"
-            >
-              <i className="fas fa-lock text-xs"></i> Private Room
-            </button>
           </div>
           
           {/* Social Links */}
