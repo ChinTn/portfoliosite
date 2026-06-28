@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, useNavigationType } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ReactLenis, useLenis } from 'lenis/react';
+import { Toaster } from 'react-hot-toast';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -97,6 +98,16 @@ const AnimatedRoutes = () => {
       <ScrollToTop />
       <CustomCursor />
       <CanvasCursorEffect />
+      <Toaster 
+        position="bottom-center"
+        toastOptions={{
+          style: {
+            background: '#1a1a1a',
+            color: '#e5e5e5',
+            border: '1px solid #333',
+          },
+        }}
+      />
       {!isAdminRoute && <Navbar />}
       
       <AnimatePresence mode="wait">

@@ -6,6 +6,7 @@ import img from '../assets/img.jpg';
 import imgEvil from '../assets/img-evil.jpg';
 import SpotifyWidget from './SpotifyWidget';
 import { useTheme } from '../context/ThemeContext';
+import toast from 'react-hot-toast';
 
 let hasPlayedIntroGlobal = false;
 
@@ -139,7 +140,7 @@ const Hero = () => {
                 19M • IIT Jodhpur.
               </div>
               <button 
-                onClick={() => alert("Not built yet 🚧 (Coming Soon!)")} 
+                onClick={() => toast('Not built yet 🚧 (Coming Soon!)', { icon: '🔒' })} 
                 className="px-5 py-2 bg-card-bg/50 text-text-dim text-sm font-bold rounded hover:text-highlight border border-border-dim border-dashed transition-all hover:scale-105 flex items-center gap-2 ml-auto md:ml-4"
               >
                 <i className="fas fa-lock text-sm"></i> Private Room
