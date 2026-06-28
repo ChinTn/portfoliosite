@@ -1,25 +1,69 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { ReactLenis } from 'lenis/react';
+
+const stripMarkdown = (text) => {
+  if (!text) return '';
+  return text
+    .replace(/^#+\s+/gm, '') // Remove headings
+    .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1') // Extract link text
+    .replace(/(\*\*|__)(.*?)\1/g, '$2') // Extract bold text
+    .replace(/(\*|_)(.*?)\1/g, '$2') // Extract italic text
+    .replace(/`([^`]+)`/g, '$1') // Extract inline code
+    .replace(/\n+/g, ' ') // Replace newlines with space
+    .trim();
+};
+
+const BlogCard = ({ blog, navigate, i }) => {
+  return (
+    <div 
+      onClick={() => navigate(`/blog/${blog._id}`)}
+      className="bg-card-bg-light border border-border-dim/50 overflow-hidden cursor-pointer group shadow-xl transition-all duration-300 flex flex-col md:flex-row h-auto md:h-[240px]"
+    >
+      {blog.imageUrl && (
+        <div className="overflow-hidden relative h-48 md:h-auto md:w-2/5 shrink-0">
+          <img 
+            src={blog.imageUrl} 
+            alt={blog.title} 
+            className="w-full h-full object-cover transition-opacity duration-500" 
+          />
+          <div className="absolute inset-0 bg-highlight/5 group-hover:bg-transparent transition-colors duration-700 pointer-events-none"></div>
+        </div>
+      )}
+      
+      <div className="p-6 md:p-8 flex flex-col flex-grow relative z-10 md:w-3/5">
+        <h3 className="text-2xl md:text-3xl font-extrabold text-text-main mb-3 group-hover:text-highlight transition-colors tracking-tight">
+          {blog.title}
+        </h3>
+        
+        <div className="flex-grow mb-6">
+          <p className="text-text-dim text-base leading-relaxed line-clamp-3 font-medium group-hover:text-text-main transition-colors duration-300">
+            {stripMarkdown(blog.content)}
+          </p>
+        </div>
+        
+        <div className="mt-auto pt-4 border-t border-border-dim/50">
+          <span className="text-highlight font-bold uppercase tracking-widest text-sm flex items-center gap-2 group-hover:text-white transition-colors duration-300">
+            Dive <i className="fas fa-arrow-right text-[10px]"></i>
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const Blogs = () => {
   const [blogs, setBlogs] = useState(() => {
     const saved = sessionStorage.getItem('portfolioBlogs');
     return saved ? JSON.parse(saved) : [];
   });
-  const [page, setPage] = useState(() => {
-    const savedPage = sessionStorage.getItem('portfolioBlogsPage');
-    return savedPage ? parseInt(savedPage, 10) : 0;
-  });
-  const itemsPerPage = 2;
+  const [currentPage, setCurrentPage] = useState(1);
+  const blogsPerPage = 4;
+
   const navigate = useNavigate();
-
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-
-  useEffect(() => {
-    sessionStorage.setItem('portfolioBlogsPage', page);
-  }, [page]);
 
   useEffect(() => {
     axios.get(`${API_URL}/api/blogs`)
@@ -28,97 +72,86 @@ const Blogs = () => {
         sessionStorage.setItem('portfolioBlogs', JSON.stringify(res.data));
       })
       .catch(err => console.error(err));
-  }, []);
+  }, [API_URL]);
 
-  const totalPages = Math.ceil(blogs.length / itemsPerPage);
-  
-  const handleNext = () => {
-    if (page < totalPages - 1) setPage(page + 1);
+  // Pagination logic
+  const indexOfLastBlog = currentPage * blogsPerPage;
+  const indexOfFirstBlog = indexOfLastBlog - blogsPerPage;
+  const currentBlogs = blogs.slice(indexOfFirstBlog, indexOfLastBlog);
+  const totalPages = Math.ceil(blogs.length / blogsPerPage);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    // Smooth scroll back to the top of the blogs section when page changes
+    const section = document.getElementById('blog');
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
   };
-
-  const handlePrev = () => {
-    if (page > 0) setPage(page - 1);
-  };
-
-  const currentBlogs = blogs.slice(page * itemsPerPage, (page + 1) * itemsPerPage);
 
   return (
-    <section id="blog" className="py-24 px-6 min-h-screen border-t border-border-main">
-      <div className="max-w-4xl mx-auto w-full">
-        <h2 className="text-3xl font-bold text-text-main mt-10 mb-12 uppercase tracking-widest border-l-4 border-highlight pl-4">Blogs</h2>
-        
+    <section id="blog" className="bg-bg-dark relative z-10 border-t border-border-main py-24 px-6">
+      <div className="max-w-6xl mx-auto w-full">
+        <div className="text-center md:text-left mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold text-text-main uppercase tracking-widest border-l-4 border-highlight pl-6 inline-block">
+            Blogs
+          </h2>
+        </div>
+
         {blogs.length === 0 ? (
-          <div className="flex justify-center items-center h-48 border border-dashed border-border-main">
+          <div className="flex justify-center items-center h-48 w-full border border-dashed border-border-main rounded-xl">
             <p className="text-text-dim text-lg font-medium">Will get updated Soon...!</p>
           </div>
         ) : (
-          <div className="relative">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={page}
-                initial={{ x: 20, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                exit={{ x: -20, opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className="flex flex-col gap-6"
-              >
-                {currentBlogs.map((blog) => (
-                  <div 
-                    key={blog._id} 
-                    onClick={() => navigate(`/blog/${blog._id}`)}
-                    className="cursor-pointer group flex flex-col mb-12 pb-12 border-b border-border-dim/30 last:border-0 last:mb-0 last:pb-0"
-                  >
-                    {blog.imageUrl && (
-                      <div className="overflow-hidden mb-8 relative">
-                        <img 
-                          src={blog.imageUrl} 
-                          alt={blog.title} 
-                          className="w-full h-64 md:h-[400px] object-cover filter grayscale contrast-125 group-hover:grayscale-0 group-hover:contrast-100 group-hover:scale-105 transition-all duration-700 ease-in-out" 
-                        />
-                        {/* Subtle color tint overlay that disappears on hover */}
-                        <div className="absolute inset-0 bg-highlight/10 group-hover:bg-transparent transition-all duration-700 pointer-events-none"></div>
-                      </div>
-                    )}
-                    
-                    <h3 className="text-3xl md:text-4xl font-extrabold text-text-main mb-4 group-hover:text-highlight transition-colors tracking-tight">
-                      {blog.title}
-                    </h3>
-                    
-                    <p className="text-text-dim/90 text-lg leading-relaxed mb-6 line-clamp-3 font-medium">
-                      {blog.content}
-                    </p>
-                    
-                    <div className="mt-auto">
-                      <span className="text-highlight font-bold uppercase tracking-widest text-sm flex items-center gap-2 group-hover:translate-x-2 transition-transform duration-300">
-                        Read Transmission <i className="fas fa-arrow-right text-xs"></i>
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </motion.div>
-            </AnimatePresence>
+          <>
+            <div className="flex flex-col gap-8">
+              {currentBlogs.map((blog, i) => (
+                <BlogCard 
+                  key={blog._id} 
+                  blog={blog} 
+                  i={i} 
+                  navigate={navigate}
+                />
+              ))}
+            </div>
 
             {/* Pagination Controls */}
             {totalPages > 1 && (
-              <div className="flex justify-center items-center gap-6 mt-12 pb-12">
+              <div className="flex justify-center items-center gap-4 mt-16">
                 <button 
-                  onClick={handlePrev} 
-                  disabled={page === 0} 
-                  className={`px-4 py-2 border text-sm font-medium flex items-center gap-2 transition-all ${page === 0 ? 'border-border-main text-text-main/30 cursor-not-allowed' : 'border-highlight text-highlight hover:bg-highlight hover:text-text-main'}`}
+                  onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+                  disabled={currentPage === 1}
+                  className="w-12 h-12 rounded-full border border-border-dim text-text-dim flex items-center justify-center hover:text-highlight hover:border-highlight disabled:opacity-30 disabled:pointer-events-none transition-all cursor-pointer"
                 >
-                  <i className="fas fa-chevron-left text-xs"></i> Prev
+                  <i className="fas fa-chevron-left"></i>
                 </button>
-                <span className="text-text-dim text-sm font-medium">{page + 1} / {totalPages}</span>
+                
+                <div className="flex gap-2">
+                  {Array.from({ length: totalPages }).map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => handlePageChange(i + 1)}
+                      className={`w-10 h-10 rounded-full font-bold text-sm flex items-center justify-center transition-all cursor-pointer ${
+                        currentPage === i + 1 
+                          ? 'bg-highlight text-white shadow-glow border-transparent' 
+                          : 'border border-border-dim text-text-dim hover:border-highlight hover:text-highlight'
+                      }`}
+                    >
+                      {i + 1}
+                    </button>
+                  ))}
+                </div>
+
                 <button 
-                  onClick={handleNext} 
-                  disabled={page === totalPages - 1} 
-                  className={`px-4 py-2 border text-sm font-medium flex items-center gap-2 transition-all ${page === totalPages - 1 ? 'border-border-main text-text-main/30 cursor-not-allowed' : 'border-highlight text-highlight hover:bg-highlight hover:text-text-main'}`}
+                  onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
+                  disabled={currentPage === totalPages}
+                  className="w-12 h-12 rounded-full border border-border-dim text-text-dim flex items-center justify-center hover:text-highlight hover:border-highlight disabled:opacity-30 disabled:pointer-events-none transition-all cursor-pointer"
                 >
-                  Next <i className="fas fa-chevron-right text-xs"></i>
+                  <i className="fas fa-chevron-right"></i>
                 </button>
               </div>
             )}
-          </div>
+          </>
         )}
       </div>
     </section>

@@ -74,7 +74,7 @@ const Contact = () => {
           {/* Social Links */}
           <div className="mt-12">
             <h3 className="text-sm font-bold text-text-main uppercase tracking-widest mb-6">Connect on Socials</h3>
-            <div className="flex gap-4 text-2xl text-text-dim">
+            <div className="flex flex-wrap gap-4 text-2xl text-text-dim">
               <a href="https://www.linkedin.com/in/chintan-vaghamshi-6578262aa/" target="_blank" rel="noreferrer" className="w-12 h-12 rounded-full bg-card-bg border border-border-dim flex items-center justify-center hover:bg-[#0077b5] hover:text-text-main hover:border-[#0077b5] hover:scale-110 transition-all duration-300"><i className="fab fa-linkedin"></i></a>
               <a href="https://github.com/ChinTn" target="_blank" rel="noreferrer" className="w-12 h-12 rounded-full bg-card-bg border border-border-dim flex items-center justify-center hover:bg-text-main hover:text-bg-dark hover:border-text-main hover:scale-110 transition-all duration-300"><i className="fab fa-github"></i></a>
               <a href="https://www.instagram.com/chintan_v_011/" target="_blank" rel="noreferrer" className="w-12 h-12 rounded-full bg-card-bg border border-border-dim flex items-center justify-center hover:bg-[#e4405f] hover:text-text-main hover:border-[#e4405f] hover:scale-110 transition-all duration-300"><i className="fab fa-instagram"></i></a>

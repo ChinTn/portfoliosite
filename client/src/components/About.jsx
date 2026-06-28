@@ -41,13 +41,18 @@ const About = () => {
 
           {/* Right Image */}
           <div className="w-full md:w-5/12 flex flex-col items-center md:items-end">
-            <div className="relative group">
-              {/* Red Accent Background with Text */}
-              <div className="absolute inset-0 bg-video-bg transform translate-x-4 translate-y-4 rounded-lg transition-all duration-500 group-hover:translate-x-6 group-hover:translate-y-10 flex flex-col justify-end items-end p-2 pr-4 overflow-hidden">
-                <span className="text-black font-black italic text-xl tracking-tighter opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
-                  TrY MEEE!!
-                </span>
+            <div className="relative group inline-block">
+              {/* Anime Dialogue Bubble (Hover Effect) */}
+              <div className="absolute top-8 -left-8 md:-left-20 z-30 opacity-0 group-hover:opacity-100 group-hover:-translate-y-2 group-hover:-translate-x-2 transition-all duration-300 pointer-events-none flex flex-col items-end scale-90 group-hover:scale-100 origin-bottom-right drop-shadow-2xl">
+                <div className="bg-highlight/20 backdrop-blur-lg text-white font-extrabold px-4 py-2 border border-highlight/50 rounded-tl-xl rounded-tr-xl rounded-bl-xl shadow-glow relative">
+                  <span className="italic tracking-wider text-xs md:text-sm uppercase whitespace-nowrap drop-shadow-md">"Initiate Reality Shift"</span>
+                </div>
+                {/* Tail pointing at the character */}
+                <div className="w-0 h-0 border-t-[12px] border-t-highlight/50 border-l-[16px] border-l-transparent mr-2"></div>
               </div>
+
+              {/* Accent Background */}
+              <div className="absolute inset-0 bg-video-bg transform translate-x-4 translate-y-4 transition-all duration-500 group-hover:translate-x-2 group-hover:translate-y-2"></div>
               
               <video 
                 src={videoSrc} 
@@ -56,7 +61,7 @@ const About = () => {
                 muted 
                 playsInline
                 onClick={cycleTheme}
-                className="relative z-10 w-full max-w-[350px] aspect-[4/5] object-cover border border-border-main grayscale hover:grayscale-0 transition-all duration-500 cursor-pointer" 
+                className="relative z-10 w-full max-w-[350px] aspect-[4/5] object-cover border border-border-main grayscale group-hover:grayscale-0 transition-all duration-500 cursor-pointer" 
               />
             </div>
             

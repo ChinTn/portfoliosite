@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, useNavigationType } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
+import { ReactLenis, useLenis } from 'lenis/react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -10,6 +11,7 @@ import GithubActivity from './components/GithubActivity';
 import GithubRepos from './components/GithubRepos';
 import Contact from './components/Contact';
 import CustomCursor from './components/CustomCursor';
+import CanvasCursorEffect from './components/CanvasCursorEffect';
 
 // Code Splitting for heavy or non-initial routes
 const Admin = React.lazy(() => import('./components/Admin'));
@@ -19,19 +21,18 @@ const BlogDetail = React.lazy(() => import('./components/BlogDetail'));
 
 const Home = () => {
   const navType = useNavigationType();
+  const lenis = useLenis();
 
   React.useLayoutEffect(() => {
-    if (navType === 'POP') {
+    if (navType === 'POP' && lenis) {
       const savedScroll = sessionStorage.getItem('homeScrollPosition');
       if (savedScroll) {
-        // Force instant scroll to avoid CSS smooth scroll sweeping across the page
-        window.scrollTo({ top: parseInt(savedScroll, 10), left: 0, behavior: 'instant' });
+        lenis.scrollTo(parseInt(savedScroll, 10), { immediate: true });
       }
     }
 
     let timeoutId;
     const handleScroll = () => {
-      // debounce to avoid performance issues
       clearTimeout(timeoutId);
       timeoutId = setTimeout(() => {
         sessionStorage.setItem('homeScrollPosition', window.scrollY);
@@ -43,7 +44,7 @@ const Home = () => {
       window.removeEventListener('scroll', handleScroll);
       clearTimeout(timeoutId);
     };
-  }, [navType]);
+  }, [navType, lenis]);
 
   return (
     <>
@@ -60,10 +61,10 @@ const Home = () => {
 const PageTransition = ({ children }) => {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      transition={{ duration: 0.3 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.25, ease: "easeInOut" }}
     >
       {children}
     </motion.div>
@@ -73,12 +74,17 @@ const PageTransition = ({ children }) => {
 const ScrollToTop = () => {
   const location = useLocation();
   const navType = useNavigationType();
+  const lenis = useLenis();
   
   useEffect(() => {
     if (navType !== 'POP') {
-      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      if (lenis) {
+        lenis.scrollTo(0, { immediate: true });
+      } else {
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      }
     }
-  }, [location, navType]);
+  }, [location, navType, lenis]);
   return null;
 };
 
@@ -90,6 +96,7 @@ const AnimatedRoutes = () => {
     <>
       <ScrollToTop />
       <CustomCursor />
+      <CanvasCursorEffect />
       {!isAdminRoute && <Navbar />}
       
       <AnimatePresence mode="wait">
@@ -115,9 +122,11 @@ const AnimatedRoutes = () => {
 
 function App() {
   return (
-    <Router>
-      <AnimatedRoutes />
-    </Router>
+    <ReactLenis root options={{ lerp: 0.08, duration: 1.2, smoothTouch: false }}>
+      <Router>
+        <AnimatedRoutes />
+      </Router>
+    </ReactLenis>
   );
 }
 

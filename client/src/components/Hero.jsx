@@ -1,13 +1,19 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { TypeAnimation } from 'react-type-animation';
+import { motion } from 'framer-motion';
 import img from '../assets/img.jpg';
 import imgEvil from '../assets/img-evil.jpg';
 import SpotifyWidget from './SpotifyWidget';
 import { useTheme } from '../context/ThemeContext';
 
+let hasPlayedIntroGlobal = false;
+
 const Hero = () => {
   const { theme } = useTheme();
+  
+  // Capture the value once on mount so re-renders don't cancel the animation
+  const [shouldPlayIntro] = React.useState(!hasPlayedIntroGlobal);
 
   useEffect(() => {
     // Preload the evil image so it's instantly available on theme switch
@@ -16,10 +22,69 @@ const Hero = () => {
     link.as = 'image';
     link.href = imgEvil;
     document.head.appendChild(link);
+    
+    // Mark intro as played so it doesn't replay when navigating back
+    hasPlayedIntroGlobal = true;
   }, []);
+
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center pt-24 pb-12 px-6">
-      <div className="max-w-6xl mx-auto w-full flex flex-col md:flex-row items-center md:items-center justify-between gap-12 md:gap-16">
+    <section id="home" className="min-h-screen flex items-center justify-center pt-24 pb-12 px-6 relative overflow-hidden">
+      
+      {/* SVG Filter for Jagged/Torn Edge */}
+      <svg style={{ position: 'absolute', width: 0, height: 0 }} aria-hidden="true">
+        <filter id="jagged-edge" x="-20%" y="-20%" width="140%" height="140%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" result="noise" />
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="80" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+      </svg>
+
+      {/* Cinematic Intro Effects (Mask Reveal) - Only play once per session! */}
+      {shouldPlayIntro && (
+        <div className="fixed inset-0 z-[101] pointer-events-none overflow-hidden">
+          
+          {/* Absolute Blackout Overlay to hide pre-animation SVG glitches */}
+          <motion.div
+            initial={{ opacity: 1 }}
+            animate={{ opacity: 0 }}
+            transition={{ delay: 1.4, duration: 0 }}
+            className="absolute inset-0 bg-bg-dark z-[150]"
+          />
+
+          {/* The Expanding Mask Hole with Jagged Edge */}
+          <motion.div
+            initial={{ 
+              width: 0, 
+              height: 0, 
+              borderWidth: '0px',
+              borderRadius: '50%',
+              opacity: 1
+            }}
+            animate={{ 
+              width: '350vw', // Extra large to clear corners after displacement
+              height: '350vw', 
+              borderWidth: ['80px', '30px', '2px'], // Thicker border to show the jaggedness
+              borderRadius: '50%', // The SVG filter handles the organic distortion now
+            }}
+            transition={{ 
+              delay: 1.4, 
+              duration: 2.5, 
+              ease: "easeOut",
+            }}
+            style={{
+              boxShadow: '0 0 0 4000px var(--theme-bg-dark), inset 0 0 60px currentColor',
+              filter: 'url(#jagged-edge)'
+            }}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-highlight text-highlight z-40"
+          />
+        </div>
+      )}
+
+      <motion.div 
+        initial={!shouldPlayIntro ? { scale: 1, filter: 'brightness(1) blur(0px)' } : { scale: 1.1, filter: 'brightness(2) blur(10px)' }}
+        animate={{ scale: 1, filter: 'brightness(1) blur(0px)' }}
+        transition={!shouldPlayIntro ? { duration: 0 } : { duration: 2, ease: "easeOut", delay: 1.4 }}
+        className="max-w-6xl mx-auto w-full flex flex-col md:flex-row items-center md:items-center justify-between gap-12 md:gap-16 relative z-10"
+      >
         
         {/* Left Side: Image & Spotify */}
         <div className="w-full md:w-1/2 flex flex-col items-center justify-center">
@@ -78,13 +143,19 @@ const Hero = () => {
           </p>
           
           {/* Buttons */}
-          <div className="flex gap-4 mb-8">
-            <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="px-6 py-2.5 bg-highlight text-white font-medium rounded-md hover:bg-opacity-90 transition-colors">
+          <div className="flex flex-wrap justify-center md:justify-start gap-4 mb-8">
+            <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="px-6 py-2.5 bg-highlight text-white font-medium rounded-md hover:bg-opacity-90 transition-colors text-sm md:text-base">
               Download CV
             </a>
-            <Link to="/contact" className="px-6 py-2.5 bg-card-bg text-text-main font-medium rounded-md hover:bg-card-bg-light border border-border-dim transition-colors">
+            <Link to="/contact" className="px-6 py-2.5 bg-card-bg text-text-main font-medium rounded-md hover:bg-card-bg-light border border-border-dim transition-colors text-sm md:text-base">
               Contact
             </Link>
+            <button 
+              onClick={() => alert("Not built yet 🚧 (Coming Soon!)")} 
+              className="px-6 py-2.5 bg-card-bg/50 text-text-dim font-medium rounded-md hover:text-highlight border border-border-dim border-dashed transition-all hover:scale-105 flex items-center gap-2 text-sm md:text-base"
+            >
+              <i className="fas fa-lock text-xs"></i> Private Room
+            </button>
           </div>
           
           {/* Social Links */}
@@ -97,7 +168,7 @@ const Hero = () => {
           </div>
         </div>
         
-      </div>
+      </motion.div>
     </section>
   );
 };

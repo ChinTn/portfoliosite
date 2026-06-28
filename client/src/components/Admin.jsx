@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import rehypeHighlight from 'rehype-highlight';
+import rehypeRaw from 'rehype-raw';
 
 const Admin = () => {
   const navigate = useNavigate();
@@ -32,6 +36,8 @@ const Admin = () => {
   const [settingsLocation, setSettingsLocation] = useState('');
   const [settingsTemp, setSettingsTemp] = useState('');
   const [settingsSaved, setSettingsSaved] = useState(false);
+  const [isPreview, setIsPreview] = useState(false);
+  const [isFullScreenEditor, setIsFullScreenEditor] = useState(false);
 
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
@@ -151,6 +157,7 @@ const Admin = () => {
     setEditingItem(null);
     setTitle(''); setDescOrContent(''); setLink(''); setImageUrl('');
     setCategory(''); setStatus('completed'); setGithubLink(''); setDeployedLink('');
+    setIsPreview(false);
     setView('create');
   };
 
@@ -220,9 +227,9 @@ const Admin = () => {
         <div className="flex justify-between items-center border-b border-border-main pb-6 mb-10">
           <div className="flex items-center gap-6">
             <h1 className="text-3xl font-bold text-highlight tracking-widest uppercase">Dashboard</h1>
-            <a href="/" target="_blank" rel="noreferrer" className="text-text-dim hover:text-text-main transition-colors text-sm font-medium flex items-center gap-2">
-              <i className="fas fa-external-link-alt"></i> Preview Site
-            </a>
+            <button onClick={() => navigate('/')} className="text-text-dim hover:text-text-main transition-colors text-sm font-medium flex items-center gap-2 cursor-pointer">
+              <i className="fas fa-arrow-left"></i> Back to Site
+            </button>
           </div>
           
           <div className="flex items-center gap-6">
@@ -424,14 +431,27 @@ const Admin = () => {
                       </div>
                     )}
 
+                    {activeTab === 'blogs' ? (
+                      <div className="border border-border-dim bg-bg-nav">
+                        <button 
+                          type="button"
+                          onClick={() => setIsFullScreenEditor(true)}
+                          className="w-full bg-bg-nav hover:bg-bg-dark px-4 py-12 text-text-dim hover:text-highlight transition-all flex flex-col items-center justify-center gap-4 group"
+                        >
+                          <i className="fas fa-expand-arrows-alt text-4xl group-hover:scale-110 transition-transform"></i>
+                          <span className="font-bold uppercase tracking-widest text-sm">Click to Edit Content in Fullscreen</span>
+                        </button>
+                      </div>
+                    ) : (
                       <textarea 
-                        placeholder={activeTab === 'projects' ? 'Description' : 'Content (Markdown Supported)'} 
+                        placeholder="Description" 
                         value={descOrContent} 
                         onChange={e => setDescOrContent(e.target.value)} 
                         required 
                         rows="6"
                         className="w-full bg-bg-nav border border-border-dim px-4 py-4 text-text-main placeholder-text-dim/50 focus:outline-none focus:border-highlight focus:ring-1 focus:ring-highlight transition-all resize-none"
                       />
+                    )}
                     
                     <input 
                       type="text" 
@@ -510,6 +530,105 @@ const Admin = () => {
                 </button>
               </div>
             </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Fullscreen Editor Modal */}
+      <AnimatePresence>
+        {isFullScreenEditor && (
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            className="fixed inset-0 bg-bg-dark z-[99999] flex flex-col"
+          >
+            {/* Header */}
+            <div className="flex justify-between items-center bg-bg-nav border-b border-border-dim px-6 py-4">
+              <div className="flex gap-4 items-center">
+                <i className="fas fa-file-signature text-highlight text-xl"></i>
+                <h3 className="text-lg font-bold text-text-main uppercase tracking-widest">Doc Editor</h3>
+              </div>
+              <button 
+                onClick={() => setIsFullScreenEditor(false)}
+                className="bg-highlight hover:bg-highlight/90 text-text-main font-bold py-2 px-6 shadow-glow transition-all uppercase tracking-wider text-sm"
+              >
+                Save & Close
+              </button>
+            </div>
+            
+            {/* Split Screen / Tabs UI */}
+            <div className="flex-1 flex flex-col overflow-hidden">
+              <div className="flex border-b border-border-dim bg-bg-nav">
+                <button 
+                  type="button" 
+                  onClick={() => setIsPreview(false)}
+                  className={`px-8 py-4 text-sm font-bold tracking-wider uppercase ${!isPreview ? 'text-highlight border-b-2 border-highlight bg-bg-dark' : 'text-text-dim hover:text-text-main'}`}
+                >
+                  Write
+                </button>
+                <button 
+                  type="button" 
+                  onClick={() => setIsPreview(true)}
+                  className={`px-8 py-4 text-sm font-bold tracking-wider uppercase ${isPreview ? 'text-highlight border-b-2 border-highlight bg-bg-dark' : 'text-text-dim hover:text-text-main'}`}
+                >
+                  Preview
+                </button>
+              </div>
+              
+              <div className="flex-1 overflow-hidden relative">
+                {!isPreview ? (
+                  <textarea 
+                    placeholder="Content (Markdown Supported)" 
+                    value={descOrContent} 
+                    onChange={e => setDescOrContent(e.target.value)} 
+                    data-lenis-prevent
+                    className="absolute inset-0 w-full h-full bg-transparent p-8 md:p-12 text-text-main placeholder-text-dim/50 focus:outline-none font-mono text-base resize-none"
+                  />
+                ) : (
+                  <div data-lenis-prevent className="absolute inset-0 w-full h-full p-8 md:p-12 md:px-24 markdown-content overflow-y-auto bg-bg-dark">
+                    <ReactMarkdown
+                      remarkPlugins={[remarkGfm]}
+                      rehypePlugins={[rehypeHighlight, rehypeRaw]}
+                      components={{
+                        h1: ({node, ...props}) => <h1 className="text-3xl font-bold mt-8 mb-4 text-text-main" {...props} />,
+                        h2: ({node, ...props}) => <h2 className="text-2xl font-bold mt-8 mb-4 text-text-main border-b border-border-dim pb-2" {...props} />,
+                        h3: ({node, ...props}) => <h3 className="text-xl font-semibold mt-6 mb-3 text-text-main" {...props} />,
+                        p: ({node, ...props}) => <p className="text-text-main/80 leading-relaxed mb-6 text-lg" {...props} />,
+                        ul: ({node, ...props}) => <ul className="list-disc pl-6 mb-6 text-text-main/80 space-y-2 text-lg" {...props} />,
+                        ol: ({node, ...props}) => <ol className="list-decimal pl-6 mb-6 text-text-main/80 space-y-2 text-lg" {...props} />,
+                        a: ({node, ...props}) => <a className="text-highlight hover:underline font-medium" {...props} />,
+                        code: ({node, className, children, ...props}) => {
+                          const match = /language-(\w+)/.exec(className || '');
+                          const isBlock = match || (className && className.includes('hljs')) || String(children).includes('\n');
+                          return isBlock ? (
+                            <div className="relative rounded-lg overflow-hidden my-6 border border-border-dim bg-[#282c34]">
+                              {match && match[1] && (
+                                <div className="absolute top-0 right-0 px-3 py-1 text-xs text-text-dim uppercase tracking-wider bg-black/40 rounded-bl-md">
+                                  {match[1]}
+                                </div>
+                              )}
+                              <div className="overflow-x-auto p-4">
+                                <code className={className} {...props}>
+                                  {children}
+                                </code>
+                              </div>
+                            </div>
+                          ) : (
+                            <code className="bg-highlight/20 text-highlight rounded px-1.5 py-0.5 text-sm font-mono" {...props}>
+                              {children}
+                            </code>
+                          )
+                        },
+                        blockquote: ({node, ...props}) => <blockquote className="border-l-4 border-highlight pl-4 italic text-text-main/70 my-6 bg-highlight/5 py-2 rounded-r" {...props} />
+                      }}
+                    >
+                      {descOrContent || '*Nothing to preview*'}
+                    </ReactMarkdown>
+                  </div>
+                )}
+              </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from './Navbar';
+import ReactMarkdown from 'react-markdown';
 
 const ProjectDetail = () => {
   const { id } = useParams();
@@ -47,9 +48,34 @@ const ProjectDetail = () => {
           <h1 className="text-4xl md:text-5xl font-extrabold text-text-main mb-10 tracking-tight">{project.title}</h1>
           
           <div className="bg-card-bg-light border border-border-dim p-8 md:p-12">
-            <p className="text-text-dim text-lg leading-relaxed whitespace-pre-wrap">
-              {project.description}
-            </p>
+            <div className="text-text-dim text-lg leading-relaxed prose prose-invert max-w-none">
+              <ReactMarkdown components={{
+                code: ({node, className, children, ...props}) => {
+                  const match = /language-(\w+)/.exec(className || '');
+                  const isBlock = match || (className && className.includes('hljs')) || String(children).includes('\n');
+                  return isBlock ? (
+                    <div className="relative rounded-lg overflow-hidden my-6 border border-border-dim bg-[#282c34]">
+                      {match && match[1] && (
+                        <div className="absolute top-0 right-0 px-3 py-1 text-xs text-text-dim uppercase tracking-wider bg-black/40 rounded-bl-md">
+                          {match[1]}
+                        </div>
+                      )}
+                      <div className="overflow-x-auto p-4">
+                        <code className={className} {...props}>
+                          {children}
+                        </code>
+                      </div>
+                    </div>
+                  ) : (
+                    <code className="bg-highlight/20 text-highlight rounded px-1.5 py-0.5 text-sm font-mono" {...props}>
+                      {children}
+                    </code>
+                  )
+                }
+              }}>
+                {project.description}
+              </ReactMarkdown>
+            </div>
             
             <div className="flex flex-wrap gap-4 mt-10">
               {project.githubLink && (

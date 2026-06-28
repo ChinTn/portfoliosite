@@ -79,7 +79,7 @@ body {
 }
 
 @media (pointer: fine) {
-  body, a, button, input, textarea, .cursor-pointer {
+  body, a, button, .cursor-pointer {
     cursor: none !important;
   }
 }
@@ -136,6 +136,15 @@ a {
   transition: all 0.2s ease;
 }
 
+/* Custom utility for hiding scrollbar on inner lists */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 /* Custom Scrollbar for sleekness */
 ::-webkit-scrollbar {
   width: 8px;
@@ -149,4 +158,34 @@ a {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-highlight);
+}
+
+/* Markdown Specific Styles */
+.markdown-content img {
+  border-radius: 0.5rem;
+  margin: 2rem 0;
+  box-shadow: var(--shadow-glow);
+  max-width: 100%;
+  height: auto;
+}
+
+.markdown-content pre {
+  max-width: 100%;
+  overflow-x: auto;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+}
+
+.markdown-content a {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.markdown-content h1, 
+.markdown-content h2, 
+.markdown-content h3, 
+.markdown-content h4 {
+  scroll-margin-top: 100px;
 }
