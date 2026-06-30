@@ -60,6 +60,7 @@ const About = () => {
                 loop 
                 muted 
                 playsInline
+                defaultMuted
                 onClick={cycleTheme}
                 className="relative z-10 w-full max-w-[350px] aspect-[4/5] object-cover border border-border-main grayscale group-hover:grayscale-0 transition-all duration-500 cursor-pointer"
               />

@@ -38,19 +38,19 @@ const Hero = () => {
           <div className="relative w-full h-full bg-bg-dark">
             <video 
               src={crimsonVideo} 
-              autoPlay loop muted playsInline 
+              autoPlay loop muted playsInline defaultMuted
               className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${theme === 'dark' ? 'opacity-90' : 'opacity-0 pointer-events-none'}`}
               style={{ objectPosition: 'center 30%' }}
             />
             <video 
               src={valleyVideo} 
-              autoPlay loop muted playsInline 
+              autoPlay loop muted playsInline defaultMuted
               className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${theme === 'light' ? 'opacity-90' : 'opacity-0 pointer-events-none'}`}
               style={{ objectPosition: 'center 30%' }}
             />
             <video 
               src={starsVideo} 
-              autoPlay loop muted playsInline 
+              autoPlay loop muted playsInline defaultMuted
               className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${theme === 'evil' ? 'opacity-90' : 'opacity-0 pointer-events-none'}`}
               style={{ objectPosition: 'center 30%' }}
             />
