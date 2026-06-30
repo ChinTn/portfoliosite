@@ -24,7 +24,7 @@ const Hero = () => {
   }, []);
 
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center pt-10 pb-12 px-6 relative overflow-hidden">
+    <section id="home" className="min-h-screen flex items-center justify-center pt-28 md:pt-16 pb-12 px-6 relative overflow-hidden">
       <div className="max-w-6xl mx-auto w-full relative z-10">
         
         {/* Cinematic Video Banner */}
@@ -128,12 +128,12 @@ const Hero = () => {
             </div>
             
             <div className="text-text-dim text-base leading-relaxed mb-2 max-w-lg">
-              <div className="flex flex-wrap items-center gap-4 mb-6">
-                <div>
+              <div className="flex flex-col md:flex-row items-center md:items-center gap-6 md:gap-4 mb-6">
+                <div className="text-center md:text-left">
                   <span className="text-text-main font-medium">dev_lox /ˈtʃɪn.t̪ən/.</span><br />
                   19M • IIT Jodhpur.
                 </div>
-                <div className="ml-auto md:ml-8 mt-2 md:mt-0">
+                <div className="md:ml-8 w-full md:w-auto flex justify-center md:justify-start">
                   <SpotifyWidget />
                 </div>
               </div>
