@@ -24,7 +24,7 @@ const Hero = () => {
   }, []);
 
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center pt-28 md:pt-16 pb-12 px-6 relative overflow-hidden">
+    <section id="home" className="min-h-screen flex items-center justify-center pt-20 md:pt-16 pb-12 px-6 relative overflow-hidden">
       <div className="max-w-6xl mx-auto w-full relative z-10">
         
         {/* Cinematic Video Banner */}
