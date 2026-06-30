@@ -20,34 +20,34 @@ const BlogCard = ({ blog, navigate, i }) => {
   return (
     <div 
       onClick={() => navigate(`/blog/${blog._id}`)}
-      className="bg-card-bg-light border border-border-dim/50 overflow-hidden cursor-pointer group shadow-xl transition-all duration-300 flex flex-col md:flex-row h-auto md:h-[240px]"
+      className="bg-transparent border-2 border-border-dim rounded-lg overflow-hidden cursor-pointer group transition-colors duration-300 flex flex-col md:flex-row h-auto md:h-[240px] hover:border-border-main"
     >
       {blog.imageUrl && (
-        <div className="overflow-hidden relative h-48 md:h-auto md:w-2/5 shrink-0">
+        <div className="overflow-hidden relative h-48 md:h-auto md:w-2/5 shrink-0 border-b md:border-b-0 md:border-r border-border-dim/20">
           <img 
             src={blog.imageUrl} 
             alt={blog.title} 
-            className="w-full h-full object-cover transition-opacity duration-500" 
+            className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300" 
           />
-          <div className="absolute inset-0 bg-highlight/5 group-hover:bg-transparent transition-colors duration-700 pointer-events-none"></div>
         </div>
       )}
       
-      <div className="p-6 md:p-8 flex flex-col flex-grow relative z-10 md:w-3/5">
-        <h3 className="text-2xl md:text-3xl font-extrabold text-text-main mb-3 group-hover:text-highlight transition-colors tracking-tight">
+      <div className="p-4 md:px-6 md:py-5 flex flex-col flex-grow relative z-10 md:w-3/5">
+        <h3 className="text-xl font-bold text-text-main mb-2 group-hover:text-highlight transition-colors">
           {blog.title}
         </h3>
         
         <div className="flex-grow mb-6">
-          <p className="text-text-dim text-base leading-relaxed line-clamp-3 font-medium group-hover:text-text-main transition-colors duration-300">
+          <p className="text-text-dim text-sm leading-relaxed line-clamp-3">
             {stripMarkdown(blog.content)}
           </p>
         </div>
         
-        <div className="mt-auto pt-4 border-t border-border-dim/50">
-          <span className="text-highlight font-bold uppercase tracking-widest text-sm flex items-center gap-2 group-hover:text-white transition-colors duration-300">
-            Dive <i className="fas fa-arrow-right text-[10px]"></i>
-          </span>
+        <div className="mt-auto pt-4 border-t border-border-dim/20 flex items-center justify-between">
+          <div className="flex flex-wrap gap-2 text-[11px] text-text-dim w-full font-medium">
+            <span className="border border-border-dim/40 rounded px-2 py-1 bg-card-bg-light/20">Article</span>
+            <span className="border border-border-dim/40 rounded px-2 py-1 bg-card-bg-light/20">Read <i className="fas fa-arrow-right ml-1 text-[9px]"></i></span>
+          </div>
         </div>
       </div>
     </div>
@@ -90,11 +90,11 @@ const Blogs = () => {
   };
 
   return (
-    <section id="blog" className="bg-bg-dark relative z-10 border-t border-border-main py-24 px-6">
+    <section id="blog" className="relative z-10 border-t border-border-main py-24 px-6">
       <div className="max-w-6xl mx-auto w-full">
-        <div className="text-center md:text-left mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-text-main uppercase tracking-widest border-l-4 border-highlight pl-6 inline-block">
-            Blogs
+        <div className="flex justify-between items-end mb-12 border-b border-border-dim/50 pb-4 text-left">
+          <h2 className="text-base md:text-lg font-bold text-text-main uppercase tracking-[0.2em] flex items-center gap-3">
+            <i className="fas fa-layer-group text-highlight drop-shadow-[0_0_8px_var(--theme-highlight)] animate-[pulse_3s_ease-in-out_infinite]"></i> BLOGS ({blogs.length})
           </h2>
         </div>
 

@@ -26,7 +26,11 @@ const Projects = () => {
   return (
     <section id="portfolio" className="py-24 px-6 min-h-screen border-t border-border-dim">
       <div className="max-w-5xl mx-auto w-full">
-        <h2 className="text-3xl font-bold text-text-main mb-12 uppercase tracking-widest border-l-4 border-highlight pl-4">Currently Working</h2>
+        <div className="flex justify-between items-end mb-12 border-b border-border-dim/50 pb-4">
+          <h2 className="text-base md:text-lg font-bold text-text-main uppercase tracking-[0.3em] flex items-center gap-3">
+            <i className="fas fa-terminal text-highlight drop-shadow-[0_0_8px_var(--theme-highlight)] animate-[pulse_3s_ease-in-out_infinite]"></i> CURRENT PROJECTS ({currentProjects.length})
+          </h2>
+        </div>
         
         {currentProjects.length === 0 ? (
           <div className="flex justify-center items-center h-48 border border-dashed border-border-main rounded-lg mb-16">
@@ -37,17 +41,15 @@ const Projects = () => {
             {currentProjects.map((proj) => (
               <div 
                 key={proj._id} 
-                className="group cursor-pointer flex flex-col h-full border border-border-dim bg-card-bg-light shadow-lg transition-all duration-500 relative overflow-hidden group-hover/list:opacity-60 hover:!opacity-100 hover:-translate-y-2 hover:border-highlight/50"
+                className="group flex flex-col h-full border-2 border-border-dim bg-transparent rounded-lg transition-colors duration-300 relative overflow-hidden hover:border-border-main"
               >
-                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-highlight to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20"></div>
-                
                 <div onClick={() => navigate(`/project/${proj._id}`)} className="cursor-pointer flex-grow flex flex-col">
                   {proj.imageUrl && (
-                    <div className="w-full h-64 overflow-hidden relative border-b border-border-dim/40">
+                    <div className="w-full h-48 md:h-56 overflow-hidden relative border-b border-border-dim/20">
                       <img 
                         src={proj.imageUrl} 
                         alt={proj.title} 
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" 
+                        className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300" 
                       />
                       {proj.category && (
                         <div className="absolute top-4 left-4 bg-bg-dark/80 backdrop-blur-md px-3 py-1 text-xs font-bold uppercase tracking-widest border border-border-main/30 text-text-main">
@@ -57,34 +59,41 @@ const Projects = () => {
                     </div>
                   )}
 
-                  <div className="p-6 md:p-8 flex flex-col flex-grow text-left">
-                    <h3 className="text-2xl font-extrabold text-text-main mb-4 group-hover:text-highlight transition-colors tracking-tight">{proj.title}</h3>
+                  <div className="p-6 flex flex-col flex-grow text-left">
+                    <div className="flex justify-between items-start mb-3">
+                      <h3 className="text-xl font-bold text-text-main group-hover:text-highlight transition-colors">
+                        {proj.title}
+                      </h3>
+                      <div className="flex gap-3 text-text-dim text-sm pt-1">
+                        {proj.githubLink && (
+                          <a href={proj.githubLink} target="_blank" rel="noreferrer" className="hover:text-text-main transition-colors" title="View Source on GitHub">
+                            <i className="fab fa-github"></i>
+                          </a>
+                        )}
+                        {proj.deployedLink && (
+                          <a href={proj.deployedLink} target="_blank" rel="noreferrer" className="hover:text-text-main transition-colors" title="View Live Deployment">
+                            <i className="fas fa-external-link-alt"></i>
+                          </a>
+                        )}
+                        {!proj.githubLink && !proj.deployedLink && proj.link && (
+                          <a href={proj.link} target="_blank" rel="noreferrer" className="hover:text-text-main transition-colors" title="View Link">
+                            <i className="fas fa-external-link-alt"></i>
+                          </a>
+                        )}
+                      </div>
+                    </div>
                     
-                    <p className="text-text-dim/90 leading-relaxed mb-6 line-clamp-3 font-medium">
+                    <p className="text-text-dim text-sm leading-relaxed mb-6 line-clamp-3">
                       {proj.description}
                     </p>
                   </div>
                 </div>
                 
-                <div className="px-6 md:px-8 pb-6 md:pb-8 flex items-center gap-6 mt-auto pt-2">
-                  <Link to={`/project/${proj._id}`} className="text-text-main font-bold uppercase tracking-widest text-xs hover:text-highlight transition-colors flex items-center gap-2 mr-auto group-hover:translate-x-2 duration-300">
-                    Explore <i className="fas fa-arrow-right text-[10px]"></i>
-                  </Link>
-                  {proj.githubLink && (
-                    <a href={proj.githubLink} target="_blank" rel="noreferrer" className="text-text-dim hover:text-text-main transition-colors text-xl group/icon" title="View Source on GitHub">
-                      <i className="fab fa-github transition-transform duration-300 group-hover/icon:scale-125 group-hover/icon:rotate-6"></i>
-                    </a>
-                  )}
-                  {proj.deployedLink && (
-                    <a href={proj.deployedLink} target="_blank" rel="noreferrer" className="text-text-dim hover:text-text-main transition-colors text-xl group/icon" title="View Live Deployment">
-                      <i className="fas fa-external-link-alt transition-transform duration-300 group-hover/icon:scale-125 group-hover/icon:-rotate-6"></i>
-                    </a>
-                  )}
-                  {!proj.githubLink && !proj.deployedLink && proj.link && (
-                    <a href={proj.link} target="_blank" rel="noreferrer" className="text-text-dim hover:text-text-main transition-colors text-xl group/icon" title="View Link">
-                      <i className={`${proj.link.includes('github') ? "fab fa-github group-hover/icon:rotate-6" : "fas fa-external-link-alt group-hover/icon:-rotate-6"} transition-transform duration-300 group-hover/icon:scale-125`}></i>
-                    </a>
-                  )}
+                <div className="px-6 pb-6 flex items-center justify-between mt-auto">
+                  <div className="flex flex-wrap gap-2 text-[11px] text-text-dim w-full font-medium">
+                    <span className="border border-border-dim/40 rounded px-2 py-1 bg-card-bg-light/20">{proj.category || 'Project'}</span>
+                    <span className="border border-border-dim/40 rounded px-2 py-1 bg-card-bg-light/20">{proj.status === 'current' ? 'Active' : 'Completed'}</span>
+                  </div>
                 </div>
               </div>
             ))}
@@ -95,7 +104,7 @@ const Projects = () => {
           {/* Already Done Card */}
           <div 
             onClick={() => navigate('/projects/completed')}
-            className="group cursor-pointer bg-card-bg-light border border-border-dim p-10 hover:border-highlight transition-all duration-300 flex flex-col items-center justify-center text-center hover:-translate-y-2 hover:shadow-glow"
+            className="group cursor-pointer bg-transparent border-2 border-border-dim p-10 hover:border-border-main transition-colors duration-300 flex flex-col items-center justify-center text-center rounded-lg"
           >
             <div className="w-16 h-16 rounded-full bg-bg-dark border border-border-main flex items-center justify-center text-2xl text-text-dim mb-6 group-hover:text-highlight group-hover:border-highlight transition-all">
               <i className="fas fa-check-double"></i>
@@ -107,7 +116,7 @@ const Projects = () => {
           {/* Future Plans Card */}
           <div 
             onClick={() => navigate('/projects/future')}
-            className="group cursor-pointer bg-card-bg-light border border-border-dim p-10 hover:border-highlight transition-all duration-300 flex flex-col items-center justify-center text-center hover:-translate-y-2 hover:shadow-glow"
+            className="group cursor-pointer bg-transparent border-2 border-border-dim p-10 hover:border-border-main transition-colors duration-300 flex flex-col items-center justify-center text-center rounded-lg"
           >
             <div className="w-16 h-16 rounded-full bg-bg-dark border border-border-main flex items-center justify-center text-2xl text-text-dim mb-6 group-hover:text-highlight group-hover:border-highlight transition-all">
               <i className="fas fa-rocket"></i>

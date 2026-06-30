@@ -338,13 +338,13 @@ const Admin = () => {
                       <div 
                         key={item._id} 
                         onClick={() => navigate(activeTab === 'projects' ? `/project/${item._id}` : `/blog/${item._id}`, { state: { from: '/admin' } })}
-                        className="bg-card-bg-light border border-border-dim p-6 hover:border-highlight/30 transition-colors cursor-pointer"
+                        className="bg-transparent border-2 border-border-dim p-6 hover:border-border-main transition-colors cursor-pointer rounded-lg group"
                       >
                         <div className="flex justify-between items-start mb-4">
                           <div>
-                            <h3 className="text-xl font-bold text-highlight mb-2">{item.title}</h3>
+                            <h3 className="text-xl font-bold text-text-main mb-2 group-hover:text-highlight transition-colors">{item.title}</h3>
                             {activeTab === 'projects' && item.status && (
-                              <span className="inline-block px-2 py-1 text-xs font-semibold uppercase tracking-wider bg-card-bg-light text-text-dim mb-2 border border-border-main">
+                              <span className="inline-block px-2 py-1 text-[11px] font-medium rounded bg-card-bg-light/20 text-text-dim mb-2 border border-border-dim/40">
                                 {item.status}
                               </span>
                             )}

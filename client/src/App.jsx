@@ -23,6 +23,7 @@ const BlogDetail = React.lazy(() => import('./components/BlogDetail'));
 const Home = () => {
   const navType = useNavigationType();
   const lenis = useLenis();
+  const [mountRest, setMountRest] = React.useState(false);
 
   React.useLayoutEffect(() => {
     if (navType === 'POP' && lenis) {
@@ -47,14 +48,24 @@ const Home = () => {
     };
   }, [navType, lenis]);
 
+  useEffect(() => {
+    // Defer rendering heavy below-the-fold components to allow Hero to paint instantly
+    const timer = setTimeout(() => setMountRest(true), 50);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <>
       <Hero />
-      <About />
-      <Projects />
-      <Blogs />
-      <GithubActivity />
-      <GithubRepos />
+      {mountRest && (
+        <>
+          <About />
+          <Projects />
+          <Blogs />
+          <GithubActivity />
+          <GithubRepos />
+        </>
+      )}
     </>
   );
 };
@@ -97,7 +108,7 @@ const AnimatedRoutes = () => {
     <>
       <ScrollToTop />
       <CustomCursor />
-      <CanvasCursorEffect />
+      
       <Toaster 
         position="bottom-center"
         toastOptions={{
@@ -110,7 +121,7 @@ const AnimatedRoutes = () => {
       />
       {!isAdminRoute && <Navbar />}
       
-      <AnimatePresence mode="wait">
+      <AnimatePresence mode="wait" initial={false}>
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={<PageTransition><Home /></PageTransition>} />
           <Route path="/about" element={<PageTransition><About /></PageTransition>} />

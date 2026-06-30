@@ -44,8 +44,8 @@ const Navbar = () => {
   return (
     <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 pointer-events-none ${
       scrolled 
-        ? 'bg-gradient-to-b from-bg-nav via-bg-nav/80 to-transparent pb-16 pt-4' 
-        : 'bg-transparent pt-4'
+        ? 'bg-gradient-to-b from-bg-nav via-bg-nav/80 to-transparent pb-8 pt-3' 
+        : 'bg-transparent pt-3'
     }`}>
       <div className="max-w-6xl mx-auto px-6 flex justify-between items-center relative pointer-events-auto">
         

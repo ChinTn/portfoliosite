@@ -80,52 +80,54 @@ const ProjectCategoryView = () => {
                 {currentProjects.map((proj) => (
                   <div 
                     key={proj._id} 
-                    className="bg-card-bg-light border border-border-dim p-8 hover:border-highlight/50 transition-colors flex flex-col group h-full"
+                    className="group flex flex-col h-full border-2 border-border-dim bg-transparent rounded-lg transition-colors duration-300 relative overflow-hidden hover:border-border-main"
                   >
-                    <div onClick={() => navigate(`/project/${proj._id}`)} className="cursor-pointer flex-grow">
-                      <h3 className="text-2xl font-bold text-highlight mb-3 group-hover:text-text-main transition-colors">{proj.title}</h3>
-                      
-                      {proj.category && (
-                         <span className="inline-block px-3 py-1 mb-4 text-xs font-semibold uppercase tracking-wider rounded bg-card-bg-light text-text-dim">
-                           {proj.category}
-                         </span>
-                      )}
-
+                    <div onClick={() => navigate(`/project/${proj._id}`)} className="cursor-pointer flex-grow flex flex-col">
                       {proj.imageUrl && (
-                        <img 
-                          src={proj.imageUrl} 
-                          alt={proj.title} 
-                          className="w-full h-48 object-cover mb-6 border-2 border-border-main group-hover:border-highlight group-hover:opacity-90 transition-all duration-300" 
-                        />
+                        <div className="w-full h-48 md:h-56 overflow-hidden relative border-b border-border-dim/20">
+                          <img 
+                            src={proj.imageUrl} 
+                            alt={proj.title} 
+                            className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300" 
+                          />
+                        </div>
                       )}
 
-                      <p className="text-text-dim leading-relaxed mb-6 line-clamp-3">
-                        {proj.description}
-                      </p>
+                      <div className="p-6 flex flex-col flex-grow text-left">
+                        <div className="flex justify-between items-start mb-3">
+                          <h3 className="text-xl font-bold text-text-main group-hover:text-highlight transition-colors">
+                            {proj.title}
+                          </h3>
+                          <div className="flex gap-3 text-text-dim text-sm pt-1">
+                            {proj.githubLink && (
+                              <a href={proj.githubLink} target="_blank" rel="noreferrer" className="hover:text-text-main transition-colors" title="View Source on GitHub" onClick={(e) => e.stopPropagation()}>
+                                <i className="fab fa-github"></i>
+                              </a>
+                            )}
+                            {proj.deployedLink && (
+                              <a href={proj.deployedLink} target="_blank" rel="noreferrer" className="hover:text-text-main transition-colors" title="View Live Deployment" onClick={(e) => e.stopPropagation()}>
+                                <i className="fas fa-external-link-alt"></i>
+                              </a>
+                            )}
+                            {!proj.githubLink && !proj.deployedLink && proj.link && (
+                              <a href={proj.link} target="_blank" rel="noreferrer" className="hover:text-text-main transition-colors" title="View Link" onClick={(e) => e.stopPropagation()}>
+                                <i className="fas fa-external-link-alt"></i>
+                              </a>
+                            )}
+                          </div>
+                        </div>
+                        
+                        <p className="text-text-dim text-sm leading-relaxed mb-6 line-clamp-3">
+                          {proj.description}
+                        </p>
+                      </div>
                     </div>
                     
-                    <div className="flex items-center gap-6 mt-auto pt-6 border-t border-border-dim/50">
-                      <Link to={`/project/${proj._id}`} className="text-text-main font-medium hover:text-highlight transition-colors flex items-center gap-2 text-sm mr-auto">
-                        Read More <i className="fas fa-arrow-right text-xs"></i>
-                      </Link>
-                      
-                      {proj.githubLink && (
-                        <a href={proj.githubLink} target="_blank" rel="noreferrer" className="text-text-dim hover:text-highlight transition-colors text-xl group/icon" title="View Source on GitHub">
-                          <i className="fab fa-github transition-transform duration-300 group-hover/icon:scale-125 group-hover/icon:rotate-6"></i>
-                        </a>
-                      )}
-                      
-                      {proj.deployedLink && (
-                        <a href={proj.deployedLink} target="_blank" rel="noreferrer" className="text-text-dim hover:text-highlight transition-colors text-xl group/icon" title="View Live Deployment">
-                          <i className="fas fa-external-link-alt transition-transform duration-300 group-hover/icon:scale-125 group-hover/icon:-rotate-6"></i>
-                        </a>
-                      )}
-                      
-                      {!proj.githubLink && !proj.deployedLink && proj.link && (
-                        <a href={proj.link} target="_blank" rel="noreferrer" className="text-text-dim hover:text-highlight transition-colors text-xl group/icon" title="View Link">
-                          <i className={`${proj.link.includes('github') ? "fab fa-github group-hover/icon:rotate-6" : "fas fa-external-link-alt group-hover/icon:-rotate-6"} transition-transform duration-300 group-hover/icon:scale-125`}></i>
-                        </a>
-                      )}
+                    <div className="px-6 pb-6 flex items-center justify-between mt-auto">
+                      <div className="flex flex-wrap gap-2 text-[11px] text-text-dim w-full font-medium">
+                        <span className="border border-border-dim/40 rounded px-2 py-1 bg-card-bg-light/20">{proj.category || 'Project'}</span>
+                        <span className="border border-border-dim/40 rounded px-2 py-1 bg-card-bg-light/20">{status === 'current' ? 'Active' : status === 'future' ? 'Planned' : 'Completed'}</span>
+                      </div>
                     </div>
                   </div>
                 ))}

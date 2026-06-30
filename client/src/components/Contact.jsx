@@ -86,9 +86,9 @@ const Contact = () => {
 
         {/* Right Side: Contact Form */}
         <div className="w-full md:w-7/12 md:-mt-8">
-          <div className="bg-card-bg-light border border-border-dim p-8 md:p-10 w-full relative">
+          <div className="w-full relative">
             <h3 className="text-2xl font-bold text-text-main mb-8 tracking-wide">Send a Message</h3>
-            <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
+            <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
               <div className="flex flex-col md:flex-row gap-5">
                 <div className="w-full">
                   <input 
@@ -98,7 +98,7 @@ const Contact = () => {
                     value={formData.name}
                     onChange={handleChange}
                     required 
-                    className="w-full bg-bg-nav border border-border-dim px-4 py-3.5 text-text-main placeholder-text-dim/50 focus:outline-none focus:border-highlight focus:ring-1 focus:ring-highlight transition-all"
+                    className="w-full bg-transparent border-b-2 border-border-dim px-2 py-3 text-text-main placeholder-text-dim/50 focus:outline-none focus:border-highlight transition-all"
                   />
                 </div>
                 <div className="w-full">
@@ -109,7 +109,7 @@ const Contact = () => {
                     value={formData.email}
                     onChange={handleChange}
                     required 
-                    className="w-full bg-bg-nav border border-border-dim px-4 py-3.5 text-text-main placeholder-text-dim/50 focus:outline-none focus:border-highlight focus:ring-1 focus:ring-highlight transition-all"
+                    className="w-full bg-transparent border-b-2 border-border-dim px-2 py-3 text-text-main placeholder-text-dim/50 focus:outline-none focus:border-highlight transition-all"
                   />
                 </div>
               </div>
@@ -121,7 +121,7 @@ const Contact = () => {
                 value={formData.subject}
                 onChange={handleChange}
                 required
-                className="w-full bg-bg-nav border border-border-dim px-4 py-3.5 text-text-main placeholder-text-dim/50 focus:outline-none focus:border-highlight focus:ring-1 focus:ring-highlight transition-all"
+                className="w-full bg-transparent border-b-2 border-border-dim px-2 py-3 text-text-main placeholder-text-dim/50 focus:outline-none focus:border-highlight transition-all"
               />
               
               <textarea 
@@ -131,7 +131,7 @@ const Contact = () => {
                 value={formData.message}
                 onChange={handleChange}
                 required
-                className="w-full bg-bg-nav border border-border-dim px-4 py-3.5 text-text-main placeholder-text-dim/50 focus:outline-none focus:border-highlight focus:ring-1 focus:ring-highlight transition-all resize-none"
+                className="w-full bg-transparent border-b-2 border-border-dim px-2 py-3 text-text-main placeholder-text-dim/50 focus:outline-none focus:border-highlight transition-all resize-none"
               ></textarea>
               
               <button 

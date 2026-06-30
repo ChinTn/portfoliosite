@@ -1,12 +1,24 @@
 import React from 'react';
 import { GitHubCalendar } from 'react-github-calendar';
 
+import { useTheme } from '../context/ThemeContext';
+
 const GithubActivity = () => {
-  // Theme colors perfectly mapped to our site's dark hacker aesthetic
+  const { theme } = useTheme();
+
+  // Theme colors perfectly mapped to our site's aesthetic
   // Index 0 is 'no contributions', Index 4 is 'max contributions'
+  const darkBlue = ['#3c3c3c', '#3d4070', '#4355a6', '#506fe8', '#6590ff'];
+  const evilRed = ['#2a0000', '#5c0000', '#990000', '#cc0000', '#ff0000'];
+  const lightBlue = ['#e4e4e7', '#93c5fd', '#60a5fa', '#3b82f6', '#1d4ed8']; // White/Light grey empty cells, blue blocks
+
+  let activeColors = darkBlue;
+  if (theme === 'evil') activeColors = evilRed;
+  if (theme === 'light') activeColors = lightBlue;
+
   const explicitTheme = {
-    light: ['#3c3c3c', '#3d4070', '#4355a6', '#506fe8', '#6590ff'],
-    dark: ['#3c3c3c', '#3d4070', '#4355a6', '#506fe8', '#6590ff'],
+    light: activeColors,
+    dark: activeColors,
   };
 
   return (
