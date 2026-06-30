@@ -76,6 +76,7 @@ body {
   background-color: var(--theme-bg-dark);
   color: var(--theme-text-main);
   transition: background-color 0.5s ease, color 0.5s ease;
+}
 
 @media (pointer: fine) {
   body, a, button, .cursor-pointer {
