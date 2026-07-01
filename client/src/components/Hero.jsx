@@ -116,11 +116,11 @@ const Hero = () => {
           </div>
 
           {/* Text Content */}
-          <div className="flex-1 flex flex-col items-center md:items-start text-center md:text-left max-w-xl">
+          <div className="flex-1 flex flex-col items-center text-center max-w-xl">
             <h1 className="text-5xl md:text-6xl font-bold text-text-main mb-3 tracking-tight">ChinTn</h1>
             
             {/* Spotify Bio Link */}
-            <div className="flex items-center gap-3 mb-5">
+            <div className="flex justify-center items-center gap-3 mb-5">
               <a href="https://open.spotify.com/user/133hz4l1ceg7pzx8vv6ztb4du?si=1b0d0629a93942aa" target="_blank" rel="noreferrer" title="Spotify Profile" className="group">
                 <i className="fab fa-spotify text-highlight text-xl transition-transform duration-300 group-hover:scale-125 group-hover:rotate-12"></i>
               </a>
@@ -128,12 +128,12 @@ const Hero = () => {
             </div>
             
             <div className="text-text-dim text-base leading-relaxed mb-2 max-w-lg">
-              <div className="flex flex-col md:flex-row items-center md:items-center gap-6 md:gap-4 mb-6">
-                <div className="text-center md:text-left">
+              <div className="flex flex-col md:flex-row justify-center items-center gap-6 md:gap-8 mb-6">
+                <div className="text-center">
                   <span className="text-text-main font-medium">dev_lox /ˈtʃɪn.t̪ən/.</span><br />
                   19M • IIT Jodhpur.
                 </div>
-                <div className="md:ml-8 w-full md:w-auto flex justify-center md:justify-start">
+                <div className="flex justify-center">
                   <SpotifyWidget />
                 </div>
               </div>
@@ -149,7 +149,7 @@ const Hero = () => {
 
             
             {/* Social Links */}
-            <div className="flex gap-6 text-2xl md:text-3xl text-text-dim">
+            <div className="flex justify-center gap-6 text-2xl md:text-3xl text-text-dim mt-4">
               <a href="https://www.linkedin.com/in/chintan-vaghamshi-6578262aa/" target="_blank" rel="noreferrer" className="hover:text-highlight hover:scale-125 transition-all duration-300"><i className="fab fa-linkedin"></i></a>
               <a href="https://github.com/ChinTn" target="_blank" rel="noreferrer" className="hover:text-highlight hover:scale-125 transition-all duration-300"><i className="fab fa-github"></i></a>
               <a href="https://www.instagram.com/chintan_v_011/" target="_blank" rel="noreferrer" className="hover:text-highlight hover:scale-125 transition-all duration-300"><i className="fab fa-instagram"></i></a>
