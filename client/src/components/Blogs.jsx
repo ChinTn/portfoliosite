@@ -94,7 +94,7 @@ const Blogs = () => {
       <div className="max-w-6xl mx-auto w-full">
         <div className="flex justify-between items-end mb-12 border-b border-border-dim/50 pb-4 text-left">
           <h2 className="text-base md:text-lg font-bold text-text-main uppercase tracking-[0.2em] flex items-center gap-3">
-            <i className="fas fa-layer-group text-highlight drop-shadow-[0_0_8px_var(--theme-highlight)] animate-[pulse_3s_ease-in-out_infinite]"></i> BLOGS ({blogs.length})
+            <i className="fas fa-scroll text-highlight drop-shadow-[0_0_8px_var(--theme-highlight)] animate-[pulse_3s_ease-in-out_infinite]"></i> MAESTER'S SCROLLS ({blogs.length})
           </h2>
         </div>
 

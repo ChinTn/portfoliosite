@@ -18,51 +18,51 @@
 }
 
 :root {
-  /* Default Theme (Dark Minimalist) */
-  --theme-bg-dark: #252321;
-  --theme-bg-nav: #1e1c1a;
-  --theme-card-bg: #1e1e1e;
-  --theme-card-bg-light: #2a2826;
+  /* Default Theme (House of the Dragon - Onyx & Gold) */
+  --theme-bg-dark: #12100e;
+  --theme-bg-nav: #0a0807;
+  --theme-card-bg: #161310;
+  --theme-card-bg-light: #1d1915;
   
-  --theme-text-main: #ffffff;
-  --theme-text-dim: #a0a0a0;
-  --theme-highlight: #6366f1;
+  --theme-text-main: #f5f0e6;
+  --theme-text-dim: #c8b7a6;
+  --theme-highlight: #d4af37;
   --theme-video-bg: var(--theme-highlight);
   
-  --theme-border-main: rgba(255, 255, 255, 0.1);
-  --theme-border-dim: rgba(255, 255, 255, 0.05);
+  --theme-border-main: rgba(212, 175, 55, 0.2);
+  --theme-border-dim: rgba(212, 175, 55, 0.1);
 }
 
 [data-theme="evil"] {
-  /* Evil Theme (Black & Red) */
+  /* Evil Theme (House of the Dragon - Blood & Fire) */
   --theme-bg-dark: #000000;
   --theme-bg-nav: #050000;
   --theme-card-bg: #0a0000;
-  --theme-card-bg-light: #150000;
+  --theme-card-bg-light: #120000;
   
-  --theme-text-main: #ffcccc;
-  --theme-text-dim: #ff6666;
-  --theme-highlight: #ff0000;
+  --theme-text-main: #ffdddd;
+  --theme-text-dim: #b35959;
+  --theme-highlight: #e60000;
   --theme-video-bg: #ffffff; /* White in evil theme */
   
-  --theme-border-main: rgba(255, 0, 0, 0.3);
-  --theme-border-dim: rgba(255, 0, 0, 0.15);
+  --theme-border-main: rgba(230, 0, 0, 0.3);
+  --theme-border-dim: rgba(230, 0, 0, 0.15);
 }
 
 [data-theme="light"] {
-  /* Light Theme (Soft White & Blue) */
-  --theme-bg-dark: #f4f4f5;
-  --theme-bg-nav: #ffffff;
+  /* Light Theme (House of the Dragon - Valyrian Silver & Crimson) */
+  --theme-bg-dark: #e8e9ea;
+  --theme-bg-nav: #f2f3f4;
   --theme-card-bg: #ffffff;
-  --theme-card-bg-light: #e4e4e7;
+  --theme-card-bg-light: #dbdcdf;
   
-  --theme-text-main: #18181b;
-  --theme-text-dim: #52525b;
-  --theme-highlight: #2563eb;
+  --theme-text-main: #1a1a1a;
+  --theme-text-dim: #4d4d4d;
+  --theme-highlight: #b00000;
   --theme-video-bg: var(--theme-highlight);
   
-  --theme-border-main: rgba(0, 0, 0, 0.15);
-  --theme-border-dim: rgba(0, 0, 0, 0.05);
+  --theme-border-main: rgba(176, 0, 0, 0.15);
+  --theme-border-dim: rgba(176, 0, 0, 0.05);
 }
 
 html {

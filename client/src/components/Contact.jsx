@@ -45,8 +45,8 @@ const Contact = () => {
       <div className="max-w-5xl mx-auto w-full flex flex-col md:flex-row md:items-start gap-16">
         
         {/* Left Side: Contact Info */}
-        <div className="w-full md:w-5/12">
-          <h2 className="text-3xl font-bold text-text-main mb-10 uppercase tracking-widest border-l-4 border-highlight pl-4">Contact Me</h2>
+        <div className="w-full md:w-5/12 flex flex-col justify-center">
+          <h2 className="text-3xl font-bold text-text-main mb-10 uppercase tracking-widest border-l-4 border-highlight pl-4">Send a Raven</h2>
           
           <div className="flex flex-col gap-8">
             <div className="flex items-center gap-4 text-text-dim group">
@@ -73,7 +73,7 @@ const Contact = () => {
 
           {/* Social Links */}
           <div className="mt-12">
-            <h3 className="text-sm font-bold text-text-main uppercase tracking-widest mb-6">Connect on Socials</h3>
+            <h3 className="text-sm font-bold text-text-main uppercase tracking-widest mb-6">Alliances</h3>
             <div className="flex flex-wrap gap-4 text-2xl text-text-dim">
               <a href="https://www.linkedin.com/in/chintan-vaghamshi-6578262aa/" target="_blank" rel="noreferrer" className="w-12 h-12 rounded-full bg-card-bg border border-border-dim flex items-center justify-center hover:bg-[#0077b5] hover:text-text-main hover:border-[#0077b5] hover:scale-110 transition-all duration-300"><i className="fab fa-linkedin"></i></a>
               <a href="https://github.com/ChinTn" target="_blank" rel="noreferrer" className="w-12 h-12 rounded-full bg-card-bg border border-border-dim flex items-center justify-center hover:bg-text-main hover:text-bg-dark hover:border-text-main hover:scale-110 transition-all duration-300"><i className="fab fa-github"></i></a>
@@ -87,7 +87,7 @@ const Contact = () => {
         {/* Right Side: Contact Form */}
         <div className="w-full md:w-7/12 md:-mt-8">
           <div className="w-full relative">
-            <h3 className="text-2xl font-bold text-text-main mb-8 tracking-wide">Send a Message</h3>
+            <h3 className="text-2xl font-bold text-text-main mb-8 tracking-wide">Write to me</h3>
             <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
               <div className="flex flex-col md:flex-row gap-5">
                 <div className="w-full">
@@ -143,7 +143,12 @@ const Contact = () => {
                   <span className="flex items-center justify-center gap-2">
                     <i className="fas fa-spinner fa-spin"></i> Sending...
                   </span>
-                ) : 'Send Message'}
+                ) : (
+                  <span className="flex items-center justify-center gap-2">
+                    <i className="fas fa-paper-plane mr-2 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"></i>
+                    Dracarys (Fire)
+                  </span>
+                )}
               </button>
 
               {status === 'success' && (

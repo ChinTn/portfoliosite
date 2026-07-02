@@ -27,10 +27,10 @@ const Navbar = () => {
 
   const navLinks = [
     { name: 'Home', path: '/' },
-    { name: 'About', path: '/about' },
-    { name: 'Projects', path: '/projects' },
-    { name: 'Blog', path: '/blog' },
-    { name: 'Contact', path: '/contact' },
+    { name: 'The Heir', path: '/about' },
+    { name: 'Conquests', path: '/projects' },
+    { name: 'Scrolls', path: '/blog' },
+    { name: 'Ravens', path: '/contact' },
   ];
 
   const handleNavClick = (e, path) => {

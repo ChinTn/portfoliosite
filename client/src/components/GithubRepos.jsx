@@ -24,7 +24,7 @@ const GithubRepos = () => {
     <section className="pb-24 px-6">
       <div className="max-w-5xl mx-auto w-full">
         <h2 className="text-3xl font-bold text-text-main mt-10 mb-8 border-l-4 border-highlight pl-4">
-          Latest Repositories
+          Recent Conquests
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

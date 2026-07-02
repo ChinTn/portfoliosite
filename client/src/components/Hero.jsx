@@ -2,11 +2,11 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { TypeAnimation } from 'react-type-animation';
 import { motion } from 'framer-motion';
-import img from '../assets/img.jpg';
-import imgEvil from '../assets/img-evil.jpg';
-import crimsonVideo from '../assets/crimson-moon-over-mountain.mp4';
-import valleyVideo from '../assets/valley.mp4';
-import starsVideo from '../assets/stars-underneath..mp4';
+import img from '../assets/dracarys.jpg';
+import imgEvil from '../assets/dracarys.jpg';
+import darkVideo from '../assets/dance of dragon 2.mp4';
+import lightVideo from '../assets/dragons only.mp4';
+import evilVideo from '../assets/dance of dragon.mp4';
 import SpotifyWidget from './SpotifyWidget';
 import { useTheme } from '../context/ThemeContext';
 import toast from 'react-hot-toast';
@@ -28,28 +28,28 @@ const Hero = () => {
       <div className="max-w-6xl mx-auto w-full relative z-10">
         
         {/* Cinematic Video Banner */}
-        <div className="w-full max-w-4xl mx-auto h-32 md:h-44 mb-6 relative overflow-hidden rounded-2xl">
+        <div className="w-full max-w-4xl mx-auto h-48 md:h-72 mb-6 relative overflow-hidden">
           {/* Gradient overlay for smooth blending */}
           <div className="absolute inset-0 z-10 pointer-events-none"
             style={{
-              background: 'linear-gradient(to top, var(--color-bg-dark) 0%, transparent 40%), linear-gradient(to bottom, var(--color-bg-dark) 0%, transparent 20%), linear-gradient(to left, var(--color-bg-dark) 0%, transparent 20%), linear-gradient(to right, var(--color-bg-dark) 0%, transparent 20%)'
+              background: 'linear-gradient(to top, var(--color-bg-dark) 0%, transparent 40%), linear-gradient(to bottom, var(--color-bg-dark) 0%, transparent 40%), linear-gradient(to left, var(--color-bg-dark) 0%, transparent 40%), linear-gradient(to right, var(--color-bg-dark) 0%, transparent 40%)'
             }}
           ></div>
           <div className="relative w-full h-full bg-bg-dark">
             <video 
-              src={crimsonVideo} 
+              src={darkVideo} 
               autoPlay loop muted playsInline defaultMuted
               className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${theme === 'dark' ? 'opacity-90' : 'opacity-0 pointer-events-none'}`}
               style={{ objectPosition: 'center 30%' }}
             />
             <video 
-              src={valleyVideo} 
+              src={lightVideo} 
               autoPlay loop muted playsInline defaultMuted
               className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${theme === 'light' ? 'opacity-90' : 'opacity-0 pointer-events-none'}`}
-              style={{ objectPosition: 'center 30%' }}
+              style={{ objectPosition: 'center 70%' }}
             />
             <video 
-              src={starsVideo} 
+              src={evilVideo} 
               autoPlay loop muted playsInline defaultMuted
               className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${theme === 'evil' ? 'opacity-90' : 'opacity-0 pointer-events-none'}`}
               style={{ objectPosition: 'center 30%' }}
@@ -95,7 +95,7 @@ const Hero = () => {
                 <img 
                   src={imgEvil} 
                   alt="Chintan Evil" 
-                  className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-out ${theme === 'evil' ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+                  className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-out ${theme === 'evil' ? 'opacity-100 sepia saturate-[5] hue-rotate-[-30deg] contrast-125' : 'opacity-0 pointer-events-none'}`}
                 />
               </div>
             </div>

@@ -28,7 +28,7 @@ const Projects = () => {
       <div className="max-w-5xl mx-auto w-full">
         <div className="flex justify-between items-end mb-12 border-b border-border-dim/50 pb-4">
           <h2 className="text-base md:text-lg font-bold text-text-main uppercase tracking-[0.3em] flex items-center gap-3">
-            <i className="fas fa-terminal text-highlight drop-shadow-[0_0_8px_var(--theme-highlight)] animate-[pulse_3s_ease-in-out_infinite]"></i> CURRENT PROJECTS ({currentProjects.length})
+            <i className="fas fa-terminal text-highlight drop-shadow-[0_0_8px_var(--theme-highlight)] animate-[pulse_3s_ease-in-out_infinite]"></i> ONGOING CONQUESTS ({currentProjects.length})
           </h2>
         </div>
         
