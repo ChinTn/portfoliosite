@@ -131,8 +131,8 @@ const Hero = () => {
             </div>
             
             {/* Info (Bio & Widget) */}
-            <div className="w-full flex flex-col md:flex-row items-center md:items-center justify-between mb-4">
-              <div className="text-center md:text-left mb-3 md:mb-0">
+            <div className="w-full flex flex-col md:flex-row items-center md:items-center justify-center md:justify-start gap-5 md:gap-8 mb-4">
+              <div className="text-center md:text-left mb-2 md:mb-0">
                 <div className="text-text-main font-bold text-lg mb-0.5">
                   dev_lox <span className="text-text-dim text-sm font-normal tracking-wide ml-1">/ˈtʃɪn.t̪ən/</span>
                 </div>
@@ -149,7 +149,7 @@ const Hero = () => {
             <div className="text-text-dim/90 text-[15px] md:text-base leading-relaxed mb-4 max-w-lg font-light">
               <p className="mb-2">
                 Obsessed with <span className="text-text-main font-medium">logic</span>, edge cases, and how things work.<br />
-                Currently in Development. Have explored <span className="text-text-main font-medium">Data Science & Open Source</span>.
+                Currently in <span className="text-text-main font-medium">Development</span>. Have explored Data Science & Open Source.
               </p>
               <p className="mb-2">
                 Not tied to a single domain. Learning by building, breaking, and fixing.
