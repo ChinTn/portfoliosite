@@ -144,7 +144,7 @@ const AnimatedRoutes = () => {
 
 function App() {
   return (
-    <ReactLenis root options={{ lerp: 0.08, duration: 1.2, smoothTouch: false }}>
+    <ReactLenis root options={{ lerp: 0.15, smoothTouch: false }}>
       <Router>
         <AnimatedRoutes />
       </Router>
