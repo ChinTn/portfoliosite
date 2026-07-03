@@ -134,6 +134,18 @@ const Navbar = () => {
       {/* Mobile Menu Overlay */}
       <div className={`md:hidden absolute top-24 left-0 w-full bg-bg-nav border-b border-border-dim shadow-2xl pointer-events-auto transition-all duration-300 ${isOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-4'}`}>
         <div className="flex flex-col py-6 px-8 gap-6">
+          <button 
+            onClick={togglePlay} 
+            className="text-highlight hover:text-text-main transition-colors flex items-center gap-4 text-xl font-bold tracking-widest uppercase self-start"
+          >
+            <img 
+              src="/targaryen_sigil.png" 
+              alt="Targaryen Sigil" 
+              className={`w-8 h-8 object-contain filter invert opacity-80 transition-opacity ${isPlaying ? 'animate-[spin_4s_linear_infinite]' : ''}`}
+            />
+            {isPlaying ? 'Pause Theme' : 'Play Theme'}
+          </button>
+          
           {navLinks.map((link) => (
             <Link 
               key={link.name} 
