@@ -33,6 +33,22 @@ const Navbar = () => {
       });
     }
 
+    // Fallback: Start playing on the very first click/tap anywhere on the page if autoplay was blocked
+    const handleFirstInteraction = () => {
+      if (audioRef.current && audioRef.current.paused) {
+        audioRef.current.play().then(() => {
+          setIsPlaying(true);
+        }).catch(e => console.error("Audio play failed:", e));
+      }
+      document.removeEventListener('click', handleFirstInteraction);
+      document.removeEventListener('keydown', handleFirstInteraction);
+      document.removeEventListener('touchstart', handleFirstInteraction);
+    };
+
+    document.addEventListener('click', handleFirstInteraction);
+    document.addEventListener('keydown', handleFirstInteraction);
+    document.addEventListener('touchstart', handleFirstInteraction);
+
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
     };
