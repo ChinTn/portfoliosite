@@ -13,15 +13,15 @@ const About = () => {
   return (
     <section id="about" className="py-24 px-6 min-h-screen flex items-center border-t border-border-main">
       <div className="max-w-5xl mx-auto w-full">
-        <h2 className="text-3xl font-bold text-text-main mt-8 mb-8 uppercase tracking-widest border-l-4 border-highlight pl-4">The Heir</h2>
+        <h2 className="text-3xl font-bold text-text-main mt-8 mb-8 uppercase tracking-widest border-l-4 border-highlight pl-4">Queen Rhaenyra's Heir</h2>
 
         <div className="flex flex-col md:flex-row gap-10 items-start">
           {/* Left Text & Skills */}
           <div className="w-full md:w-7/12">
             <div className="text-text-dim text-lg leading-relaxed mb-6">
-              <p>I’m a third-year BTech student at IIT Jodhpur with a deep passion for problem-solving and software development. I thrive on building things from scratch and understanding how systems work under the hood. While I've explored creative fields like cinematography and graphic design—which honed my eye for visual detail—my true focus is writing clean, solid code.</p>
+              <p>I am a third-year scholar of BTech at the Citadel of IIT Jodhpur, possessing a deep fire for solving complex riddles and forging software. I thrive on constructing new realms from the ground up and uncovering the hidden mechanisms that govern them. Though I have wandered through the creative arts of cinematography and design—which sharpened my dragon’s eye for visual perfection—my true calling lies in forging clean, impenetrable code.</p>
               <div className="h-3"></div>
-              <p>Currently, I'm focused on mastering full-stack development, contributing to open source, and strengthening my fundamentals. When I'm not coding, you can find me resetting by playing football or strumming my guitar. I'm always learning and building—one repo at a time.</p>
+              <p>At present, my banners are raised toward mastering the full-stack arts, lending my sword to the open-source realm, and fortifying my foundational defenses. When the battles of logic cease, you might find me honing my agility on the football field or strumming the strings of my lute. I am forever expanding my empire and building my legacy—one conquest at a time.</p>
             </div>
             
             <div>

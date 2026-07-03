@@ -127,7 +127,7 @@ const Hero = () => {
               <a href="https://open.spotify.com/user/133hz4l1ceg7pzx8vv6ztb4du?si=1b0d0629a93942aa" target="_blank" rel="noreferrer" title="Spotify Profile" className="group flex items-center justify-center w-8 h-8 rounded-full bg-[#1db954]/10 hover:bg-[#1db954]/20 transition-colors">
                 <i className="fab fa-spotify text-[#1db954] text-lg transition-transform duration-300 group-hover:scale-110"></i>
               </a>
-              <span className="text-sm text-text-dim italic tracking-wide font-light">~we might share the same vibe</span>
+              <span className="text-sm text-text-dim italic tracking-wide font-light">"The song of ice and fire... transferred heir to heir."</span>
             </div>
             
             {/* Info (Bio & Widget) */}

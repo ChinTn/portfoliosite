@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
+import themeSong from '../assets/song_of_ice_and_fire.webm';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -9,7 +10,29 @@ const Navbar = () => {
   const location = useLocation();
   const toggleMenu = () => setIsOpen(!isOpen);
 
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef(null);
+
+  const togglePlay = () => {
+    if (isPlaying) {
+      audioRef.current.pause();
+    } else {
+      audioRef.current.play();
+    }
+    setIsPlaying(!isPlaying);
+  };
+
   useEffect(() => {
+    // Attempt to autoplay the theme song on load
+    if (audioRef.current) {
+      audioRef.current.play().then(() => {
+        setIsPlaying(true);
+      }).catch((err) => {
+        // Browsers often block autoplay without prior user interaction
+        console.log("Autoplay blocked by browser. User interaction required.");
+      });
+    }
+
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
     };
@@ -74,6 +97,18 @@ const Navbar = () => {
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-8">
+          <button 
+            onClick={togglePlay} 
+            className="text-highlight hover:text-text-main transition-colors flex items-center gap-2 text-sm font-bold tracking-widest uppercase"
+            title="Play Theme"
+          >
+            <img 
+              src="/targaryen_sigil.png" 
+              alt="Targaryen Sigil" 
+              className={`w-6 h-6 object-contain filter invert opacity-80 hover:opacity-100 transition-opacity ${isPlaying ? 'animate-[spin_4s_linear_infinite]' : ''}`}
+            />
+          </button>
+          
           {navLinks.map((link) => (
             <Link 
               key={link.name} 
@@ -111,6 +146,9 @@ const Navbar = () => {
           ))}
         </div>
       </div>
+      
+      {/* Audio Element */}
+      <audio ref={audioRef} src={themeSong} loop autoPlay />
     </nav>
   );
 };

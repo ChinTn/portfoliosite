@@ -28,7 +28,7 @@ const Projects = () => {
       <div className="max-w-5xl mx-auto w-full">
         <div className="flex justify-between items-end mb-12 border-b border-border-dim/50 pb-4">
           <h2 className="text-base md:text-lg font-bold text-text-main uppercase tracking-[0.3em] flex items-center gap-3">
-            <i className="fas fa-terminal text-highlight drop-shadow-[0_0_8px_var(--theme-highlight)] animate-[pulse_3s_ease-in-out_infinite]"></i> ONGOING CONQUESTS ({currentProjects.length})
+            <i className="fas fa-terminal text-highlight drop-shadow-[0_0_8px_var(--theme-highlight)] animate-[pulse_3s_ease-in-out_infinite]"></i> DAEMON'S CAMPAIGNS ({currentProjects.length})
           </h2>
         </div>
         
@@ -109,8 +109,8 @@ const Projects = () => {
             <div className="w-16 h-16 rounded-full bg-bg-dark border border-border-main flex items-center justify-center text-2xl text-text-dim mb-6 group-hover:text-highlight group-hover:border-highlight transition-all">
               <i className="fas fa-check-double"></i>
             </div>
-            <h3 className="text-2xl font-bold text-text-main mb-2">Already Done</h3>
-            <p className="text-text-dim group-hover:text-text-main/80 transition-colors">Browse my completed projects and deployed applications.</p>
+            <h3 className="text-2xl font-bold text-text-main mb-2">Caraxes' Victories</h3>
+            <p className="text-text-dim group-hover:text-text-main/80 transition-colors">Survey the territories I have conquered and the robust systems I have deployed across the realm.</p>
           </div>
 
           {/* Future Plans Card */}
@@ -121,8 +121,8 @@ const Projects = () => {
             <div className="w-16 h-16 rounded-full bg-bg-dark border border-border-main flex items-center justify-center text-2xl text-text-dim mb-6 group-hover:text-highlight group-hover:border-highlight transition-all">
               <i className="fas fa-rocket"></i>
             </div>
-            <h3 className="text-2xl font-bold text-text-main mb-2">Future Planned</h3>
-            <p className="text-text-dim group-hover:text-text-main/80 transition-colors">Explore concepts and ideas I'm planning to build next.</p>
+            <h3 className="text-2xl font-bold text-text-main mb-2">Jacaerys' Visions</h3>
+            <p className="text-text-dim group-hover:text-text-main/80 transition-colors">Uncover the grand strategies and ambitious concepts I scheme to forge in the wars to come.</p>
           </div>
         </div>
 
