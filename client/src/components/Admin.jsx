@@ -25,6 +25,7 @@ const Admin = () => {
   // Form states
   const [title, setTitle] = useState('');
   const [descOrContent, setDescOrContent] = useState('');
+  const [imageMap, setImageMap] = useState({});
   const [link, setLink] = useState(''); // Old link (optional)
   const [imageUrl, setImageUrl] = useState('');
   // New Project specific states
@@ -106,7 +107,22 @@ const Admin = () => {
   const handleEdit = (item) => {
     setEditingItem(item);
     setTitle(item.title || '');
-    setDescOrContent(activeTab === 'projects' ? item.description || '' : item.content || '');
+    
+    let rawContent = activeTab === 'projects' ? item.description || '' : item.content || '';
+    
+    // Extract existing base64 strings into imageMap to keep the editor clean
+    const newMap = {};
+    let counter = 0;
+    const base64Regex = /!\[([^\]]*)\]\((data:image\/[^;]+;base64,[^)]+)\)/g;
+    
+    rawContent = rawContent.replace(base64Regex, (match, altText, base64Data) => {
+      const imgKey = `__LOCAL_IMG_${Date.now()}_${counter++}__`;
+      newMap[imgKey] = base64Data;
+      return `![${altText}](${imgKey})`;
+    });
+    
+    setImageMap(newMap);
+    setDescOrContent(rawContent);
     setImageUrl(item.imageUrl || '');
     
     if (activeTab === 'projects') {
@@ -154,7 +170,11 @@ const Admin = () => {
     const reader = new FileReader();
     reader.onload = (e) => {
       const base64Str = e.target.result;
-      const imageMarkdown = `![Image](${base64Str})`;
+      const imgKey = `__LOCAL_IMG_${Date.now()}__`;
+      
+      setImageMap(prev => ({ ...prev, [imgKey]: base64Str }));
+      
+      const imageMarkdown = `![Image](${imgKey})`;
       setDescOrContent(prev => prev.replace(loadingText, imageMarkdown));
       toast.success('Image inserted!', { style: { background: '#1a1a1a', color: '#e5e5e5' }, icon: '🖼️' });
     };
@@ -185,11 +205,22 @@ const Admin = () => {
     }
   };
 
+  const resolveContent = (content) => {
+    let resolved = content;
+    Object.keys(imageMap).forEach(key => {
+      resolved = resolved.split(key).join(imageMap[key]);
+    });
+    return resolved;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    const finalContent = resolveContent(descOrContent);
+    
     const payload = activeTab === 'projects' 
-      ? { title, description: descOrContent, link, imageUrl, category, status, githubLink, deployedLink }
-      : { title, content: descOrContent, imageUrl };
+      ? { title, description: finalContent, link, imageUrl, category, status, githubLink, deployedLink }
+      : { title, content: finalContent, imageUrl };
 
     try {
       if (view === 'create') {
@@ -206,7 +237,7 @@ const Admin = () => {
 
   const openCreate = () => {
     setEditingItem(null);
-    setTitle(''); setDescOrContent(''); setLink(''); setImageUrl('');
+    setTitle(''); setDescOrContent(''); setLink(''); setImageUrl(''); setImageMap({});
     setCategory(''); setStatus('completed'); setGithubLink(''); setDeployedLink('');
     setIsPreview(false);
     setView('create');
@@ -680,7 +711,7 @@ const Admin = () => {
                       }}
                       urlTransform={(url) => url}
                     >
-                      {descOrContent || '*Nothing to preview*'}
+                      {resolveContent(descOrContent) || '*Nothing to preview*'}
                     </ReactMarkdown>
                   </div>
                 )}
