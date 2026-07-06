@@ -6,6 +6,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeRaw from 'rehype-raw';
+import toast from 'react-hot-toast';
 
 const Admin = () => {
   const navigate = useNavigate();
@@ -131,6 +132,56 @@ const Admin = () => {
     } catch (err) {
       console.error(err);
       if (err.response && err.response.status === 401) handleLogout();
+    }
+  };
+
+  const insertImageBase64 = (file, textarea) => {
+    if (!file || !file.type.startsWith('image/')) return;
+    
+    // Check file size (max 2.5MB for MongoDB limits when multiple images exist)
+    if (file.size > 2.5 * 1024 * 1024) {
+      toast.error('Image is too large! Maximum size is 2.5MB.', { style: { background: '#1a1a1a', color: '#e5e5e5' } });
+      return;
+    }
+    
+    const startPos = textarea.selectionStart;
+    const endPos = textarea.selectionEnd;
+    const loadingText = '![Inserting image...]()';
+    
+    const newContent = descOrContent.substring(0, startPos) + loadingText + descOrContent.substring(endPos);
+    setDescOrContent(newContent);
+    
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const base64Str = e.target.result;
+      const imageMarkdown = `![Image](${base64Str})`;
+      setDescOrContent(prev => prev.replace(loadingText, imageMarkdown));
+      toast.success('Image inserted!', { style: { background: '#1a1a1a', color: '#e5e5e5' }, icon: '🖼️' });
+    };
+    reader.onerror = () => {
+      setDescOrContent(prev => prev.replace(loadingText, ''));
+      toast.error('Failed to read image.');
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handlePaste = (e) => {
+    if (e.clipboardData && e.clipboardData.files.length > 0) {
+      const file = e.clipboardData.files[0];
+      if (file.type.startsWith('image/')) {
+        e.preventDefault();
+        insertImageBase64(file, e.target);
+      }
+    }
+  };
+
+  const handleDrop = (e) => {
+    if (e.dataTransfer && e.dataTransfer.files.length > 0) {
+      const file = e.dataTransfer.files[0];
+      if (file.type.startsWith('image/')) {
+        e.preventDefault();
+        insertImageBase64(file, e.target);
+      }
     }
   };
 
@@ -444,9 +495,11 @@ const Admin = () => {
                       </div>
                     ) : (
                       <textarea 
-                        placeholder="Description" 
+                        placeholder="Description (Drag & Drop or Paste images here!)" 
                         value={descOrContent} 
                         onChange={e => setDescOrContent(e.target.value)} 
+                        onPaste={handlePaste}
+                        onDrop={handleDrop}
                         required 
                         rows="6"
                         className="w-full bg-bg-nav border border-border-dim px-4 py-4 text-text-main placeholder-text-dim/50 focus:outline-none focus:border-highlight focus:ring-1 focus:ring-highlight transition-all resize-none"
@@ -579,9 +632,11 @@ const Admin = () => {
               <div className="flex-1 overflow-hidden relative">
                 {!isPreview ? (
                   <textarea 
-                    placeholder="Content (Markdown Supported)" 
+                    placeholder="Content (Markdown Supported - Drag & Drop or Paste images here!)" 
                     value={descOrContent} 
                     onChange={e => setDescOrContent(e.target.value)} 
+                    onPaste={handlePaste}
+                    onDrop={handleDrop}
                     data-lenis-prevent
                     className="absolute inset-0 w-full h-full bg-transparent p-8 md:p-12 text-text-main placeholder-text-dim/50 focus:outline-none font-mono text-base resize-none"
                   />
