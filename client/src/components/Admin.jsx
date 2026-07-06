@@ -620,8 +620,10 @@ const Admin = () => {
                             </code>
                           )
                         },
-                        blockquote: ({node, ...props}) => <blockquote className="border-l-4 border-highlight pl-4 italic text-text-main/70 my-6 bg-highlight/5 py-2 rounded-r" {...props} />
+                        blockquote: ({node, ...props}) => <blockquote className="border-l-4 border-highlight pl-4 italic text-text-main/70 my-6 bg-highlight/5 py-2 rounded-r" {...props} />,
+                        img: ({node, ...props}) => <img className="max-w-full rounded-lg shadow-lg my-8 mx-auto border border-border-dim" {...props} />
                       }}
+                      urlTransform={(url) => url}
                     >
                       {descOrContent || '*Nothing to preview*'}
                     </ReactMarkdown>
