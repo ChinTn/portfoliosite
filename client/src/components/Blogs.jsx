@@ -7,12 +7,13 @@ import { ReactLenis } from 'lenis/react';
 const stripMarkdown = (text) => {
   if (!text) return '';
   return text
-    .replace(/^#+\s+/gm, '') // Remove headings
+    .replace(/#+\s+/g, '') // Remove headings even if they aren't at the very start of a line
     .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1') // Extract link text
     .replace(/(\*\*|__)(.*?)\1/g, '$2') // Extract bold text
     .replace(/(\*|_)(.*?)\1/g, '$2') // Extract italic text
     .replace(/`([^`]+)`/g, '$1') // Extract inline code
-    .replace(/\n+/g, ' ') // Replace newlines with space
+    .replace(/[>~`]/g, '') // Remove blockquotes, strikethroughs, stray backticks
+    .replace(/\s+/g, ' ') // Replace all newlines/tabs/multiple spaces with a single space
     .trim();
 };
 
