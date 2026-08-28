@@ -1,14 +1,36 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import videoSrc from '../assets/profile.mp4';
 import { useTheme } from '../context/ThemeContext';
 
+const skills = [
+  'C', 'C++', 'HTML', 'CSS', 'Javascript', 'React', 'Node.js', 
+  'Express.js', 'MongoDB', 'Postman', 'Tailwind', 'Python', 
+  'Numpy', 'Pandas', 'NETWORKX', 'GIT', 'GIT HUB'
+];
+
 const About = () => {
   const { cycleTheme } = useTheme();
-  const skills = [
-    'C', 'C++', 'HTML', 'CSS', 'Javascript', 'React', 'Node.js', 
-    'Express.js', 'MongoDB', 'Postman', 'Tailwind', 'Python', 
-    'Numpy', 'Pandas', 'NETWORKX', 'GIT', 'GIT HUB'
-  ];
+  const videoRef = useRef(null);
+
+  // Only start video playback when the section scrolls into view
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <section id="about" className="py-24 px-6 min-h-screen flex items-center border-t border-border-main">
@@ -55,12 +77,12 @@ const About = () => {
               <div className="absolute inset-0 bg-video-bg transform translate-x-4 translate-y-4 transition-all duration-500 group-hover:translate-x-2 group-hover:translate-y-2"></div>
               
               <video 
+                ref={videoRef}
                 src={videoSrc} 
-                autoPlay 
                 loop 
                 muted 
                 playsInline
-                defaultMuted
+                preload="none"
                 onClick={cycleTheme}
                 className="relative z-10 w-full max-w-[350px] aspect-[4/5] object-cover border border-border-main grayscale group-hover:grayscale-0 transition-all duration-500 cursor-pointer"
               />

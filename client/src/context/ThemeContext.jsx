@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState, useCallback, useMemo } from 'react';
 
 const ThemeContext = createContext();
 
@@ -18,16 +18,19 @@ export const ThemeProvider = ({ children }) => {
     localStorage.setItem('portfolio-theme', theme);
   }, [theme]);
 
-  const cycleTheme = () => {
+  const cycleTheme = useCallback(() => {
     setTheme(prev => {
       if (prev === 'dark') return 'evil';
       if (prev === 'evil') return 'light';
       return 'dark';
     });
-  };
+  }, []);
+
+  // Memoize context value to prevent unnecessary re-renders of all consumers
+  const value = useMemo(() => ({ theme, cycleTheme }), [theme, cycleTheme]);
 
   return (
-    <ThemeContext.Provider value={{ theme, cycleTheme }}>
+    <ThemeContext.Provider value={value}>
       {children}
     </ThemeContext.Provider>
   );

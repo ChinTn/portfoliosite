@@ -127,10 +127,7 @@ body {
   top: -6px; left: -6px; right: -6px; bottom: -6px;
 }
 
-/* Base utility overrides */
-html {
-  scroll-behavior: smooth;
-}
+/* Lenis handles smooth scrolling — do NOT add scroll-behavior: smooth here */
 
 a {
   text-decoration: none;

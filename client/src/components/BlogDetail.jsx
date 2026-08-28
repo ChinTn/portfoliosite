@@ -1,7 +1,6 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { useParams, Link, useNavigate, useLocation } from 'react-router-dom';
+import React, { useEffect, useState, useRef, useMemo, useCallback } from 'react';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import Navbar from './Navbar';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
@@ -51,31 +50,40 @@ const BlogDetail = () => {
   }, [blog]);
 
   useEffect(() => {
+    let rafId = null;
+
     const handleScroll = () => {
-      const headingElements = Array.from(document.querySelectorAll('h1, h2, h3, h4'))
-        .filter(el => el.id);
-      
-      let currentActiveId = '';
-      for (const el of headingElements) {
-        const rect = el.getBoundingClientRect();
-        if (rect.top <= 100) {
-          currentActiveId = el.id;
-        } else {
-          break;
+      if (rafId) return; // Skip if a frame is already queued
+      rafId = requestAnimationFrame(() => {
+        const headingElements = Array.from(document.querySelectorAll('h1, h2, h3, h4'))
+          .filter(el => el.id);
+        
+        let currentActiveId = '';
+        for (const el of headingElements) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= 100) {
+            currentActiveId = el.id;
+          } else {
+            break;
+          }
         }
-      }
-      
-      if (!currentActiveId && headingElements.length > 0) {
-        currentActiveId = headingElements[0].id; // highlight first if at top
-      }
-      
-      setActiveId(currentActiveId);
+        
+        if (!currentActiveId && headingElements.length > 0) {
+          currentActiveId = headingElements[0].id;
+        }
+        
+        setActiveId(currentActiveId);
+        rafId = null;
+      });
     };
 
-    window.addEventListener('scroll', handleScroll);
-    setTimeout(handleScroll, 100); // Initial check
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    setTimeout(handleScroll, 100);
     
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
   }, [headings, loading]);
 
   const handleBack = () => {
@@ -101,7 +109,6 @@ const BlogDetail = () => {
 
   return (
     <div className="bg-bg-dark min-h-screen">
-      <Navbar />
       
       {/* Dynamic Full-Width Hero Section */}
       <div className="relative w-full flex flex-col justify-end pt-40 md:pt-48 pb-16 px-6 mt-[-80px] border-b border-border-dim">

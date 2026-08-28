@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { ReactLenis } from 'lenis/react';
 
 const stripMarkdown = (text) => {
   if (!text) return '';
+  // Strip base64 image data FIRST before running expensive regex on it
   return text
+    .replace(/!\[[^\]]*\]\(data:image\/[^)]+\)/g, '') // Remove base64 images entirely
     .replace(/#+\s+/g, '') // Remove headings even if they aren't at the very start of a line
     .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1') // Extract link text
     .replace(/(\*\*|__)(.*?)\1/g, '$2') // Extract bold text
@@ -17,7 +17,7 @@ const stripMarkdown = (text) => {
     .trim();
 };
 
-const BlogCard = ({ blog, navigate, i }) => {
+const BlogCard = React.memo(({ blog, navigate, preview }) => {
   return (
     <div 
       onClick={() => navigate(`/blog/${blog._id}`)}
@@ -27,7 +27,8 @@ const BlogCard = ({ blog, navigate, i }) => {
         <div className="overflow-hidden relative h-48 md:h-auto md:w-2/5 shrink-0 border-b md:border-b-0 md:border-r border-border-dim/20">
           <img 
             src={blog.imageUrl} 
-            alt={blog.title} 
+            alt={blog.title}
+            loading="lazy"
             className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300" 
           />
         </div>
@@ -40,7 +41,7 @@ const BlogCard = ({ blog, navigate, i }) => {
         
         <div className="flex-grow mb-6">
           <p className="text-text-dim text-sm leading-relaxed line-clamp-3">
-            {stripMarkdown(blog.content)}
+            {preview}
           </p>
         </div>
         
@@ -53,12 +54,27 @@ const BlogCard = ({ blog, navigate, i }) => {
       </div>
     </div>
   );
-};
+});
+
+const BlogCardSkeleton = () => (
+  <div className="border-2 border-border-dim rounded-lg overflow-hidden flex flex-col md:flex-row h-auto md:h-[240px] animate-pulse">
+    <div className="h-48 md:h-auto md:w-2/5 shrink-0 bg-border-dim/20"></div>
+    <div className="p-4 md:px-6 md:py-5 flex flex-col flex-grow md:w-3/5">
+      <div className="h-6 bg-border-dim/30 rounded w-2/3 mb-4"></div>
+      <div className="h-4 bg-border-dim/20 rounded w-full mb-2"></div>
+      <div className="h-4 bg-border-dim/20 rounded w-4/5 mb-2"></div>
+      <div className="h-4 bg-border-dim/20 rounded w-1/2"></div>
+    </div>
+  </div>
+);
 
 const Blogs = () => {
   const [blogs, setBlogs] = useState(() => {
     const saved = sessionStorage.getItem('portfolioBlogs');
     return saved ? JSON.parse(saved) : [];
+  });
+  const [isLoading, setIsLoading] = useState(() => {
+    return !sessionStorage.getItem('portfolioBlogs');
   });
   const [currentPage, setCurrentPage] = useState(1);
   const blogsPerPage = 4;
@@ -72,8 +88,18 @@ const Blogs = () => {
         setBlogs(res.data);
         sessionStorage.setItem('portfolioBlogs', JSON.stringify(res.data));
       })
-      .catch(err => console.error(err));
+      .catch(err => console.error(err))
+      .finally(() => setIsLoading(false));
   }, [API_URL]);
+
+  // Memoize stripped previews so regex doesn't run on every render
+  const blogPreviews = useMemo(() => {
+    const map = {};
+    blogs.forEach(blog => {
+      map[blog._id] = stripMarkdown(blog.content);
+    });
+    return map;
+  }, [blogs]);
 
   // Pagination logic
   const indexOfLastBlog = currentPage * blogsPerPage;
@@ -99,7 +125,11 @@ const Blogs = () => {
           </h2>
         </div>
 
-        {blogs.length === 0 ? (
+        {isLoading ? (
+          <div className="flex flex-col gap-8">
+            {[1, 2, 3].map(i => <BlogCardSkeleton key={i} />)}
+          </div>
+        ) : blogs.length === 0 ? (
           <div className="flex justify-center items-center h-48 w-full border border-dashed border-border-main rounded-xl">
             <p className="text-text-dim text-lg font-medium">Will get updated Soon...!</p>
           </div>
@@ -112,6 +142,7 @@ const Blogs = () => {
                   blog={blog} 
                   i={i} 
                   navigate={navigate}
+                  preview={blogPreviews[blog._id] || ''}
                 />
               ))}
             </div>

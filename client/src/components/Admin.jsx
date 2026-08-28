@@ -19,6 +19,7 @@ const Admin = () => {
   const [view, setView] = useState('list'); // 'list', 'create', 'edit'
   
   const [items, setItems] = useState([]);
+  const [itemsLoading, setItemsLoading] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
   const [deleteTarget, setDeleteTarget] = useState(null);
 
@@ -52,6 +53,9 @@ const Admin = () => {
 
   useEffect(() => {
     if (isAuthenticated && view === 'list') {
+      // Clear old items instantly so the previous panel doesn't linger
+      setItems([]);
+      setItemsLoading(true);
       fetchItems();
     }
   }, [activeTab, view, isAuthenticated]);
@@ -90,6 +94,8 @@ const Admin = () => {
       }
     } catch (err) {
       console.error(err);
+    } finally {
+      setItemsLoading(false);
     }
   };
 
@@ -413,7 +419,16 @@ const Admin = () => {
                 </div>
 
                 <div className="flex flex-col gap-6">
-                  {items.length === 0 ? (
+                  {itemsLoading ? (
+                    <div className="flex flex-col gap-6">
+                      {[1, 2, 3].map(i => (
+                        <div key={i} className="border-2 border-border-dim p-6 rounded-lg animate-pulse">
+                          <div className="h-5 bg-border-dim/30 rounded w-1/3 mb-4"></div>
+                          <div className="h-4 bg-border-dim/20 rounded w-2/3"></div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : items.length === 0 ? (
                     <p className="text-center text-text-dim text-lg py-10 border border-dashed border-border-main">No {activeTab} found.</p>
                   ) : (
                     items.map(item => (

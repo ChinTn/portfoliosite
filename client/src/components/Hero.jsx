@@ -1,7 +1,5 @@
-import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useMemo } from 'react';
 import { TypeAnimation } from 'react-type-animation';
-import { motion } from 'framer-motion';
 import img from '../assets/img.jpg';
 import imgEvil from '../assets/img-evil.jpg';
 import crimsonVideo from '../assets/crimson-moon-over-mountain.mp4';
@@ -15,13 +13,20 @@ const Hero = () => {
   const { theme } = useTheme();
 
   useEffect(() => {
-    // Preload the evil image so it's instantly available on theme switch
     const link = document.createElement('link');
     link.rel = 'preload';
     link.as = 'image';
     link.href = imgEvil;
     document.head.appendChild(link);
+    return () => link.remove();
   }, []);
+
+  // Only resolve the video src for the active theme — unmounts the other two entirely
+  const activeVideo = useMemo(() => {
+    if (theme === 'light') return valleyVideo;
+    if (theme === 'evil') return starsVideo;
+    return crimsonVideo;
+  }, [theme]);
 
   return (
     <section id="home" className="min-h-screen flex items-center justify-center pt-20 md:pt-16 pb-12 px-6 relative overflow-hidden">
@@ -37,21 +42,10 @@ const Hero = () => {
           ></div>
           <div className="relative w-full h-full bg-bg-dark">
             <video 
-              src={crimsonVideo} 
-              autoPlay loop muted playsInline defaultMuted
-              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${theme === 'dark' ? 'opacity-90' : 'opacity-0 pointer-events-none'}`}
-              style={{ objectPosition: 'center 30%' }}
-            />
-            <video 
-              src={valleyVideo} 
-              autoPlay loop muted playsInline defaultMuted
-              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${theme === 'light' ? 'opacity-90' : 'opacity-0 pointer-events-none'}`}
-              style={{ objectPosition: 'center 30%' }}
-            />
-            <video 
-              src={starsVideo} 
-              autoPlay loop muted playsInline defaultMuted
-              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${theme === 'evil' ? 'opacity-90' : 'opacity-0 pointer-events-none'}`}
+              key={theme}
+              src={activeVideo} 
+              autoPlay loop muted playsInline
+              className="absolute inset-0 w-full h-full object-cover opacity-90"
               style={{ objectPosition: 'center 30%' }}
             />
           </div>

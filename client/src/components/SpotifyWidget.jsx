@@ -17,7 +17,12 @@ const SpotifyWidget = () => {
 
   useEffect(() => {
     fetchSpotifyData();
-    const interval = setInterval(fetchSpotifyData, 10000); // Poll every 10s
+    const interval = setInterval(() => {
+      // Skip polling when the tab is hidden — saves API calls and re-renders
+      if (document.visibilityState === 'visible') {
+        fetchSpotifyData();
+      }
+    }, 10000);
     return () => clearInterval(interval);
   }, []);
 

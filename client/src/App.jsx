@@ -12,7 +12,6 @@ import GithubActivity from './components/GithubActivity';
 import GithubRepos from './components/GithubRepos';
 import Contact from './components/Contact';
 import CustomCursor from './components/CustomCursor';
-import CanvasCursorEffect from './components/CanvasCursorEffect';
 
 // Code Splitting for heavy or non-initial routes
 const Admin = React.lazy(() => import('./components/Admin'));
@@ -26,10 +25,14 @@ const Home = () => {
   const [mountRest, setMountRest] = React.useState(false);
 
   React.useLayoutEffect(() => {
-    if (navType === 'POP' && lenis) {
+    // Only attempt scroll restoration after below-the-fold content has mounted
+    if (navType === 'POP' && lenis && mountRest) {
       const savedScroll = sessionStorage.getItem('homeScrollPosition');
       if (savedScroll) {
-        lenis.scrollTo(parseInt(savedScroll, 10), { immediate: true });
+        // Small delay to let the DOM settle after mounting deferred sections
+        requestAnimationFrame(() => {
+          lenis.scrollTo(parseInt(savedScroll, 10), { immediate: true });
+        });
       }
     }
 
@@ -41,12 +44,12 @@ const Home = () => {
       }, 100);
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => {
       window.removeEventListener('scroll', handleScroll);
       clearTimeout(timeoutId);
     };
-  }, [navType, lenis]);
+  }, [navType, lenis, mountRest]);
 
   useEffect(() => {
     // Defer rendering heavy below-the-fold components to allow Hero to paint instantly

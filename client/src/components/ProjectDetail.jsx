@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link, useNavigate, useLocation } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import Navbar from './Navbar';
 import ReactMarkdown from 'react-markdown';
 
 const ProjectDetail = () => {
@@ -38,7 +37,6 @@ const ProjectDetail = () => {
 
   return (
     <>
-      <Navbar />
       <div className="min-h-screen pt-32 pb-24 px-6">
         <div className="max-w-4xl mx-auto w-full">
           <button onClick={handleBack} className="text-text-dim hover:text-text-main transition-colors mb-10 flex items-center gap-2 font-medium cursor-pointer border-none bg-transparent">
