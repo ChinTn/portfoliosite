@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, useNavigationType } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ReactLenis, useLenis } from 'lenis/react';
 import { Toaster } from 'react-hot-toast';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -21,17 +20,16 @@ const BlogDetail = React.lazy(() => import('./components/BlogDetail'));
 
 const Home = () => {
   const navType = useNavigationType();
-  const lenis = useLenis();
   const [mountRest, setMountRest] = React.useState(false);
 
   React.useLayoutEffect(() => {
     // Only attempt scroll restoration after below-the-fold content has mounted
-    if (navType === 'POP' && lenis && mountRest) {
+    if (navType === 'POP' && mountRest) {
       const savedScroll = sessionStorage.getItem('homeScrollPosition');
       if (savedScroll) {
         // Small delay to let the DOM settle after mounting deferred sections
         requestAnimationFrame(() => {
-          lenis.scrollTo(parseInt(savedScroll, 10), { immediate: true });
+          window.scrollTo({ top: parseInt(savedScroll, 10), behavior: 'instant' });
         });
       }
     }
@@ -49,7 +47,7 @@ const Home = () => {
       window.removeEventListener('scroll', handleScroll);
       clearTimeout(timeoutId);
     };
-  }, [navType, lenis, mountRest]);
+  }, [navType, mountRest]);
 
   useEffect(() => {
     // Defer rendering heavy below-the-fold components to allow Hero to paint instantly
@@ -89,17 +87,12 @@ const PageTransition = ({ children }) => {
 const ScrollToTop = () => {
   const location = useLocation();
   const navType = useNavigationType();
-  const lenis = useLenis();
   
   useEffect(() => {
     if (navType !== 'POP') {
-      if (lenis) {
-        lenis.scrollTo(0, { immediate: true });
-      } else {
-        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-      }
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     }
-  }, [location, navType, lenis]);
+  }, [location, navType]);
   return null;
 };
 
@@ -147,11 +140,9 @@ const AnimatedRoutes = () => {
 
 function App() {
   return (
-    <ReactLenis root options={{ lerp: 0.15, smoothTouch: false }}>
-      <Router>
-        <AnimatedRoutes />
-      </Router>
-    </ReactLenis>
+    <Router>
+      <AnimatedRoutes />
+    </Router>
   );
 }
 
