@@ -1,10 +1,8 @@
 import React, { useEffect, useMemo } from 'react';
 import { TypeAnimation } from 'react-type-animation';
 import img from '../assets/img.jpg';
-import imgEvil from '../assets/img-evil.jpg';
 import crimsonVideo from '../assets/crimson-moon-over-mountain.mp4';
 import valleyVideo from '../assets/valley.mp4';
-import starsVideo from '../assets/stars-underneath..mp4';
 import SpotifyWidget from './SpotifyWidget';
 import { useTheme } from '../context/ThemeContext';
 import toast from 'react-hot-toast';
@@ -16,7 +14,7 @@ const Hero = () => {
     const link = document.createElement('link');
     link.rel = 'preload';
     link.as = 'image';
-    link.href = imgEvil;
+    link.href = img;
     document.head.appendChild(link);
     return () => link.remove();
   }, []);
@@ -24,7 +22,6 @@ const Hero = () => {
   // Only resolve the video src for the active theme — unmounts the other two entirely
   const activeVideo = useMemo(() => {
     if (theme === 'light') return valleyVideo;
-    if (theme === 'evil') return starsVideo;
     return crimsonVideo;
   }, [theme]);
 
@@ -79,17 +76,10 @@ const Hero = () => {
             {/* Profile Picture */}
             <div className="relative">
               <div className="relative w-52 h-52 md:w-60 md:h-60 rounded-2xl overflow-hidden shadow-lg bg-bg-dark">
-                {/* Default Image */}
                 <img 
                   src={img} 
-                  alt="Chintan Default" 
-                  className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-out ${theme !== 'evil' ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
-                />
-                {/* Evil Image */}
-                <img 
-                  src={imgEvil} 
-                  alt="Chintan Evil" 
-                  className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-out ${theme === 'evil' ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+                  alt="Chintan" 
+                  className="absolute inset-0 w-full h-full object-cover"
                 />
               </div>
             </div>

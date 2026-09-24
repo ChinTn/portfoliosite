@@ -20,7 +20,7 @@ app.use(cors({
     if (!origin) return callback(null, true);
     
     const allowed = [
-      /^http:\/\/localhost:\d+$/,
+      /^http:\/\/(localhost|127\.0\.0\.1):\d+$/,
       /\.vercel\.app$/,
       /\.dev$/,
       'https://whosworld.vercel.app/'

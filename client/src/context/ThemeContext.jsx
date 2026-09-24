@@ -4,7 +4,8 @@ const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
   const [theme, setTheme] = useState(() => {
-    return localStorage.getItem('portfolio-theme') || 'dark';
+    const savedTheme = localStorage.getItem('portfolio-theme');
+    return savedTheme === 'light' ? 'light' : 'dark';
   });
 
   useEffect(() => {
@@ -20,9 +21,7 @@ export const ThemeProvider = ({ children }) => {
 
   const cycleTheme = useCallback(() => {
     setTheme(prev => {
-      if (prev === 'dark') return 'evil';
-      if (prev === 'evil') return 'light';
-      return 'dark';
+      return prev === 'dark' ? 'light' : 'dark';
     });
   }, []);
 

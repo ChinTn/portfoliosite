@@ -33,22 +33,6 @@
   --theme-border-dim: rgba(255, 255, 255, 0.05);
 }
 
-[data-theme="evil"] {
-  /* Evil Theme (Black & Red) */
-  --theme-bg-dark: #000000;
-  --theme-bg-nav: #050000;
-  --theme-card-bg: #0a0000;
-  --theme-card-bg-light: #150000;
-  
-  --theme-text-main: #ffcccc;
-  --theme-text-dim: #ff6666;
-  --theme-highlight: #ff0000;
-  --theme-video-bg: #ffffff; /* White in evil theme */
-  
-  --theme-border-main: rgba(255, 0, 0, 0.3);
-  --theme-border-dim: rgba(255, 0, 0, 0.15);
-}
-
 [data-theme="light"] {
   /* Light Theme (Soft White & Blue) */
   --theme-bg-dark: #f4f4f5;
