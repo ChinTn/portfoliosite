@@ -53,7 +53,7 @@ const CustomCursor = () => {
 
   return (
     <motion.div
-      className="fixed top-0 left-0 pointer-events-none z-[999999] flex items-center justify-center mix-blend-difference"
+      className="fixed top-0 left-0 pointer-events-none z-[999999] flex items-center justify-center"
       style={{
         x: cursorXSpring,
         y: cursorYSpring,
@@ -62,7 +62,7 @@ const CustomCursor = () => {
       }}
     >
       <motion.div 
-        className="bg-white rounded-full"
+        className="bg-text-main rounded-full"
         animate={{
           width: isHovering ? 40 : 8,
           height: isHovering ? 40 : 8,

@@ -10,10 +10,15 @@ const Navbar = () => {
   const toggleMenu = () => setIsOpen(!isOpen);
 
   useEffect(() => {
+    let rafId = null;
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      if (rafId) return;
+      rafId = requestAnimationFrame(() => {
+        setScrolled(window.scrollY > 20);
+        rafId = null;
+      });
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
 
     const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
     axios.get(`${API_URL}/api/settings`)
@@ -22,7 +27,10 @@ const Navbar = () => {
       })
       .catch(err => console.error(err));
 
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
   }, []);
 
   const navLinks = [
