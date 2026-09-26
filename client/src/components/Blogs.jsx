@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { HoverPreviewLink } from './HoverPreview';
 
 const stripMarkdown = (text) => {
   if (!text) return '';
@@ -19,22 +20,14 @@ const stripMarkdown = (text) => {
 
 const BlogCard = React.memo(({ blog, navigate, preview }) => {
   return (
-    <div 
+    <HoverPreviewLink
       onClick={() => navigate(`/blog/${blog._id}`)}
-      className="bg-transparent border-2 border-border-dim rounded-lg overflow-hidden cursor-pointer group transition-colors duration-300 flex flex-col md:flex-row h-auto md:h-[240px] hover:border-border-main"
+      className="bg-transparent border-2 border-border-dim rounded-lg cursor-pointer group transition-colors duration-300 flex flex-col md:flex-row h-auto md:h-[240px] hover:border-border-main hover:z-50 relative"
+      imageUrl={blog.imageUrl}
+      title={blog.title}
+      domain="Article"
     >
-      {blog.imageUrl && (
-        <div className="overflow-hidden relative h-48 md:h-auto md:w-2/5 shrink-0 border-b md:border-b-0 md:border-r border-border-dim/20">
-          <img 
-            src={blog.imageUrl} 
-            alt={blog.title}
-            loading="lazy"
-            className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300" 
-          />
-        </div>
-      )}
-      
-      <div className="p-4 md:px-6 md:py-5 flex flex-col flex-grow relative z-10 md:w-3/5">
+      <div className="p-4 md:px-6 md:py-5 flex flex-col flex-grow relative z-10 w-full">
         <h3 className="text-xl font-bold text-text-main mb-2 group-hover:text-highlight transition-colors">
           {blog.title}
         </h3>
@@ -52,7 +45,7 @@ const BlogCard = React.memo(({ blog, navigate, preview }) => {
           </div>
         </div>
       </div>
-    </div>
+    </HoverPreviewLink>
   );
 });
 

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { CopyEmail } from './CopyEmail';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -53,7 +54,7 @@ const Contact = () => {
               <div className="w-12 h-12 rounded-full bg-card-bg border border-border-dim flex items-center justify-center text-xl group-hover:bg-highlight group-hover:text-text-main group-hover:border-highlight transition-all duration-300">
                 <i className="fas fa-envelope"></i>
               </div>
-              <span className="text-lg group-hover:text-text-main transition-colors">vaghamshichintan9@gmail.com</span>
+              <CopyEmail email="vaghamshichintan9@gmail.com" />
             </div>
 
             <div className="flex items-center gap-4 text-text-dim group">

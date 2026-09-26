@@ -23,6 +23,7 @@ router.post('/', auth, async (req, res) => {
     deployedLink: req.body.deployedLink,
     imageUrl: req.body.imageUrl,
     category: req.body.category,
+    blogLink: req.body.blogLink,
     status: req.body.status || 'completed'
   });
 
@@ -58,6 +59,7 @@ router.put('/:id', auth, async (req, res) => {
         deployedLink: req.body.deployedLink,
         imageUrl: req.body.imageUrl,
         category: req.body.category,
+        blogLink: req.body.blogLink,
         status: req.body.status
       },
       { new: true }

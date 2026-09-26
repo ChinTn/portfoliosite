@@ -103,7 +103,7 @@ const AnimatedRoutes = () => {
   return (
     <>
       <ScrollToTop />
-      <CustomCursor />
+      {/* <CustomCursor /> - Temporarily disabled to test scroll performance */}
       
       <Toaster 
         position="bottom-center"

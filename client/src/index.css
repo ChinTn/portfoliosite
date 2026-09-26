@@ -62,11 +62,13 @@ body {
   transition: background-color 0.5s ease, color 0.5s ease;
 }
 
+/* Temporarily restoring default cursor
 @media (pointer: fine) {
   body, a, button, .cursor-pointer {
     cursor: none !important;
   }
 }
+*/
 
 
 /* Hero Image Themed Filters */

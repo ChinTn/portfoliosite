@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { useParams, useNavigate, useLocation, Link } from 'react-router-dom';
 import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
 
@@ -45,7 +45,7 @@ const ProjectDetail = () => {
           
           <h1 className="text-4xl md:text-5xl font-extrabold text-text-main mb-10 tracking-tight">{project.title}</h1>
           
-          <div className="bg-card-bg-light border border-border-dim p-8 md:p-12">
+          <div className="bg-card-bg-light border border-border-dim rounded-2xl p-8 md:p-12">
             <div className="text-text-dim text-lg leading-relaxed prose prose-invert max-w-none">
               <ReactMarkdown components={{
                 code: ({node, className, children, ...props}) => {
@@ -76,18 +76,23 @@ const ProjectDetail = () => {
             </div>
             
             <div className="flex flex-wrap gap-4 mt-10">
+              {project.blogLink && (
+                <Link to={project.blogLink.startsWith('http') ? project.blogLink : (project.blogLink.startsWith('/') ? project.blogLink : `/blog/${project.blogLink}`)} className="inline-flex items-center gap-2 px-6 py-3 border border-highlight/50 rounded-xl bg-highlight/10 hover:bg-highlight/20 text-text-main font-medium transition-all hover:-translate-y-1 group">
+                  <i className="fas fa-book-open text-highlight text-lg transition-transform duration-300 group-hover:scale-125 group-hover:rotate-6"></i> Read Blog
+                </Link>
+              )}
               {project.githubLink && (
-                <a href={project.githubLink} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 px-6 py-3 border border-border-dim bg-bg-nav hover:bg-card-bg text-text-main font-medium transition-all hover:-translate-y-1 group">
+                <a href={project.githubLink} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 px-6 py-3 border border-border-dim rounded-xl bg-bg-nav hover:bg-card-bg text-text-main font-medium transition-all hover:-translate-y-1 group">
                   <i className="fab fa-github text-lg transition-transform duration-300 group-hover:scale-125 group-hover:rotate-6"></i> GitHub Repository
                 </a>
               )}
               {project.deployedLink && (
-                <a href={project.deployedLink} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 px-6 py-3 bg-highlight hover:bg-highlight/90 text-text-main font-medium transition-all hover:-translate-y-1 group">
+                <a href={project.deployedLink} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-highlight hover:bg-highlight/90 text-text-main font-medium transition-all hover:-translate-y-1 group">
                   <i className="fas fa-external-link-alt text-sm transition-transform duration-300 group-hover:scale-125 group-hover:-rotate-6"></i> Visit Site
                 </a>
               )}
               {project.link && !project.deployedLink && !project.githubLink && (
-                <a href={project.link} target="_blank" rel="noreferrer" className={`${project.link.includes('github') ? "border border-border-dim bg-bg-nav hover:bg-card-bg" : "bg-highlight hover:bg-highlight/90"} inline-flex items-center gap-2 px-6 py-3 text-text-main font-medium transition-all hover:-translate-y-1 group`}>
+                <a href={project.link} target="_blank" rel="noreferrer" className={`${project.link.includes('github') ? "border border-border-dim bg-bg-nav hover:bg-card-bg" : "bg-highlight hover:bg-highlight/90"} inline-flex items-center gap-2 px-6 py-3 rounded-xl text-text-main font-medium transition-all hover:-translate-y-1 group`}>
                   <i className={`${project.link.includes('github') ? "fab fa-github text-lg group-hover:rotate-6" : "fas fa-external-link-alt text-sm group-hover:-rotate-6"} transition-transform duration-300 group-hover:scale-125`}></i> {project.link.includes('github') ? 'GitHub Repository' : 'Visit Project'}
                 </a>
               )}

@@ -29,9 +29,8 @@ const Hero = () => {
     <section id="home" className="min-h-screen flex items-center justify-center pt-20 md:pt-16 pb-12 px-6 relative overflow-hidden">
       <div className="max-w-6xl mx-auto w-full relative z-10">
         
-        {/* Cinematic Video Banner */}
+        {/* Cinematic Video Banner */} 
         <div className="w-full max-w-4xl mx-auto h-32 md:h-44 mb-6 relative overflow-hidden rounded-2xl">
-          {/* Gradient overlay for smooth blending */}
           <div className="absolute inset-0 z-10 pointer-events-none"
             style={{
               background: 'linear-gradient(to top, var(--color-bg-dark) 0%, transparent 40%), linear-gradient(to bottom, var(--color-bg-dark) 0%, transparent 20%), linear-gradient(to left, var(--color-bg-dark) 0%, transparent 20%), linear-gradient(to right, var(--color-bg-dark) 0%, transparent 20%)'
@@ -160,3 +159,5 @@ const Hero = () => {
 };
 
 export default Hero;
+
+

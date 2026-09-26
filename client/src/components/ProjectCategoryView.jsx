@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useParams, useNavigate } from 'react-router-dom';
+import { HoverPreviewLink } from './HoverPreview';
 
 const ProjectCategoryView = () => {
   const { status } = useParams();
@@ -80,25 +81,26 @@ const ProjectCategoryView = () => {
                 {currentProjects.map((proj) => (
                   <div 
                     key={proj._id} 
-                    className="group flex flex-col h-full border-2 border-border-dim bg-transparent rounded-lg transition-colors duration-300 relative overflow-hidden hover:border-border-main"
+                    className="group flex flex-col h-full border-2 border-border-dim bg-transparent rounded-lg transition-colors duration-300 relative hover:border-border-main hover:z-50"
                   >
-                    <div onClick={() => navigate(`/project/${proj._id}`)} className="cursor-pointer flex-grow flex flex-col">
-                      {proj.imageUrl && (
-                        <div className="w-full h-48 md:h-56 overflow-hidden relative border-b border-border-dim/20">
-                          <img 
-                            src={proj.imageUrl} 
-                            alt={proj.title} 
-                            className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300" 
-                          />
-                        </div>
-                      )}
-
-                      <div className="p-6 flex flex-col flex-grow text-left">
+                    <HoverPreviewLink 
+                      onClick={() => navigate(`/project/${proj._id}`)} 
+                      className="flex-grow flex flex-col"
+                      imageUrl={proj.imageUrl}
+                      title={proj.title}
+                      domain={proj.category || 'Project'}
+                    >
+                      <div className="p-6 flex flex-col flex-grow text-left w-full">
                         <div className="flex justify-between items-start mb-3">
                           <h3 className="text-xl font-bold text-text-main group-hover:text-highlight transition-colors">
                             {proj.title}
                           </h3>
                           <div className="flex gap-3 text-text-dim text-sm pt-1">
+                            {proj.blogLink && (
+                              <Link to={proj.blogLink.startsWith('http') ? proj.blogLink : (proj.blogLink.startsWith('/') ? proj.blogLink : `/blog/${proj.blogLink}`)} className="hover:text-text-main transition-colors" title="Read Blog Post" onClick={(e) => e.stopPropagation()}>
+                                <i className="fas fa-book-open"></i>
+                              </Link>
+                            )}
                             {proj.githubLink && (
                               <a href={proj.githubLink} target="_blank" rel="noreferrer" className="hover:text-text-main transition-colors" title="View Source on GitHub" onClick={(e) => e.stopPropagation()}>
                                 <i className="fab fa-github"></i>
@@ -121,7 +123,7 @@ const ProjectCategoryView = () => {
                           {proj.description}
                         </p>
                       </div>
-                    </div>
+                    </HoverPreviewLink>
                     
                     <div className="px-6 pb-6 flex items-center justify-between mt-auto">
                       <div className="flex flex-wrap gap-2 text-[11px] text-text-dim w-full font-medium">

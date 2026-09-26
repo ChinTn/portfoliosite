@@ -8,6 +8,7 @@ import rehypeSlug from 'rehype-slug';
 import rehypeRaw from 'rehype-raw';
 import GithubSlugger from 'github-slugger';
 import 'highlight.js/styles/atom-one-dark.css';
+import { ScrollSpine } from './ScrollSpine';
 
 const BlogDetail = () => {
   const { id } = useParams();
@@ -197,27 +198,17 @@ const BlogDetail = () => {
 
         {/* Right: Sticky Table of Contents */}
         <aside className="hidden lg:block relative">
-          <div className="sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto pr-4">
-            <h4 className="text-xs font-bold uppercase tracking-widest text-text-dim mb-6">On This Page</h4>
-            <nav className="space-y-1 relative border-l border-border-dim">
-              {headings.length > 0 ? headings.map((heading, index) => (
-                <a
-                  key={index}
-                  href={`#${heading.id}`}
-                  onClick={(e) => handleTocClick(e, heading.id)}
-                  className={`block py-1.5 pr-2 transition-colors duration-200 text-sm ${
-                    activeId === heading.id 
-                      ? 'text-highlight font-medium border-l-2 border-highlight -ml-[1px] pl-3' 
-                      : 'text-text-main/60 hover:text-text-main pl-3'
-                  }`}
-                  style={{ paddingLeft: `${(heading.level - 1) * 12 + 12}px` }}
-                >
-                  {heading.text}
-                </a>
-              )) : (
-                <p className="text-sm text-text-dim pl-3">No headings found.</p>
-              )}
-            </nav>
+          <div className="sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto px-4">
+            <h4 className="text-xs font-bold uppercase tracking-widest text-text-dim mb-6 pl-4">On This Page</h4>
+            {headings.length > 0 ? (
+              <ScrollSpine 
+                items={headings.map(h => ({ id: h.id, label: h.text }))} 
+                height={Math.max(headings.length * 40, 300)}
+                className="ml-4"
+              />
+            ) : (
+              <p className="text-sm text-text-dim pl-3">No headings found.</p>
+            )}
           </div>
         </aside>
 

@@ -24,6 +24,9 @@ const projectSchema = new mongoose.Schema({
   category: {
     type: String,
   },
+  blogLink: {
+    type: String,
+  },
   status: {
     type: String,
     enum: ['current', 'completed', 'future'],

@@ -34,6 +34,7 @@ const Admin = () => {
   const [status, setStatus] = useState('completed');
   const [githubLink, setGithubLink] = useState('');
   const [deployedLink, setDeployedLink] = useState('');
+  const [blogLink, setBlogLink] = useState('');
 
   // Settings states
   const [settingsLocation, setSettingsLocation] = useState('');
@@ -137,6 +138,7 @@ const Admin = () => {
       setStatus(item.status || 'completed');
       setGithubLink(item.githubLink || '');
       setDeployedLink(item.deployedLink || '');
+      setBlogLink(item.blogLink || '');
     }
     setView('edit');
   };
@@ -225,7 +227,7 @@ const Admin = () => {
     const finalContent = resolveContent(descOrContent);
     
     const payload = activeTab === 'projects' 
-      ? { title, description: finalContent, link, imageUrl, category, status, githubLink, deployedLink }
+      ? { title, description: finalContent, link, imageUrl, category, status, githubLink, deployedLink, blogLink }
       : { title, content: finalContent, imageUrl };
 
     try {
@@ -244,7 +246,7 @@ const Admin = () => {
   const openCreate = () => {
     setEditingItem(null);
     setTitle(''); setDescOrContent(''); setLink(''); setImageUrl(''); setImageMap({});
-    setCategory(''); setStatus('completed'); setGithubLink(''); setDeployedLink('');
+    setCategory(''); setStatus('completed'); setGithubLink(''); setDeployedLink(''); setBlogLink('');
     setIsPreview(false);
     setView('create');
   };
@@ -577,6 +579,15 @@ const Admin = () => {
                           className="w-full bg-bg-nav border border-border-dim px-4 py-4 text-text-main placeholder-text-dim/50 focus:outline-none focus:border-highlight focus:ring-1 focus:ring-highlight transition-all"
                         />
                       </div>
+                    )}
+                    {activeTab === 'projects' && (
+                      <input 
+                        type="text" 
+                        placeholder="Associated Blog Link (Optional, e.g. /blog/123)" 
+                        value={blogLink} 
+                        onChange={e => setBlogLink(e.target.value)} 
+                        className="w-full bg-bg-nav border border-border-dim px-4 py-4 text-text-main placeholder-text-dim/50 focus:outline-none focus:border-highlight focus:ring-1 focus:ring-highlight transition-all mt-6"
+                      />
                     )}
 
                     <button 
