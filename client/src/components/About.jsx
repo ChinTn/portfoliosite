@@ -99,10 +99,7 @@ const About = () => {
               {/* Profile video */}{" "}
               <video src={videoSrc} autoPlay loop muted playsInline onClick={cycleTheme} className="relative z-10 w-full max-w-[350px] aspect-[4/5] object-cover border border-border-main grayscale group-hover:grayscale-0 transition-all duration-500 cursor-pointer" />{" "}
             </div>{" "}
-            <p className="text-text-dim/60 text-xs italic font-medium hover:text-text-main transition-colors mt-6 md:mr-4">
-              {" "}
-              ~the colors inspired from xevrion.dev{" "}
-            </p>{" "}
+           {" "}
           </div>{" "}
         </div>{" "}
       </div>{" "}
