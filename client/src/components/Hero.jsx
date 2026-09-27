@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import { TypeAnimation } from 'react-type-animation';
+import LikeContainer from './LikeButton';
 import { DirectionalLink } from './DirectionalLink';
 import img from '../assets/img.jpg';
 import underlineImg from '../assets/underline.jpeg';
@@ -7,7 +8,8 @@ import crimsonVideo from '../assets/crimson-moon-over-mountain.mp4';
 import valleyVideo from '../assets/valley.mp4';
 import SpotifyWidget from './SpotifyWidget';
 import { useTheme } from '../context/ThemeContext';
-import toast from 'react-hot-toast';
+import { showBanner } from './AnnouncementBanner';
+
 
 const Hero = () => {
   const { theme } = useTheme();
@@ -90,20 +92,20 @@ const Hero = () => {
               <div className="relative flex flex-col items-center group "> <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="text-sm text-text-dim group-hover:text-highlight transition-colors flex items-center gap-1.5 pb-1"> <i className="fas fa-download text-xs"></i > <span className='text-text-main font-medium'>Download CV</span> </a> <img src={underlineImg} alt="underline" className="absolute -bottom-2 w-[110%] opacity-70 mix-blend-screen pointer-events-none" /> </div>
               <span className="text-border-dim">|</span>
               <button 
-                onClick={() => toast('Not built yet 🚧 (Coming Soon!)', { icon: '🔒' })} 
+                                onClick={() => showBanner('Not built yet (Coming Soon!)', 'success')} 
                 className="text-sm text-text-dim hover:text-highlight transition-colors flex items-center gap-1.5"
               >
                 <i className="fas fa-lock text-xs"></i> <span className='text-text-main font-medium'> Private Room</span>
               </button>
+               
             </div>
+          <LikeContainer />
           </div>
 
           {/* Text Content */}
           <div className="flex-1 flex flex-col items-center md:items-start text-center md:text-left max-w-xl md:pl-8 lg:pl-12 w-full">
             
-            <h1 className="text-5xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-text-main to-text-dim mb-1 tracking-tight">
-              ChinTn
-            </h1>
+            <div className="flex items-center gap-4 mb-1"><h1 className="text-5xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-text-main to-text-dim tracking-tight">ChinTn</h1></div>
             
             {/* Spotify Bio Link */}
             <div className="flex items-center justify-center md:justify-start gap-3 mb-4">
@@ -161,6 +163,13 @@ const Hero = () => {
 };
 
 export default Hero;
+
+
+
+
+
+
+
 
 
 

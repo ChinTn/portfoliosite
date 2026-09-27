@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { CopyEmail } from './CopyEmail';
-
+import Guestbook from './Guestbook';
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -42,7 +42,7 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="py-24 px-6 min-h-screen border-t border-border-main flex items-center">
+    <section id="contact" className="py-24 px-6 min-h-screen border-t border-border-main flex flex-col items-center justify-center">
       <div className="max-w-5xl mx-auto w-full flex flex-col md:flex-row md:items-start gap-16">
         
         {/* Left Side: Contact Info */}
@@ -160,10 +160,17 @@ const Contact = () => {
             </form>
           </div>
         </div>
-
       </div>
+      <div className="max-w-5xl mx-auto w-full mt-24 border-t border-border-main pt-12">
+           <Guestbook />
+        </div>
     </section>
   );
 };
 
 export default Contact;
+
+
+
+
+

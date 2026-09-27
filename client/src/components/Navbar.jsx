@@ -5,7 +5,6 @@ import axios from 'axios';
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [settings, setSettings] = useState({ location: '', temperature: '' });
   const location = useLocation();
   const toggleMenu = () => setIsOpen(!isOpen);
 
@@ -21,12 +20,6 @@ const Navbar = () => {
     window.addEventListener('scroll', handleScroll, { passive: true });
 
     const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-    axios.get(`${API_URL}/api/settings`)
-      .then(res => {
-        if (res.data) setSettings(res.data);
-      })
-      .catch(err => console.error(err));
-
     return () => {
       window.removeEventListener('scroll', handleScroll);
       if (rafId) cancelAnimationFrame(rafId);
@@ -34,10 +27,10 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { name: 'Home', path: '/' },
     { name: 'About', path: '/about' },
     { name: 'Projects', path: '/projects' },
     { name: 'Blog', path: '/blog' },
+    { name: 'GuestBook' , path: '/guestbook'},
     { name: 'Contact', path: '/contact' },
   ];
 
@@ -70,15 +63,7 @@ const Navbar = () => {
           <span className="text-text-main transition-all duration-300 group-hover:pl-1">011</span>
         </Link>
 
-        {/* Location & Temp (Desktop Only) */}
-        {settings.location && (
-          <div className="hidden lg:flex items-center gap-2 text-sm font-bold tracking-widest uppercase text-highlight cursor-default relative">
-              <i className="fas fa-map-marker-alt"></i>
-              <span>{settings.location}</span>
-              <span className="text-text-dim/50 px-1 font-light">|</span>
-              <span>{settings.temperature}</span>
-          </div>
-        )}
+        
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-8">
@@ -124,3 +109,6 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+
+

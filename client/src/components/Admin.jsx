@@ -6,7 +6,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeRaw from 'rehype-raw';
-import toast from 'react-hot-toast';
+import { showBanner } from './AnnouncementBanner';
 
 const Admin = () => {
   const navigate = useNavigate();
@@ -164,7 +164,7 @@ const Admin = () => {
     
     // Check file size (max 2.5MB for MongoDB limits when multiple images exist)
     if (file.size > 2.5 * 1024 * 1024) {
-      toast.error('Image is too large! Maximum size is 2.5MB.', { style: { background: '#1a1a1a', color: '#e5e5e5' } });
+      showBanner('Image is too large! Maximum size is 2.5MB.', { style: { background: '#1a1a1a', color: '#e5e5e5' } });
       return;
     }
     
@@ -184,11 +184,11 @@ const Admin = () => {
       
       const imageMarkdown = `![Image](${imgKey})`;
       setDescOrContent(prev => prev.replace(loadingText, imageMarkdown));
-      toast.success('Image inserted!', { style: { background: '#1a1a1a', color: '#e5e5e5' }, icon: '🖼️' });
+      showBanner('Image inserted!', { style: { background: '#1a1a1a', color: '#e5e5e5' }, icon: '🖼️' });
     };
     reader.onerror = () => {
       setDescOrContent(prev => prev.replace(loadingText, ''));
-      toast.error('Failed to read image.');
+      showBanner('Failed to read image.');
     };
     reader.readAsDataURL(file);
   };
@@ -337,12 +337,7 @@ const Admin = () => {
                 >
                   Blogs
                 </button>
-                <button 
-                  onClick={() => { setActiveTab('settings'); setView('list'); }} 
-                  className={`text-lg font-bold pb-2 border-b-2 transition-all ${activeTab === 'settings' ? 'border-highlight text-highlight' : 'border-transparent text-text-dim hover:text-text-main'}`}
-                >
-                  Settings
-                </button>
+                
               </div>
             )}
             <button onClick={handleLogout} className="text-red-500 hover:text-red-400 transition-colors text-xl ml-4" title="Logout">
@@ -355,53 +350,7 @@ const Admin = () => {
         <div className="relative">
           <AnimatePresence mode="wait">
             
-            {activeTab === 'settings' && (
-              <motion.div 
-                key="settings"
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: -20, opacity: 0 }}
-                transition={{ duration: 0.2, ease: "easeInOut" }}
-                className="bg-card-bg-light border border-border-dim p-8 md:p-10 max-w-2xl mx-auto mt-10"
-              >
-                <h2 className="text-2xl font-bold text-highlight mb-8 uppercase tracking-widest">Global Site Settings</h2>
-                
-                {settingsSaved && (
-                  <div className="mb-8 p-4 border border-green-500/20 bg-green-500/10 text-green-400 text-center font-medium">
-                    Settings successfully saved!
-                  </div>
-                )}
-
-                <form onSubmit={handleSettingsSubmit} className="flex flex-col gap-6">
-                  <div>
-                    <label className="block text-text-dim text-sm font-bold mb-2 uppercase tracking-wider">City / State</label>
-                    <input 
-                      type="text" 
-                      placeholder="e.g. Ahmedabad, GJ" 
-                      value={settingsLocation} 
-                      onChange={e => setSettingsLocation(e.target.value)} 
-                      className="w-full bg-bg-nav border border-border-dim px-4 py-4 text-text-main focus:outline-none focus:border-highlight focus:ring-1 focus:ring-highlight transition-all"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-text-dim text-sm font-bold mb-2 uppercase tracking-wider">Temperature</label>
-                    <input 
-                      type="text" 
-                      placeholder="e.g. 32°C" 
-                      value={settingsTemp} 
-                      onChange={e => setSettingsTemp(e.target.value)} 
-                      className="w-full bg-bg-nav border border-border-dim px-4 py-4 text-text-main focus:outline-none focus:border-highlight focus:ring-1 focus:ring-highlight transition-all"
-                    />
-                  </div>
-                  <button 
-                    type="submit" 
-                    className="mt-6 w-full py-4 font-bold text-text-main tracking-widest uppercase bg-highlight hover:bg-highlight/90 transition-all shadow-glow"
-                  >
-                    Save Settings
-                  </button>
-                </form>
-              </motion.div>
-            )}
+            
 
             {activeTab !== 'settings' && view === 'list' && (
               <motion.div 

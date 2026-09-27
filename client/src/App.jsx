@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, useNavigationType } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Toaster } from 'react-hot-toast';
+import { GlobalBanner } from './components/AnnouncementBanner';
+
+
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -11,6 +13,7 @@ import GithubActivity from './components/GithubActivity';
 import GithubRepos from './components/GithubRepos';
 import Contact from './components/Contact';
 import CustomCursor from './components/CustomCursor';
+import Guestbook from './components/Guestbook';
 
 // Code Splitting for heavy or non-initial routes
 const Admin = React.lazy(() => import('./components/Admin'));
@@ -105,16 +108,7 @@ const AnimatedRoutes = () => {
       <ScrollToTop />
       {/* <CustomCursor /> - Temporarily disabled to test scroll performance */}
       
-      <Toaster 
-        position="bottom-center"
-        toastOptions={{
-          style: {
-            background: '#1a1a1a',
-            color: '#e5e5e5',
-            border: '1px solid #333',
-          },
-        }}
-      />
+      <GlobalBanner />
       {!isAdminRoute && <Navbar />}
       
       <AnimatePresence mode="wait" initial={false}>
@@ -127,7 +121,7 @@ const AnimatedRoutes = () => {
           <Route path="/project/:id" element={<PageTransition><React.Suspense fallback={<div className="min-h-screen"></div>}><ProjectDetail /></React.Suspense></PageTransition>} />
           <Route path="/projects/:status" element={<PageTransition><React.Suspense fallback={<div className="min-h-screen"></div>}><ProjectCategoryView /></React.Suspense></PageTransition>} />
           <Route path="/blog/:id" element={<PageTransition><React.Suspense fallback={<div className="min-h-screen"></div>}><BlogDetail /></React.Suspense></PageTransition>} />
-          
+          <Route path="/guestbook" element={<PageTransition><div className="min-h-screen pt-24 px-6"><Guestbook /></div></PageTransition>} />
           <Route path="/admin" element={<PageTransition><React.Suspense fallback={<div className="min-h-screen"></div>}><Admin /></React.Suspense></PageTransition>} />
         </Routes>
       </AnimatePresence>
@@ -147,3 +141,7 @@ function App() {
 }
 
 export default App;
+
+
+
+

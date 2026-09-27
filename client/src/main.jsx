@@ -7,10 +7,11 @@ import { ClerkProvider } from '@clerk/react'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <ClerkProvider>
+    <ClerkProvider publishableKey={import.meta.env.VITE_CLERK_PUBLISHABLE_KEY}>
         <ThemeProvider>
           <App />
         </ThemeProvider>
     </ClerkProvider>
   </StrictMode>,
 )
+

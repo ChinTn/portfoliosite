@@ -55,6 +55,8 @@ import blogsRoutes from './routes/blogs.js';
 import contactRoutes from './routes/contact.js';
 import spotifyRoutes from './routes/spotify.js';
 import settingsRoutes from './routes/settings.js';
+import guestbookRoutes from './routes/guestbook.js';
+import likesRoutes from './routes/likes.js';
 
 app.use('/api/auth', authRoutes);
 app.use('/api/projects', projectsRoutes);
@@ -62,7 +64,10 @@ app.use('/api/blogs', blogsRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/spotify', spotifyRoutes);
 app.use('/api/settings', settingsRoutes);
+app.use('/api/guestbook', guestbookRoutes);
+app.use('/api/likes', likesRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
