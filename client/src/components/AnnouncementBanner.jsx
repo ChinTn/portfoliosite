@@ -33,7 +33,7 @@ export function AnnouncementBanner({
 
   return (
     <div
-      className="grid w-full relative z-50 pt-20 px-6 max-w-5xl mx-auto"
+      className="grid w-full relative z-50 pt-2 px-6 max-w-5xl mx-auto"
       style={{ gridTemplateRows: open ? "1fr" : "0fr", transition: rows, marginTop: open ? 0 : 0 }}
     >
       <div className="min-h-0 overflow-hidden">
@@ -110,7 +110,7 @@ export function GlobalBanner() {
 
   return (
     <div className="fixed top-0 left-0 right-0 z-[100] pointer-events-none">
-      <div className="pointer-events-none">
+      <div className="pointer-events-none pt-20">
         <AnnouncementBanner open={open} onDismiss={() => setOpen(false)} type={type}>
           {message}
         </AnnouncementBanner>
@@ -122,5 +122,7 @@ export function GlobalBanner() {
 export const showBanner = (message, type = 'success') => {
   window.dispatchEvent(new CustomEvent('show-banner', { detail: { message, type } }));
 };
+
+
 
 
