@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import { TypeAnimation } from 'react-type-animation';
+import { DirectionalLink } from './DirectionalLink';
 import img from '../assets/img.jpg';
 import crimsonVideo from '../assets/crimson-moon-over-mountain.mp4';
 import valleyVideo from '../assets/valley.mp4';
@@ -29,7 +30,7 @@ const Hero = () => {
     <section id="home" className="min-h-screen flex items-center justify-center pt-20 md:pt-16 pb-12 px-6 relative overflow-hidden">
       <div className="max-w-6xl mx-auto w-full relative z-10">
         
-        {/* Cinematic Video Banner */} 
+        {/* Cinematic Video Banner */}
         <div className="w-full max-w-4xl mx-auto h-32 md:h-44 mb-6 relative overflow-hidden rounded-2xl">
           <div className="absolute inset-0 z-10 pointer-events-none"
             style={{
@@ -130,14 +131,16 @@ const Hero = () => {
             
             {/* Text Description */}
             <div className="text-text-dim/90 text-[15px] md:text-base leading-relaxed mb-4 max-w-lg font-light">
-              <p className="mb-2">
-                Obsessed with <span className="text-text-main font-medium">logic</span>, edge cases, and how things work.<br />
-                Currently in <span className="text-text-main font-medium">Development</span>. Have explored Data Science & Open Source.
+              <p className="mb-2 font-medium">
+                Upcoming <span className="text-text-main font-medium">Elite technology Engineer Intern </span> <span className='text-highlight font-medium'>@<DirectionalLink href="https://www.accenture.com/en" target="_blank" rel="noreferrer" rest>Accenture</DirectionalLink>.</span>
               </p>
-              <p className="mb-2">
-                Not tied to a single domain. Learning by building, breaking, and fixing.
+              <p className="mb-2 font-medium">
+                Building <span className="text-highlight font-medium"><DirectionalLink href="https://github.com/ChinTn/Lithium-matcher" target="_blank" rel="noreferrer" rest>Lithium</DirectionalLink></span>. Learning as well as contributing <span className='text-highlight font-medium'>@<DirectionalLink href="https://github.com/ChinTn/Ripes" target="_blank" rel="noreferrer" rest>Ripes</DirectionalLink>.</span>
               </p>
-              <p className="text-highlight font-medium tracking-wide text-sm md:text-base">
+              <p className="mb-2 md:text-base font-medium">
+                Currently learning <span className='text-text-main '>Low latency systems & Advanced HFT Algorithms.</span>
+              </p>
+              <p className="font-medium tracking-wide text-sm md:text-base">
                 Coding my way out of chaos • one repo at a time.
               </p>
             </div>
@@ -159,5 +162,8 @@ const Hero = () => {
 };
 
 export default Hero;
+
+
+
 
 

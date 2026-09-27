@@ -108,7 +108,7 @@ export function Marquee({
       onPointerLeave={(e) => {
         if (e.pointerType !== "touch") rampTo(1);
       }}
-      className={`relative overflow-hidden py-4 select-none [mask-image:linear-gradient(to_right,transparent,black_12%,black_88%,transparent)] ${className}`}
+      className={`relative overflow-hidden py-1 select-none [mask-image:linear-gradient(to_right,transparent,black_12%,black_88%,transparent)] ${className}`}
     >
       <div
         ref={trackRef}
@@ -120,7 +120,7 @@ export function Marquee({
       {showLens && (
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 py-4 [mask-image:linear-gradient(to_right,transparent_28%,black_40%,black_60%,transparent_72%)]"
+          className="pointer-events-none absolute inset-0 py-1 [mask-image:linear-gradient(to_right,transparent_28%,black_40%,black_60%,transparent_72%)]"
         >
           <div ref={lensRef} className="flex w-max">
             {group(true)}

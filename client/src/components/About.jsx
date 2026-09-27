@@ -77,7 +77,6 @@ const About = () => {
                   speed={30}
                   direction="right"
                   lens={false}
-                  className="mt-2"
                 />{" "}
               </div>{" "}
             </div>{" "}
@@ -102,15 +101,7 @@ const About = () => {
               {/* Accent Background */}{" "}
               <div className="absolute inset-0 bg-video-bg transform translate-x-4 translate-y-4 transition-all duration-500 group-hover:translate-x-2 group-hover:translate-y-2"></div>{" "}
               {/* Profile video */}{" "}
-              <video
-                src={videoSrc}
-                autoPlay
-                loop
-                muted
-                playsInline
-                onClick={cycleTheme}
-                className="relative z-10 w-full max-w-[350px] aspect-[4/5] object-cover border border-border-main grayscale group-hover:grayscale-0 transition-all duration-500 cursor-pointer"
-              />{" "}
+              <video src={videoSrc} autoPlay loop muted playsInline onClick={cycleTheme} className="relative z-10 w-full max-w-[350px] aspect-[4/5] object-cover border border-border-main grayscale group-hover:grayscale-0 transition-all duration-500 cursor-pointer" />{" "}
             </div>{" "}
             <p className="text-text-dim/60 text-xs italic font-medium hover:text-text-main transition-colors mt-6 md:mr-4">
               {" "}
@@ -123,4 +114,6 @@ const About = () => {
   );
 };
 export default About;
+
+
 
