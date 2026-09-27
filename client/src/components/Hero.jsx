@@ -2,6 +2,7 @@ import React, { useEffect, useMemo } from 'react';
 import { TypeAnimation } from 'react-type-animation';
 import { DirectionalLink } from './DirectionalLink';
 import img from '../assets/img.jpg';
+import underlineImg from '../assets/underline.jpeg';
 import crimsonVideo from '../assets/crimson-moon-over-mountain.mp4';
 import valleyVideo from '../assets/valley.mp4';
 import SpotifyWidget from './SpotifyWidget';
@@ -86,15 +87,13 @@ const Hero = () => {
 
             {/* Buttons */}
             <div className="flex items-center justify-center gap-5 mt-3">
-              <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="text-sm text-text-dim hover:text-highlight transition-colors flex items-center gap-1.5">
-                <i className="fas fa-download text-xs"></i> Download CV
-              </a>
+              <div className="relative flex flex-col items-center group "> <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="text-sm text-text-dim group-hover:text-highlight transition-colors flex items-center gap-1.5 pb-1"> <i className="fas fa-download text-xs"></i > <span className='text-text-main font-medium'>Download CV</span> </a> <img src={underlineImg} alt="underline" className="absolute -bottom-2 w-[110%] opacity-70 mix-blend-screen pointer-events-none" /> </div>
               <span className="text-border-dim">|</span>
               <button 
                 onClick={() => toast('Not built yet 🚧 (Coming Soon!)', { icon: '🔒' })} 
                 className="text-sm text-text-dim hover:text-highlight transition-colors flex items-center gap-1.5"
               >
-                <i className="fas fa-lock text-xs"></i> Private Room
+                <i className="fas fa-lock text-xs"></i> <span className='text-text-main font-medium'> Private Room</span>
               </button>
             </div>
           </div>
@@ -162,6 +161,8 @@ const Hero = () => {
 };
 
 export default Hero;
+
+
 
 
 

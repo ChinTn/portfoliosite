@@ -3,6 +3,7 @@ import videoSrc from "../assets/profile.mp4";
 import { useTheme } from "../context/ThemeContext";
 import { Marquee } from "./Marquee";
 import { FocusParagraph } from "./FocusParagraph";
+import { MagneticButton } from "./MagneticButton";
 const skills = [
   "C",
   "C++",
@@ -89,12 +90,7 @@ const About = () => {
               {/* Anime Dialogue Bubble (Hover Effect) */}{" "}
               <div className="absolute top-8 -left-8 md:-left-20 z-30 opacity-0 group-hover:opacity-100 group-hover:-translate-y-2 group-hover:-translate-x-2 transition-all duration-300 pointer-events-none flex flex-col items-end scale-90 group-hover:scale-100 origin-bottom-right drop-shadow-2xl">
                 {" "}
-                <div className="bg-white/5 backdrop-blur-md text-text-main font-bold px-4 py-2 border border-border-main rounded-tl-xl rounded-tr-xl rounded-bl-xl shadow-lg relative">
-                  {" "}
-                  <span className="italic tracking-wider text-xs md:text-sm uppercase whitespace-nowrap">
-                    "Initiate Reality Shift"
-                  </span>{" "}
-                </div>{" "}
+                <MagneticButton className="bg-bg-dark text-text-main font-bold px-4 py-2 border border-border-main rounded-tl-xl rounded-tr-xl rounded-bl-xl shadow-lg relative cursor-default"><span className="italic tracking-wider text-xs md:text-sm uppercase whitespace-nowrap">"Initiate Reality Shift"</span></MagneticButton>{" "}
                 {/* Tail pointing at the character */}{" "}
                 <div className="w-0 h-0 border-t-[12px] border-t-border-main border-l-[16px] border-l-transparent mr-2 opacity-50"></div>{" "}
               </div>{" "}
@@ -114,6 +110,8 @@ const About = () => {
   );
 };
 export default About;
+
+
 
 
 
