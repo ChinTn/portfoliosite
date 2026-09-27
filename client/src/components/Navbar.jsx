@@ -49,7 +49,7 @@ const Navbar = () => {
         ? 'bg-gradient-to-b from-bg-nav via-bg-nav/80 to-transparent pb-8 pt-3' 
         : 'bg-transparent pt-3'
     }`}>
-      <AnnouncementBanner open={true} type="error" onDismiss={() => {}}>Under Maintenance</AnnouncementBanner>`n      <div className="max-w-6xl mx-auto px-6 flex justify-between items-center relative pointer-events-auto mt-2">
+      <AnnouncementBanner open={true} type="error" onDismiss={() => {}}>Under Maintenance</AnnouncementBanner>      <div className="max-w-6xl mx-auto px-6 flex justify-between items-center relative pointer-events-auto mt-2">
         
         {/* Logo */}
         <Link to="/" onClick={(e) => handleNavClick(e, '/')} className="text-3xl md:text-4xl font-extrabold tracking-tighter group flex items-center">
@@ -110,6 +110,7 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
 
 
 
