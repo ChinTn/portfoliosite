@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { AnnouncementBanner } from './AnnouncementBanner';
+import CreditNavItem from './CreditNavItem';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -79,6 +80,7 @@ const Navbar = () => {
               <span className="absolute bottom-0 left-0 w-0 h-[3px] bg-highlight transition-all duration-300 group-hover:w-full rounded-full"></span>
             </Link>
           ))}
+          <CreditNavItem />
         </div>
 
         {/* Mobile Toggle */}
@@ -102,14 +104,18 @@ const Navbar = () => {
             >
               {link.name}
             </Link>
-          ))}
+            ))}
+            <CreditNavItem />
+          </div>
         </div>
-      </div>
     </nav>
   );
 };
 
 export default Navbar;
+
+
+
 
 
 
