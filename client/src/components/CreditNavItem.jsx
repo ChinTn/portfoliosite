@@ -255,7 +255,7 @@ export function Mention({ profile }) {
             <span ref={contentRef} className="block">
               <span className="flex items-start justify-between gap-3">
                 <span className="block text-[15px] leading-relaxed text-text-main">
-                  Many of the UI components are being used from <a href="https://lab.xevrion.dev/" target="_blank" rel="noreferrer" className="text-highlight font-bold hover:underline">lab.xevrion.dev</a> built my one of my friend Yash and his Twitter account is <a href="https://x.com/xevrion_the1" target="_blank" rel="noreferrer" className="text-highlight font-bold hover:underline">@xevrion_the1</a>. Make sure you guys check him out !!
+                  Many of the UI components are being used from <a href="https://lab.xevrion.dev/" target="_blank" rel="noreferrer" className="text-highlight font-bold hover:underline">lab.xevrion.dev</a> built by one of my friend Yash and his Twitter account is <a href="https://x.com/xevrion_the1" target="_blank" rel="noreferrer" className="text-highlight font-bold hover:underline">@xevrion_the1</a>. Make sure you guys check him out !!
                 </span>
               </span>
             </span>
