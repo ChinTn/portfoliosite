@@ -66,6 +66,13 @@ const Guestbook = () => {
         Guestbook
       </h2>
 
+      {/* Loading State */}
+      {!isLoaded && (
+        <div className="bg-bg-dark p-6 rounded-xl border border-border-main flex items-center justify-center text-text-dim text-sm mb-8 animate-pulse">
+          Loading authentication...
+        </div>
+      )}
+
       {/* When Signed Out: Show Login Button */}
       {isLoaded && !isSignedIn && (
         <div className="bg-bg-dark p-6 rounded-xl border border-border-main flex flex-col items-center justify-center text-center gap-4 mb-8">
@@ -153,6 +160,8 @@ const Guestbook = () => {
 };
 
 export default Guestbook;
+
+
 
 
 
