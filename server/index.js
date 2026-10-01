@@ -23,7 +23,7 @@ app.use(cors({
       /^http:\/\/(localhost|127\.0\.0\.1):\d+$/,
       /\.vercel\.app$/,
       /\.dev$/,
-      'https://whosworld.vercel.app/'
+      'https://whosworld.vercel.app'
     ];
     
     const isAllowed = allowed.some(pattern => 
@@ -70,4 +70,5 @@ app.use('/api/likes', likesRoutes);
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
 
