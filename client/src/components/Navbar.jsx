@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import { AnnouncementBanner } from './AnnouncementBanner';
 import CreditNavItem from './CreditNavItem';
 
 const Navbar = () => {
@@ -50,7 +49,7 @@ const Navbar = () => {
         ? 'bg-gradient-to-b from-bg-nav via-bg-nav/80 to-transparent pb-8 pt-3' 
         : 'bg-transparent pt-3'
     }`}>
-      <AnnouncementBanner open={true} type="error" onDismiss={() => {}}>Under Maintenance</AnnouncementBanner>      <div className="max-w-6xl mx-auto px-6 flex justify-between items-center relative pointer-events-auto mt-2">
+      <div className="max-w-6xl mx-auto px-6 flex justify-between items-center relative pointer-events-auto">
         
         {/* Logo */}
         <Link to="/" onClick={(e) => handleNavClick(e, '/')} className="text-3xl md:text-4xl font-extrabold tracking-tighter group flex items-center">
