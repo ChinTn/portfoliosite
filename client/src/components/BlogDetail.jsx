@@ -119,7 +119,7 @@ const BlogDetail = () => {
         </div>
 
         {/* Hero Content */}
-        <div className="relative max-w-7xl mx-auto w-full z-10">
+        <div className="relative max-w-5xl mx-auto w-full z-10">
           <div className="max-w-4xl">
             <button 
               onClick={handleBack} 
@@ -148,7 +148,7 @@ const BlogDetail = () => {
       </div>
 
       {/* Main Content & Sidebar Layout */}
-      <div className="max-w-7xl mx-auto w-full px-6 py-12 md:py-16 grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-16 relative">
+      <div className="max-w-5xl mx-auto w-full px-6 py-12 md:py-16 grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-16 relative">
         
         {/* Left: Markdown Content */}
         <div className="min-w-0 pb-24">
@@ -218,3 +218,4 @@ const BlogDetail = () => {
 };
 
 export default BlogDetail;
+

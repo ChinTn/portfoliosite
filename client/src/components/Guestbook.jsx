@@ -61,7 +61,7 @@ const Guestbook = () => {
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto mt-16 mb-12">
+    <div className="w-full max-w-5xl mx-auto mt-16 mb-12">
       <h2 className="text-2xl font-bold text-text-main mb-6 border-l-4 border-highlight pl-4">
         Guestbook
       </h2>
@@ -160,6 +160,7 @@ const Guestbook = () => {
 };
 
 export default Guestbook;
+
 
 
 

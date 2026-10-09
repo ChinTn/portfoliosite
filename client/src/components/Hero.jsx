@@ -31,7 +31,7 @@ const Hero = () => {
 
   return (
     <section id="home" className="min-h-screen flex items-center justify-center pt-20 md:pt-16 pb-12 px-6 relative overflow-hidden">
-      <div className="max-w-6xl mx-auto w-full relative z-10">
+      <div className="max-w-5xl mx-auto w-full relative z-10">
         
         {/* Cinematic Video Banner */}
         <div className="w-full max-w-4xl mx-auto h-32 md:h-44 mb-6 relative overflow-hidden rounded-2xl">
@@ -163,6 +163,7 @@ const Hero = () => {
 };
 
 export default Hero;
+
 
 
 

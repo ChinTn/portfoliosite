@@ -38,7 +38,7 @@ const ProjectDetail = () => {
   return (
     <>
       <div className="min-h-screen pt-32 pb-24 px-6">
-        <div className="max-w-4xl mx-auto w-full">
+        <div className="max-w-5xl mx-auto w-full">
           <button onClick={handleBack} className="text-text-dim hover:text-text-main transition-colors mb-10 flex items-center gap-2 font-medium cursor-pointer border-none bg-transparent">
             <i className="fas fa-arrow-left text-sm"></i> Back to Projects
           </button>
@@ -105,3 +105,4 @@ const ProjectDetail = () => {
 };
 
 export default ProjectDetail;
+
